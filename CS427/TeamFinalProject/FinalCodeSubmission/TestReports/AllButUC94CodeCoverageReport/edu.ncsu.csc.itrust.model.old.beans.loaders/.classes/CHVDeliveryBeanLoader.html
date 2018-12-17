@@ -1,0 +1,137 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: CHVDeliveryBeanLoader</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">edu.ncsu.csc.itrust.model.old.beans.loaders</a> ]
+</div>
+
+<h1>Coverage Summary for Class: CHVDeliveryBeanLoader (edu.ncsu.csc.itrust.model.old.beans.loaders)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CHVDeliveryBeanLoader</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (4/ 4)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (29/ 29)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package edu.ncsu.csc.itrust.model.old.beans.loaders;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import java.sql.PreparedStatement;
+<i>4</i>&nbsp;import java.sql.ResultSet;
+<i>5</i>&nbsp;import java.sql.SQLException;
+<i>6</i>&nbsp;import java.util.ArrayList;
+<i>7</i>&nbsp;import java.util.List;
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;import edu.ncsu.csc.itrust.model.old.beans.CHVDeliveryBean;
+<i>10</i>&nbsp;
+<b class="fc"><i>11</i>&nbsp;public class CHVDeliveryBeanLoader implements BeanLoader&lt;CHVDeliveryBean&gt; {</b>
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;	@Override
+<i>14</i>&nbsp;	public List&lt;CHVDeliveryBean&gt; loadList(ResultSet rs) throws SQLException {
+<b class="fc"><i>15</i>&nbsp;		List&lt;CHVDeliveryBean&gt; list = new ArrayList&lt;CHVDeliveryBean&gt;();</b>
+<b class="fc"><i>16</i>&nbsp;		while (rs.next())</b>
+<b class="fc"><i>17</i>&nbsp;			list.add(loadSingle(rs));</b>
+<b class="fc"><i>18</i>&nbsp;		return list;</b>
+<i>19</i>&nbsp;	}
+<i>20</i>&nbsp;
+<i>21</i>&nbsp;	@Override
+<i>22</i>&nbsp;	public PreparedStatement loadParameters(PreparedStatement ps, CHVDeliveryBean bean) throws SQLException {
+<b class="fc"><i>23</i>&nbsp;		ps.setLong(1, bean.getPatient());</b>
+<b class="fc"><i>24</i>&nbsp;		ps.setLong(2, bean.getHcp());</b>
+<b class="fc"><i>25</i>&nbsp;		ps.setTimestamp(3, bean.getDate());</b>
+<b class="fc"><i>26</i>&nbsp;		ps.setString(4, bean.getDeliveryMethod());</b>
+<b class="fc"><i>27</i>&nbsp;		ps.setInt(5,  bean.getDosPitocin());</b>
+<b class="fc"><i>28</i>&nbsp;		ps.setInt(6,  bean.getDosNitrous());</b>
+<b class="fc"><i>29</i>&nbsp;		ps.setInt(7,  bean.getDosPethidine());</b>
+<b class="fc"><i>30</i>&nbsp;		ps.setInt(8,  bean.getDosEpidural());</b>
+<b class="fc"><i>31</i>&nbsp;		ps.setInt(9,  bean.getDosMagnesium());</b>
+<b class="fc"><i>32</i>&nbsp;		ps .setInt(10,  bean.getDosRHimmune());</b>
+<b class="fc"><i>33</i>&nbsp;		return ps;</b>
+<i>34</i>&nbsp;	}
+<i>35</i>&nbsp;
+<i>36</i>&nbsp;	@Override
+<i>37</i>&nbsp;	public CHVDeliveryBean loadSingle(ResultSet rs) throws SQLException {
+<b class="fc"><i>38</i>&nbsp;		CHVDeliveryBean bean = new CHVDeliveryBean();</b>
+<b class="fc"><i>39</i>&nbsp;		bean.setDeliveryID(rs.getInt(&quot;delivery_id&quot;));</b>
+<b class="fc"><i>40</i>&nbsp;		bean.setPatient(rs.getLong(&quot;patient_id&quot;));</b>
+<b class="fc"><i>41</i>&nbsp;		bean.setHcp(rs.getLong(&quot;doctor_id&quot;));</b>
+<b class="fc"><i>42</i>&nbsp;		bean.setDate(rs.getTimestamp(&quot;delivery_date&quot;));</b>
+<b class="fc"><i>43</i>&nbsp;		bean.setDeliveryMethod(rs.getString(&quot;delivery_method&quot;));</b>
+<b class="fc"><i>44</i>&nbsp;		bean.setDosPitocin(rs.getInt(&quot;dosPitocin&quot;));</b>
+<b class="fc"><i>45</i>&nbsp;		bean.setDosNitrous(rs.getInt(&quot;dosNitrous&quot;));</b>
+<b class="fc"><i>46</i>&nbsp;		bean.setDosPethidine(rs.getInt(&quot;dosPethidine&quot;));</b>
+<b class="fc"><i>47</i>&nbsp;		bean.setDosEpidural(rs.getInt(&quot;dosEpidural&quot;));</b>
+<b class="fc"><i>48</i>&nbsp;		bean.setDosMagnesium(rs.getInt(&quot;dosMagnesium&quot;));</b>
+<b class="fc"><i>49</i>&nbsp;		bean.setDosRHimmune(rs.getInt(&quot;dosRHimmune&quot;));</b>
+<i>50</i>&nbsp;		
+<b class="fc"><i>51</i>&nbsp;		return bean;</b>
+<i>52</i>&nbsp;	}
+<i>53</i>&nbsp;
+<i>54</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-12-13 16:36</div>
+</div>
+</body>
+</html>

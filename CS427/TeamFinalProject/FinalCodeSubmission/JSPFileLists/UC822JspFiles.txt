@@ -1,0 +1,3 @@
+iTrust/WebRoot/auth/hcp-postnatal/addPostnatalCareRecord.jsp
+iTrust/WebRoot/auth/hcp-postnatal/editPostnatalCareRecord.jsp
+iTrust/WebRoot/auth/hcp-postnatal/initPostnatalCare.jsp

@@ -1,0 +1,7 @@
+/home/nathan/Programming/UIUC/CS421/Chapter0/helloWorld/build/CMakeFiles/install/strip.dir
+/home/nathan/Programming/UIUC/CS421/Chapter0/helloWorld/build/CMakeFiles/edit_cache.dir
+/home/nathan/Programming/UIUC/CS421/Chapter0/helloWorld/build/CMakeFiles/helloworld.dir
+/home/nathan/Programming/UIUC/CS421/Chapter0/helloWorld/build/CMakeFiles/rebuild_cache.dir
+/home/nathan/Programming/UIUC/CS421/Chapter0/helloWorld/build/CMakeFiles/list_install_components.dir
+/home/nathan/Programming/UIUC/CS421/Chapter0/helloWorld/build/CMakeFiles/install/local.dir
+/home/nathan/Programming/UIUC/CS421/Chapter0/helloWorld/build/CMakeFiles/install.dir

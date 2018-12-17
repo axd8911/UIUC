@@ -1,0 +1,184 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ObstetBeanLoader</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">edu.ncsu.csc.itrust.model.old.beans.loaders</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ObstetBeanLoader (edu.ncsu.csc.itrust.model.old.beans.loaders)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ObstetBeanLoader</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (7/ 7)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (44/ 44)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package edu.ncsu.csc.itrust.model.old.beans.loaders;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import java.sql.PreparedStatement;
+<i>4</i>&nbsp;import java.sql.ResultSet;
+<i>5</i>&nbsp;import java.sql.SQLException;
+<i>6</i>&nbsp;import java.text.SimpleDateFormat;
+<i>7</i>&nbsp;import java.util.ArrayList;
+<i>8</i>&nbsp;import java.util.Calendar;
+<i>9</i>&nbsp;import java.util.List;
+<i>10</i>&nbsp;import java.util.Map;
+<i>11</i>&nbsp;import java.sql.Date;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;import edu.ncsu.csc.itrust.exception.FormValidationException;
+<i>14</i>&nbsp;import edu.ncsu.csc.itrust.model.old.beans.ObstetPriorPregBean;
+<i>15</i>&nbsp;import edu.ncsu.csc.itrust.model.old.beans.ObstetRecBean;
+<i>16</i>&nbsp;
+<b class="fc"><i>17</i>&nbsp;public class ObstetBeanLoader implements BeanLoader&lt;ObstetRecBean&gt; {</b>
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;	@Override
+<i>20</i>&nbsp;	public List&lt;ObstetRecBean&gt; loadList(ResultSet rs) throws SQLException {
+<b class="fc"><i>21</i>&nbsp;		List&lt;ObstetRecBean&gt; list = new ArrayList&lt;ObstetRecBean&gt;();</b>
+<b class="fc"><i>22</i>&nbsp;		while (rs.next())</b>
+<b class="fc"><i>23</i>&nbsp;			list.add(loadSingle(rs));</b>
+<b class="fc"><i>24</i>&nbsp;		return list;</b>
+<i>25</i>&nbsp;	}
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;	@Override
+<i>28</i>&nbsp;	public PreparedStatement loadParameters(PreparedStatement ps, ObstetRecBean bean) throws SQLException {
+<b class="fc"><i>29</i>&nbsp;		ps.setLong(1, bean.getMID());</b>
+<b class="fc"><i>30</i>&nbsp;		ps.setDate(2, new java.sql.Date(bean.getLmpDate().getTime()));</b>
+<b class="fc"><i>31</i>&nbsp;		ps.setDate(3, new java.sql.Date(bean.getInitDate().getTime()));</b>
+<b class="fc"><i>32</i>&nbsp;		return ps;</b>
+<i>33</i>&nbsp;	}
+<i>34</i>&nbsp;	
+<i>35</i>&nbsp;	@Override
+<i>36</i>&nbsp;	public ObstetRecBean loadSingle(ResultSet rs) throws SQLException {
+<b class="fc"><i>37</i>&nbsp;		ObstetRecBean bean = new ObstetRecBean();</b>
+<b class="fc"><i>38</i>&nbsp;		bean.setObstetRecID(rs.getInt(&quot;obstetrec_id&quot;));</b>
+<b class="fc"><i>39</i>&nbsp;		bean.setMID(rs.getInt(&quot;patientMID&quot;));</b>
+<b class="fc"><i>40</i>&nbsp;		java.util.Date lmpDate = new java.util.Date(rs.getDate(&quot;lmp_date&quot;).getTime());</b>
+<b class="fc"><i>41</i>&nbsp;		java.util.Date initDate = new java.util.Date(rs.getDate(&quot;init_date&quot;).getTime());</b>
+<i>42</i>&nbsp;		
+<b class="fc"><i>43</i>&nbsp;		bean.setLmpDate(lmpDate);</b>
+<b class="fc"><i>44</i>&nbsp;		bean.setInitDate(initDate);</b>
+<i>45</i>&nbsp;		
+<b class="fc"><i>46</i>&nbsp;		bean = calculateDates(bean, lmpDate, initDate);</b>
+<b class="fc"><i>47</i>&nbsp;		return bean;</b>
+<i>48</i>&nbsp;	}
+<i>49</i>&nbsp;	
+<i>50</i>&nbsp;	public ObstetRecBean calculateDates(ObstetRecBean bean, java.util.Date lmpDate, java.util.Date initDate) {
+<i>51</i>&nbsp;	
+<b class="fc"><i>52</i>&nbsp;		Calendar c1 = Calendar.getInstance();</b>
+<b class="fc"><i>53</i>&nbsp;		c1.setTime(lmpDate);</b>
+<i>54</i>&nbsp;		
+<b class="fc"><i>55</i>&nbsp;		Calendar c2 = Calendar.getInstance();</b>
+<b class="fc"><i>56</i>&nbsp;		c2.setTime(initDate);</b>
+<i>57</i>&nbsp;		
+<b class="fc"><i>58</i>&nbsp;		long milliseconds1 = c1.getTimeInMillis();</b>
+<b class="fc"><i>59</i>&nbsp;		long milliseconds2 = c2.getTimeInMillis();</b>
+<b class="fc"><i>60</i>&nbsp;		long diff = milliseconds2 - milliseconds1;</b>
+<i>61</i>&nbsp;		
+<b class="fc"><i>62</i>&nbsp;		long dayCount = (long) diff / (24 * 60 * 60 * 1000);</b>
+<b class="fc"><i>63</i>&nbsp;		int weeks = Long.valueOf(dayCount).intValue() / 7;</b>
+<b class="fc"><i>64</i>&nbsp;		bean.setPregWeeks(weeks);</b>
+<b class="fc"><i>65</i>&nbsp;		int days = Long.valueOf(dayCount).intValue() - weeks * 7;</b>
+<b class="fc"><i>66</i>&nbsp;		bean.setPregDays(days);</b>
+<i>67</i>&nbsp;		
+<i>68</i>&nbsp;		// Calculate EDD
+<b class="fc"><i>69</i>&nbsp;		c1.add(Calendar.DATE, 280);  // number of days to add</b>
+<i>70</i>&nbsp;		//bean.setEddDate(sdf.format(c1.getTime()));
+<b class="fc"><i>71</i>&nbsp;		bean.setEddDate(c1.getTime());</b>
+<i>72</i>&nbsp;		
+<b class="fc"><i>73</i>&nbsp;		return bean;</b>
+<i>74</i>&nbsp;	}
+<i>75</i>&nbsp;
+<i>76</i>&nbsp;	public ObstetRecBean calculateDates(ObstetRecBean bean) {
+<i>77</i>&nbsp;
+<b class="fc"><i>78</i>&nbsp;		return calculateDates(bean, bean.getLmpDate(), bean.getInitDate());</b>
+<i>79</i>&nbsp;	}
+<i>80</i>&nbsp;
+<i>81</i>&nbsp;	public static ObstetRecBean beanBuilder(Map&lt;String, String[]&gt; map) throws FormValidationException {
+<b class="fc"><i>82</i>&nbsp;		ObstetRecBean bean = new ObstetRecBean();</b>
+<i>83</i>&nbsp;		
+<i>84</i>&nbsp;		try {
+<b class="fc"><i>85</i>&nbsp;			SimpleDateFormat sdf = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);</b>
+<i>86</i>&nbsp;			//
+<b class="fc"><i>87</i>&nbsp;			if (!sdf.format(sdf.parse(map.get(&quot;lmpDate&quot;)[0])).equals(map.get(&quot;lmpDate&quot;)[0])){</b>
+<b class="fc"><i>88</i>&nbsp;				throw new Exception();</b>
+<i>89</i>&nbsp;			}
+<b class="fc"><i>90</i>&nbsp;			bean.setLmpDate(sdf.parse(map.get(&quot;lmpDate&quot;)[0]));</b>
+<i>91</i>&nbsp;			
+<b class="fc"><i>92</i>&nbsp;		} catch (Exception e) {</b>
+<b class="fc"><i>93</i>&nbsp;			e.printStackTrace();</b>
+<b class="fc"><i>94</i>&nbsp;			throw new FormValidationException(e.getMessage());</b>
+<b class="fc"><i>95</i>&nbsp;		}</b>
+<i>96</i>&nbsp;		
+<b class="fc"><i>97</i>&nbsp;		return bean;</b>
+<i>98</i>&nbsp;	}
+<i>99</i>&nbsp;
+<i>100</i>&nbsp;
+<i>101</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-12-13 16:36</div>
+</div>
+</body>
+</html>

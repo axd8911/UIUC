@@ -1,0 +1,2 @@
+Steak, Beef, 15.0, 234
+Pork Rib, Pork, 12.0, 259

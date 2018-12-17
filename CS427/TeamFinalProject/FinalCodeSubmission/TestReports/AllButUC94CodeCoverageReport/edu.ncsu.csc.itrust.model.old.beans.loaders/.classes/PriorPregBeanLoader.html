@@ -1,0 +1,289 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: PriorPregBeanLoader</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">edu.ncsu.csc.itrust.model.old.beans.loaders</a> ]
+</div>
+
+<h1>Coverage Summary for Class: PriorPregBeanLoader (edu.ncsu.csc.itrust.model.old.beans.loaders)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PriorPregBeanLoader</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (13/ 13)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    98.1%
+  </span>
+  <span class="absValue">
+    (105/ 107)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package edu.ncsu.csc.itrust.model.old.beans.loaders;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import java.sql.PreparedStatement;
+<i>4</i>&nbsp;import java.sql.ResultSet;
+<i>5</i>&nbsp;import java.sql.SQLException;
+<i>6</i>&nbsp;import java.util.ArrayList;
+<i>7</i>&nbsp;import java.util.Calendar;
+<i>8</i>&nbsp;import java.util.List;
+<i>9</i>&nbsp;import java.util.Map;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;import edu.ncsu.csc.itrust.exception.ErrorList;
+<i>12</i>&nbsp;import edu.ncsu.csc.itrust.exception.FormValidationException;
+<i>13</i>&nbsp;import edu.ncsu.csc.itrust.model.old.beans.ObstetPriorPregBean;
+<i>14</i>&nbsp;
+<b class="fc"><i>15</i>&nbsp;public class PriorPregBeanLoader implements BeanLoader&lt;ObstetPriorPregBean&gt; {</b>
+<b class="fc"><i>16</i>&nbsp;	private static ErrorList errors = new ErrorList();</b>
+<i>17</i>&nbsp;//table
+<i>18</i>&nbsp;//obstetpriorpreg_id		INT UNSIGNED AUTO_INCREMENT primary key,
+<i>19</i>&nbsp;//patientMID 			BIGINT(20) UNSIGNED NOT NULL,
+<i>20</i>&nbsp;//conception_year     INT(4),
+<i>21</i>&nbsp;//pregnant_weeks		INT,
+<i>22</i>&nbsp;//pregnant_days		INT,
+<i>23</i>&nbsp;//labor_hours			FLOAT,
+<i>24</i>&nbsp;//weight_gain			FLOAT,
+<i>25</i>&nbsp;//delivery_type		varchar(30),
+<i>26</i>&nbsp;//multiplet			INT,
+<i>27</i>&nbsp;
+<i>28</i>&nbsp;	@Override
+<i>29</i>&nbsp;	public List&lt;ObstetPriorPregBean&gt; loadList(ResultSet rs) throws SQLException {
+<b class="fc"><i>30</i>&nbsp;		List&lt;ObstetPriorPregBean&gt; list = new ArrayList&lt;ObstetPriorPregBean&gt;();</b>
+<b class="fc"><i>31</i>&nbsp;		while (rs.next())</b>
+<b class="fc"><i>32</i>&nbsp;			list.add(loadSingle(rs));</b>
+<b class="fc"><i>33</i>&nbsp;		return list;</b>
+<i>34</i>&nbsp;	}
+<i>35</i>&nbsp;
+<i>36</i>&nbsp;	@Override
+<i>37</i>&nbsp;	public PreparedStatement loadParameters(PreparedStatement ps, ObstetPriorPregBean bean) throws SQLException {
+<b class="fc"><i>38</i>&nbsp;		ps.setLong(1, bean.getMid());</b>
+<b class="fc"><i>39</i>&nbsp;		ps.setInt(2, bean.getConceptionYear());</b>
+<b class="fc"><i>40</i>&nbsp;		ps.setInt(3, bean.getPregWeeks());</b>
+<b class="fc"><i>41</i>&nbsp;		ps.setInt(4,  bean.getPregDays());</b>
+<b class="fc"><i>42</i>&nbsp;		ps.setFloat(5, bean.getLaborHours());</b>
+<b class="fc"><i>43</i>&nbsp;		ps.setFloat(6, bean.getWeightGain());</b>
+<b class="fc"><i>44</i>&nbsp;		ps.setString(7, bean.getDeliveryType());</b>
+<b class="fc"><i>45</i>&nbsp;		ps.setInt(8, bean.getMultiplet());</b>
+<i>46</i>&nbsp;		
+<b class="fc"><i>47</i>&nbsp;		return ps;</b>
+<i>48</i>&nbsp;	}
+<i>49</i>&nbsp;	
+<i>50</i>&nbsp;	@Override
+<i>51</i>&nbsp;	public ObstetPriorPregBean loadSingle(ResultSet rs) throws SQLException {
+<b class="fc"><i>52</i>&nbsp;		ObstetPriorPregBean bean = new ObstetPriorPregBean();</b>
+<b class="fc"><i>53</i>&nbsp;		bean.setPriorPregRecID(rs.getInt(&quot;obstetpriorpreg_id&quot;));</b>
+<b class="fc"><i>54</i>&nbsp;		bean.setMid(rs.getLong(&quot;patientMID&quot;));</b>
+<b class="fc"><i>55</i>&nbsp;		bean.setConceptionYear(rs.getInt(&quot;conception_year&quot;));</b>
+<b class="fc"><i>56</i>&nbsp;		bean.setPregWeeks(rs.getInt(&quot;pregnant_weeks&quot;));</b>
+<b class="fc"><i>57</i>&nbsp;		bean.setPregDays(rs.getInt(&quot;pregnant_days&quot;));</b>
+<b class="fc"><i>58</i>&nbsp;		bean.setLaborHours(rs.getFloat(&quot;labor_hours&quot;));</b>
+<b class="fc"><i>59</i>&nbsp;		bean.setWeightGain(rs.getFloat(&quot;weight_gain&quot;));</b>
+<b class="fc"><i>60</i>&nbsp;		bean.setDeliveryType(rs.getString(&quot;delivery_type&quot;));</b>
+<b class="fc"><i>61</i>&nbsp;		bean.setMultiplet(rs.getInt(&quot;multiplet&quot;));</b>
+<i>62</i>&nbsp;		
+<b class="fc"><i>63</i>&nbsp;		return bean;</b>
+<i>64</i>&nbsp;	}
+<i>65</i>&nbsp;	
+<i>66</i>&nbsp;	public static ObstetPriorPregBean beanBuilder(Map&lt;String, String[]&gt; map) throws FormValidationException {
+<b class="fc"><i>67</i>&nbsp;		ObstetPriorPregBean bean = new ObstetPriorPregBean();</b>
+<b class="fc"><i>68</i>&nbsp;		errors.getMessageList().clear();</b>
+<i>69</i>&nbsp;
+<b class="fc"><i>70</i>&nbsp;		String yearOfConception = map.get(&quot;conceptionYear&quot;)[0];</b>
+<b class="fc"><i>71</i>&nbsp;		String weeksPreg	    = map.get(&quot;pregnant_weeks&quot;)[0];</b>
+<b class="fc"><i>72</i>&nbsp;		String daysPreg         = map.get(&quot;pregnant_days&quot;)[0];</b>
+<b class="fc"><i>73</i>&nbsp;		String hoursInLabor	    = map.get(&quot;laborHours&quot;)[0];</b>
+<b class="fc"><i>74</i>&nbsp;		String weightGained     = map.get(&quot;weightGain&quot;)[0];</b>
+<b class="fc"><i>75</i>&nbsp;		String deliveryType	    = map.get(&quot;deliveryType&quot;)[0];</b>
+<b class="fc"><i>76</i>&nbsp;		String multiplet        = map.get(&quot;multiplet&quot;)[0];</b>
+<i>77</i>&nbsp;
+<b class="fc"><i>78</i>&nbsp;		addYearConceptionToBean(bean, yearOfConception);</b>
+<i>79</i>&nbsp;
+<b class="fc"><i>80</i>&nbsp;		addweeksPreg( bean,  weeksPreg);</b>
+<i>81</i>&nbsp;
+<b class="fc"><i>82</i>&nbsp;		adddaysPreg( bean,  daysPreg);</b>
+<i>83</i>&nbsp;
+<b class="fc"><i>84</i>&nbsp;		addhoursInLabor( bean,  hoursInLabor);</b>
+<i>85</i>&nbsp;
+<b class="fc"><i>86</i>&nbsp;		addweightGained( bean,  weightGained);</b>
+<i>87</i>&nbsp;
+<b class="fc"><i>88</i>&nbsp;		adddeliveryType( bean, deliveryType);</b>
+<i>89</i>&nbsp;
+<b class="fc"><i>90</i>&nbsp;		addmultiplet( bean,  multiplet);</b>
+<i>91</i>&nbsp;
+<i>92</i>&nbsp;
+<b class="fc"><i>93</i>&nbsp;		if (errors.hasErrors())</b>
+<b class="fc"><i>94</i>&nbsp;			throw new FormValidationException(errors);</b>
+<i>95</i>&nbsp;
+<b class="fc"><i>96</i>&nbsp;		return bean;</b>
+<i>97</i>&nbsp;	}
+<i>98</i>&nbsp;
+<i>99</i>&nbsp;	private static void addYearConceptionToBean(ObstetPriorPregBean bean, String yearOfConception){
+<i>100</i>&nbsp;		try{
+<b class="fc"><i>101</i>&nbsp;			Calendar c1 = Calendar.getInstance();</b>
+<b class="fc"><i>102</i>&nbsp;			bean.setConceptionYear(Integer.parseInt(yearOfConception));</b>
+<i>103</i>&nbsp;
+<b class="fc"><i>104</i>&nbsp;			if (c1.getTime().getYear()+1900 &lt; bean.getConceptionYear()){ //can&#39;t be in future</b>
+<b class="fc"><i>105</i>&nbsp;				errors.addIfNotNull(&quot;Year of Conception: Can&#39;t be a future year&quot;);</b>
+<i>106</i>&nbsp;			}
+<i>107</i>&nbsp;
+<b class="fc"><i>108</i>&nbsp;			if (bean.getConceptionYear() &lt; 1900){</b>
+<b class="fc"><i>109</i>&nbsp;				errors.addIfNotNull(&quot;Year of Conception: Past year not possible.&quot;);</b>
+<i>110</i>&nbsp;			}
+<i>111</i>&nbsp;
+<b class="fc"><i>112</i>&nbsp;		} catch (Exception e){</b>
+<b class="fc"><i>113</i>&nbsp;			errors.addIfNotNull(&quot;Year of Conception: Should be integer of form YYYY&quot;);</b>
+<b class="fc"><i>114</i>&nbsp;		}</b>
+<b class="fc"><i>115</i>&nbsp;	}</b>
+<i>116</i>&nbsp;
+<i>117</i>&nbsp;	private static void addweeksPreg(ObstetPriorPregBean bean, String weeksPreg){
+<i>118</i>&nbsp;		try{
+<b class="fc"><i>119</i>&nbsp;			bean.setPregWeeks(Integer.parseInt(weeksPreg));</b>
+<i>120</i>&nbsp;
+<b class="fc"><i>121</i>&nbsp;			if (bean.getPregWeeks()&lt;0 || bean.getPregWeeks() &gt; 52){</b>
+<b class="fc"><i>122</i>&nbsp;				errors.addIfNotNull(&quot;Pregnant Weeks: Should be an integer between 0 and 52&quot;);</b>
+<i>123</i>&nbsp;			}
+<b class="fc"><i>124</i>&nbsp;		} catch (Exception e){</b>
+<b class="fc"><i>125</i>&nbsp;			errors.addIfNotNull(&quot;Pregnant Weeks: Should be an integer between 0 and 52&quot;);</b>
+<b class="fc"><i>126</i>&nbsp;		}</b>
+<b class="fc"><i>127</i>&nbsp;	}</b>
+<i>128</i>&nbsp;
+<i>129</i>&nbsp;	private static void adddaysPreg(ObstetPriorPregBean bean, String daysPreg){
+<i>130</i>&nbsp;		try{
+<b class="fc"><i>131</i>&nbsp;			bean.setPregDays(Integer.parseInt(daysPreg));</b>
+<i>132</i>&nbsp;
+<b class="fc"><i>133</i>&nbsp;			if (bean.getPregDays() &lt; 0 || bean.getPregDays() &gt; 6){</b>
+<b class="fc"><i>134</i>&nbsp;				errors.addIfNotNull(&quot;Days Pregnant : Should be an integer between 0 and 6&quot;);</b>
+<i>135</i>&nbsp;			}
+<b class="fc"><i>136</i>&nbsp;		} catch (Exception e){</b>
+<b class="fc"><i>137</i>&nbsp;			errors.addIfNotNull(&quot;Days Pregnant : Should be an integer between 0 and 6&quot;);</b>
+<b class="fc"><i>138</i>&nbsp;		}</b>
+<b class="fc"><i>139</i>&nbsp;	}</b>
+<i>140</i>&nbsp;
+<i>141</i>&nbsp;	private static void addhoursInLabor(ObstetPriorPregBean bean, String hoursInLabor){
+<i>142</i>&nbsp;		try{
+<b class="fc"><i>143</i>&nbsp;			bean.setLaborHours(Float.parseFloat(hoursInLabor));</b>
+<i>144</i>&nbsp;
+<b class="fc"><i>145</i>&nbsp;			if (bean.getLaborHours() &lt; 0){</b>
+<b class="fc"><i>146</i>&nbsp;				errors.addIfNotNull(&quot;Hours in Labor: Should be a nonzero decimal&quot;);</b>
+<i>147</i>&nbsp;			}
+<b class="fc"><i>148</i>&nbsp;			if (bean.getLaborHours() &gt; 1000){</b>
+<b class="fc"><i>149</i>&nbsp;				errors.addIfNotNull(&quot;Hours in Labor: Not physically possible, use smaller decimal&quot;);</b>
+<i>150</i>&nbsp;			}
+<b class="fc"><i>151</i>&nbsp;		} catch (Exception e){</b>
+<b class="fc"><i>152</i>&nbsp;			errors.addIfNotNull(&quot;Hours in Labor: Should be a nonzero decimal&quot;);</b>
+<b class="fc"><i>153</i>&nbsp;		}</b>
+<b class="fc"><i>154</i>&nbsp;	}</b>
+<i>155</i>&nbsp;
+<i>156</i>&nbsp;	private static void addweightGained(ObstetPriorPregBean bean, String weightGained){
+<i>157</i>&nbsp;		try{
+<b class="fc"><i>158</i>&nbsp;			bean.setWeightGain(Float.parseFloat(weightGained));</b>
+<i>159</i>&nbsp;
+<b class="fc"><i>160</i>&nbsp;			if (bean.getWeightGain() &lt; 0){</b>
+<b class="fc"><i>161</i>&nbsp;				errors.addIfNotNull(&quot;Weight Gained: Should be a decimal greater than 0&quot;);</b>
+<i>162</i>&nbsp;			}
+<b class="fc"><i>163</i>&nbsp;			if (bean.getWeightGain() &gt; 1000){</b>
+<b class="fc"><i>164</i>&nbsp;				errors.addIfNotNull(&quot;Weight Gained: Not physically possible, use smaller decimal&quot;);</b>
+<i>165</i>&nbsp;			}
+<b class="fc"><i>166</i>&nbsp;		} catch (Exception e){</b>
+<b class="fc"><i>167</i>&nbsp;			errors.addIfNotNull(&quot;Weight Gained: Should be a decimal greater than 0&quot;);</b>
+<b class="fc"><i>168</i>&nbsp;		}</b>
+<b class="fc"><i>169</i>&nbsp;	}</b>
+<i>170</i>&nbsp;
+<i>171</i>&nbsp;	private static void addmultiplet(ObstetPriorPregBean bean, String multiplet){
+<i>172</i>&nbsp;		try{
+<b class="fc"><i>173</i>&nbsp;			bean.setMultiplet(Integer.parseInt(multiplet));</b>
+<i>174</i>&nbsp;
+<b class="fc"><i>175</i>&nbsp;			if (bean.getMultiplet() &lt; 1){</b>
+<b class="fc"><i>176</i>&nbsp;				errors.addIfNotNull(&quot;Multiplet: Should be an integer greater than 0&quot;);</b>
+<i>177</i>&nbsp;			}
+<i>178</i>&nbsp;
+<b class="fc"><i>179</i>&nbsp;			if (bean.getMultiplet() &gt; 50){</b>
+<b class="fc"><i>180</i>&nbsp;				errors.addIfNotNull(&quot;Multiplet: Not physically possible, use smaller integer&quot;);</b>
+<i>181</i>&nbsp;			}
+<i>182</i>&nbsp;
+<b class="fc"><i>183</i>&nbsp;		} catch (Exception e){</b>
+<b class="fc"><i>184</i>&nbsp;			errors.addIfNotNull(&quot;Multiplet: Should be an integer greater than 0&quot;);</b>
+<b class="fc"><i>185</i>&nbsp;		}</b>
+<b class="fc"><i>186</i>&nbsp;	}</b>
+<i>187</i>&nbsp;
+<i>188</i>&nbsp;	private static void adddeliveryType(ObstetPriorPregBean bean, String deliveryType){
+<i>189</i>&nbsp;		try{
+<b class="fc"><i>190</i>&nbsp;			bean.setDeliveryType(deliveryType);</b>
+<i>191</i>&nbsp;
+<b class="fc"><i>192</i>&nbsp;			if (  !(deliveryType.equals(&quot;vaginal_delivery&quot;) ||</b>
+<b class="fc"><i>193</i>&nbsp;			        deliveryType.equals(&quot;vaginal_delivery_vacuum_assist&quot;) ||</b>
+<b class="fc"><i>194</i>&nbsp;					deliveryType.equals(&quot;vaginal_delivery_forceps_assist&quot;) ||</b>
+<b class="fc"><i>195</i>&nbsp;					deliveryType.equals(&quot;caesarean_section&quot;) ||</b>
+<b class="fc"><i>196</i>&nbsp;					deliveryType.equals(&quot;miscarriage&quot;))){</b>
+<b class="fc"><i>197</i>&nbsp;				errors.addIfNotNull(&quot;Delivery Type: Invalid selection.&quot;);</b>
+<i>198</i>&nbsp;			}
+<b class="nc"><i>199</i>&nbsp;		} catch (Exception e){</b>
+<b class="nc"><i>200</i>&nbsp;			errors.addIfNotNull(&quot;Delivery Type: Invalid selection.&quot;);</b>
+<b class="fc"><i>201</i>&nbsp;		}</b>
+<b class="fc"><i>202</i>&nbsp;	}</b>
+<i>203</i>&nbsp;
+<i>204</i>&nbsp;
+<i>205</i>&nbsp;
+<i>206</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-12-13 16:36</div>
+</div>
+</body>
+</html>

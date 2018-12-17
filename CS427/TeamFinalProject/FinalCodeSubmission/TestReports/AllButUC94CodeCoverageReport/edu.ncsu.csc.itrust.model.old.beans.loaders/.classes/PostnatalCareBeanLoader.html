@@ -1,0 +1,191 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: PostnatalCareBeanLoader</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">edu.ncsu.csc.itrust.model.old.beans.loaders</a> ]
+</div>
+
+<h1>Coverage Summary for Class: PostnatalCareBeanLoader (edu.ncsu.csc.itrust.model.old.beans.loaders)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">PostnatalCareBeanLoader</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (5/ 5)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    90%
+  </span>
+  <span class="absValue">
+    (36/ 40)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package edu.ncsu.csc.itrust.model.old.beans.loaders;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import java.sql.PreparedStatement;
+<i>4</i>&nbsp;import java.sql.ResultSet;
+<i>5</i>&nbsp;import java.sql.SQLException;
+<i>6</i>&nbsp;import java.text.SimpleDateFormat;
+<i>7</i>&nbsp;import java.util.ArrayList;
+<i>8</i>&nbsp;import java.util.List;
+<i>9</i>&nbsp;import java.util.Map;
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;import edu.ncsu.csc.itrust.exception.FormValidationException;
+<i>12</i>&nbsp;import edu.ncsu.csc.itrust.model.old.beans.ObstetRecBean;
+<i>13</i>&nbsp;import edu.ncsu.csc.itrust.model.old.beans.PostnatalCareRecordBean;
+<i>14</i>&nbsp;
+<b class="fc"><i>15</i>&nbsp;public class PostnatalCareBeanLoader implements BeanLoader&lt;PostnatalCareRecordBean&gt; {</b>
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;	/**
+<i>18</i>&nbsp;	 * Load the whole list of postnatal care records
+<i>19</i>&nbsp;	 * 
+<i>20</i>&nbsp;	 * @return the list of records
+<i>21</i>&nbsp;	 */
+<i>22</i>&nbsp;	@Override
+<i>23</i>&nbsp;	public List&lt;PostnatalCareRecordBean&gt; loadList(ResultSet rs) throws SQLException {
+<b class="fc"><i>24</i>&nbsp;		List&lt;PostnatalCareRecordBean&gt; list = new ArrayList&lt;PostnatalCareRecordBean&gt;();</b>
+<b class="fc"><i>25</i>&nbsp;		while (rs.next())</b>
+<b class="fc"><i>26</i>&nbsp;			list.add(loadSingle(rs));</b>
+<b class="fc"><i>27</i>&nbsp;		return list;</b>
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;	}
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;	/**
+<i>32</i>&nbsp;	 * Helper method to load the parameters for sql
+<i>33</i>&nbsp;	 * 
+<i>34</i>&nbsp;	 * @return a preared statement for sql execution
+<i>35</i>&nbsp;	 */
+<i>36</i>&nbsp;	@Override
+<i>37</i>&nbsp;	public PreparedStatement loadParameters(PreparedStatement ps, PostnatalCareRecordBean bean) throws SQLException {
+<b class="fc"><i>38</i>&nbsp;		ps.setLong(1, bean.getMid());</b>
+<b class="fc"><i>39</i>&nbsp;		ps.setDate(2, new java.sql.Date(bean.getRecordDate().getTime()));</b>
+<b class="fc"><i>40</i>&nbsp;		ps.setDate(3, new java.sql.Date(bean.getChildbirthDate().getTime()));</b>
+<b class="fc"><i>41</i>&nbsp;		ps.setString(4, bean.getDeliveryType());</b>
+<b class="fc"><i>42</i>&nbsp;		ps.setString(5, bean.getAdditionalComment());</b>
+<b class="fc"><i>43</i>&nbsp;		if (bean.getReleaseDate() == null) {</b>
+<b class="fc"><i>44</i>&nbsp;			ps.setDate(6, null);</b>
+<i>45</i>&nbsp;		} else {
+<b class="nc"><i>46</i>&nbsp;			ps.setDate(6, new java.sql.Date(bean.getReleaseDate().getTime()));</b>
+<i>47</i>&nbsp;		}
+<i>48</i>&nbsp;
+<b class="fc"><i>49</i>&nbsp;		return ps;</b>
+<i>50</i>&nbsp;	}
+<i>51</i>&nbsp;
+<i>52</i>&nbsp;	/**
+<i>53</i>&nbsp;	 * Load a single result for postnatal care record
+<i>54</i>&nbsp;	 * 
+<i>55</i>&nbsp;	 * @return postnatal record bean
+<i>56</i>&nbsp;	 */
+<i>57</i>&nbsp;	@Override
+<i>58</i>&nbsp;	public PostnatalCareRecordBean loadSingle(ResultSet rs) throws SQLException {
+<b class="fc"><i>59</i>&nbsp;		PostnatalCareRecordBean bean = new PostnatalCareRecordBean();</b>
+<i>60</i>&nbsp;
+<b class="fc"><i>61</i>&nbsp;		bean.setPostnatalCareRecordId(rs.getInt(&quot;postnatal_care_record_id&quot;));</b>
+<b class="fc"><i>62</i>&nbsp;		bean.setMid(rs.getInt(&quot;patient_mid&quot;));</b>
+<b class="fc"><i>63</i>&nbsp;		bean.setDeliveryType(rs.getString(&quot;delivery_type&quot;));</b>
+<b class="fc"><i>64</i>&nbsp;		bean.setAdditionalComment(rs.getString(&quot;comment&quot;));</b>
+<i>65</i>&nbsp;		// bean.setFirstName(rs.getString(&quot;&quot;));
+<i>66</i>&nbsp;
+<b class="fc"><i>67</i>&nbsp;		java.util.Date recordDate = new java.util.Date(rs.getDate(&quot;record_date&quot;).getTime());</b>
+<b class="fc"><i>68</i>&nbsp;		java.util.Date childbirthDate = new java.util.Date(rs.getDate(&quot;childbirth_date&quot;).getTime());</b>
+<b class="fc"><i>69</i>&nbsp;		if (rs.getDate(&quot;release_date&quot;) != null) {</b>
+<b class="fc"><i>70</i>&nbsp;			java.util.Date releaseDate = new java.util.Date(rs.getDate(&quot;release_date&quot;).getTime());</b>
+<b class="fc"><i>71</i>&nbsp;			bean.setReleaseDate(releaseDate);</b>
+<i>72</i>&nbsp;		}
+<b class="fc"><i>73</i>&nbsp;		bean.setRecordDate(recordDate);</b>
+<b class="fc"><i>74</i>&nbsp;		bean.setChildbirthDate(childbirthDate);</b>
+<i>75</i>&nbsp;
+<b class="fc"><i>76</i>&nbsp;		return bean;</b>
+<i>77</i>&nbsp;	}
+<i>78</i>&nbsp;
+<i>79</i>&nbsp;	/**
+<i>80</i>&nbsp;	 * Get the parameters from the web page to create a bean
+<i>81</i>&nbsp;	 * 
+<i>82</i>&nbsp;	 * @param map
+<i>83</i>&nbsp;	 * @return postnatal record bean
+<i>84</i>&nbsp;	 * @throws FormValidationException
+<i>85</i>&nbsp;	 */
+<i>86</i>&nbsp;	public static PostnatalCareRecordBean beanBuilder(Map&lt;String, String[]&gt; map) throws FormValidationException {
+<b class="fc"><i>87</i>&nbsp;		PostnatalCareRecordBean bean = new PostnatalCareRecordBean();</b>
+<i>88</i>&nbsp;
+<i>89</i>&nbsp;		try {
+<b class="fc"><i>90</i>&nbsp;			SimpleDateFormat sdf = new SimpleDateFormat(&quot;yyyy-MM-dd&quot;);</b>
+<i>91</i>&nbsp;
+<b class="fc"><i>92</i>&nbsp;			bean.setRecordDate(sdf.parse(map.get(&quot;record_date&quot;)[0]));</b>
+<b class="fc"><i>93</i>&nbsp;			bean.setChildbirthDate(sdf.parse(map.get(&quot;childbirth_date&quot;)[0]));</b>
+<b class="fc"><i>94</i>&nbsp;			bean.setDeliveryType(map.get(&quot;delivery_type&quot;)[0]);</b>
+<b class="fc"><i>95</i>&nbsp;			bean.setAdditionalComment(map.get(&quot;comment&quot;)[0]);</b>
+<b class="fc"><i>96</i>&nbsp;			if (map.get(&quot;release_date&quot;)[0] != null &amp;&amp; map.get(&quot;release_date&quot;)[0] != &quot;&quot;) {</b>
+<b class="fc"><i>97</i>&nbsp;				bean.setReleaseDate(sdf.parse(map.get(&quot;release_date&quot;)[0]));</b>
+<i>98</i>&nbsp;			}
+<i>99</i>&nbsp;
+<b class="nc"><i>100</i>&nbsp;		} catch (Exception e) {</b>
+<b class="nc"><i>101</i>&nbsp;			e.printStackTrace();</b>
+<b class="nc"><i>102</i>&nbsp;			throw new FormValidationException(e.getMessage());</b>
+<b class="fc"><i>103</i>&nbsp;		}</b>
+<i>104</i>&nbsp;
+<b class="fc"><i>105</i>&nbsp;		return bean;</b>
+<i>106</i>&nbsp;	}
+<i>107</i>&nbsp;
+<i>108</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-12-13 16:36</div>
+</div>
+</body>
+</html>

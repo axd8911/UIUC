@@ -1,0 +1,11 @@
+iTrust/WebRoot/auth/hcp-obstet/addOVRecords.jsp
+iTrust/WebRoot/auth/hcp-obstet/addObstetRec.jsp
+iTrust/WebRoot/auth/hcp-obstet/addPriorPreg.jsp
+iTrust/WebRoot/auth/hcp-obstet/addUltraSoundDetails.jsp
+iTrust/WebRoot/auth/hcp-obstet/editObstetRec.jsp
+iTrust/WebRoot/auth/hcp-obstet/editObstetricOVRecord.jsp
+iTrust/WebRoot/auth/hcp-obstet/editPriorPreg.jsp
+iTrust/WebRoot/auth/hcp-obstet/initObstetPatient.jsp
+iTrust/WebRoot/auth/hcp-obstet/obstetricOVRecords.jsp
+iTrust/WebRoot/auth/hcp-obstet/viewLaborDeliveryReport.jsp
+iTrust/WebRoot/auth/hcp/addObstetOV.jsp

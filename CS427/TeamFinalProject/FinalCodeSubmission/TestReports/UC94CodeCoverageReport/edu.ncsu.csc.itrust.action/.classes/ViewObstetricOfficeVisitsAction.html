@@ -1,0 +1,536 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ViewObstetricOfficeVisitsAction</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">edu.ncsu.csc.itrust.action</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ViewObstetricOfficeVisitsAction (edu.ncsu.csc.itrust.action)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ViewObstetricOfficeVisitsAction</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (13/ 13)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    89.4%
+  </span>
+  <span class="absValue">
+    (185/ 207)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package edu.ncsu.csc.itrust.action;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import edu.ncsu.csc.itrust.exception.FormValidationException;
+<i>4</i>&nbsp;import edu.ncsu.csc.itrust.exception.ITrustException;
+<i>5</i>&nbsp;import edu.ncsu.csc.itrust.logger.TransactionLogger;
+<i>6</i>&nbsp;import edu.ncsu.csc.itrust.model.old.beans.ObstetRecBean;
+<i>7</i>&nbsp;import edu.ncsu.csc.itrust.model.old.beans.ObstetricOVBean;
+<i>8</i>&nbsp;import edu.ncsu.csc.itrust.model.old.beans.PatientBean;
+<i>9</i>&nbsp;import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
+<i>10</i>&nbsp;import edu.ncsu.csc.itrust.model.old.dao.mysql.ObstetricOfficeVisitDAO;
+<i>11</i>&nbsp;import edu.ncsu.csc.itrust.model.old.dao.mysql.PatientDAO;
+<i>12</i>&nbsp;import edu.ncsu.csc.itrust.model.old.enums.BloodType;
+<i>13</i>&nbsp;import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
+<i>14</i>&nbsp;import edu.ncsu.csc.itrust.model.old.validate.AddObstetricOfficeVisitValidator;
+<i>15</i>&nbsp;import edu.ncsu.csc.itrust.util.GoogleCalendarUtil;
+<i>16</i>&nbsp;import org.apache.commons.lang.math.NumberUtils;
+<i>17</i>&nbsp;import org.apache.commons.lang3.StringUtils;
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;import java.io.IOException;
+<i>20</i>&nbsp;import java.security.GeneralSecurityException;
+<i>21</i>&nbsp;import java.sql.SQLException;
+<i>22</i>&nbsp;import java.sql.Timestamp;
+<i>23</i>&nbsp;import java.text.DateFormat;
+<i>24</i>&nbsp;import java.text.SimpleDateFormat;
+<i>25</i>&nbsp;import java.util.Calendar;
+<i>26</i>&nbsp;import java.util.HashMap;
+<i>27</i>&nbsp;import java.util.List;
+<i>28</i>&nbsp;import java.util.Map;
+<i>29</i>&nbsp;import java.util.function.Function;
+<i>30</i>&nbsp;import java.util.stream.Collectors;
+<i>31</i>&nbsp;
+<i>32</i>&nbsp;public class ViewObstetricOfficeVisitsAction {
+<i>33</i>&nbsp;
+<i>34</i>&nbsp;    public DAOFactory daoFactory;
+<i>35</i>&nbsp;    public String patientId;
+<i>36</i>&nbsp;    public long patientIdLngVal;
+<i>37</i>&nbsp;    public Long hcpId;
+<i>38</i>&nbsp;    public Map&lt;Long, ObstetricOVBean&gt; obstetricVisitMap;
+<b class="fc"><i>39</i>&nbsp;    DateFormat format = new SimpleDateFormat(&quot;MM/dd/yyyy hh:mm a&quot;);</b>
+<i>40</i>&nbsp;    
+<i>41</i>&nbsp;    private static final String DAO_INCORRECT_MSG = &quot;DAO Factory not initialized correctly.&quot;;
+<i>42</i>&nbsp;    private static final String PATIENT_INCORRECT_MSG = &quot;patient id cannot be null or empty&quot;;
+<i>43</i>&nbsp;
+<i>44</i>&nbsp;    //constructors ...
+<b class="fc"><i>45</i>&nbsp;    public ViewObstetricOfficeVisitsAction(DAOFactory daoFactory, String patientId) {</b>
+<b class="fc"><i>46</i>&nbsp;        this.daoFactory = daoFactory;</b>
+<b class="fc"><i>47</i>&nbsp;        this.patientId = patientId;</b>
+<b class="fc"><i>48</i>&nbsp;        if (NumberUtils.isNumber(patientId)) {</b>
+<b class="fc"><i>49</i>&nbsp;            this.patientIdLngVal = Long.parseLong(patientId);</b>
+<i>50</i>&nbsp;        }
+<b class="fc"><i>51</i>&nbsp;    }</b>
+<i>52</i>&nbsp;
+<b class="fc"><i>53</i>&nbsp;    public ViewObstetricOfficeVisitsAction(DAOFactory daoFactory, String patientId, Long hcpId) {</b>
+<b class="fc"><i>54</i>&nbsp;        this.daoFactory = daoFactory;</b>
+<b class="fc"><i>55</i>&nbsp;        this.patientId = patientId;</b>
+<b class="fc"><i>56</i>&nbsp;        this.hcpId = hcpId;</b>
+<b class="fc"><i>57</i>&nbsp;        if (NumberUtils.isNumber(patientId)) {</b>
+<b class="fc"><i>58</i>&nbsp;            this.patientIdLngVal = Long.parseLong(patientId);</b>
+<i>59</i>&nbsp;        }
+<b class="fc"><i>60</i>&nbsp;    }</b>
+<i>61</i>&nbsp;
+<i>62</i>&nbsp;    //operations
+<i>63</i>&nbsp;    public List&lt;ObstetricOVBean&gt; getOBOVRecords()  throws FormValidationException, ITrustException {
+<b class="fc"><i>64</i>&nbsp;        List&lt;ObstetricOVBean&gt; obstetricVisits = null;</b>
+<b class="fc"><i>65</i>&nbsp;        if (daoFactory!=null) {</b>
+<i>66</i>&nbsp;
+<b class="fc"><i>67</i>&nbsp;            ObstetricOfficeVisitDAO obovDAO = daoFactory.getObstetricOfficeVisitDAO();</b>
+<b class="fc"><i>68</i>&nbsp;            if (StringUtils.isNotBlank(patientId)</b>
+<b class="fc"><i>69</i>&nbsp;                    &amp;&amp; NumberUtils.isNumber(patientId)) {</b>
+<i>70</i>&nbsp;
+<b class="fc"><i>71</i>&nbsp;                if (hcpId != null &amp;&amp; hcpId &gt; 0) {</b>
+<b class="fc"><i>72</i>&nbsp;                    obstetricVisits = obovDAO.getPatientOfficeVisitsByPatientHCPId(Long.parseLong(this.patientId), hcpId);</b>
+<i>73</i>&nbsp;                } else {
+<b class="fc"><i>74</i>&nbsp;                    obstetricVisits = obovDAO.getPatientOfficeVisitsByPatientId(Long.parseLong(this.patientId));</b>
+<i>75</i>&nbsp;                }
+<i>76</i>&nbsp;
+<b class="fc"><i>77</i>&nbsp;                PatientDAO patientDAO = daoFactory.getPatientDAO();</b>
+<b class="fc"><i>78</i>&nbsp;                if (patientDAO != null) {</b>
+<b class="fc"><i>79</i>&nbsp;                    PatientBean patientBean = patientDAO.getPatient(Long.parseLong(this.patientId));</b>
+<b class="fc"><i>80</i>&nbsp;                    if (patientBean != null &amp;&amp; obstetricVisits != null &amp;&amp; !obstetricVisits.isEmpty()) {</b>
+<b class="fc"><i>81</i>&nbsp;                        for (ObstetricOVBean ovBean : obstetricVisits) {</b>
+<b class="fc"><i>82</i>&nbsp;                            ovBean.setRhShotTaken(patientBean.getRhShotIndicator());</b>
+<b class="fc"><i>83</i>&nbsp;                        }</b>
+<i>84</i>&nbsp;                    }
+<i>85</i>&nbsp;                }
+<i>86</i>&nbsp;
+<i>87</i>&nbsp;                //converted to map and set in session for avoiding roundtrip to db.
+<b class="fc"><i>88</i>&nbsp;                if (obstetricVisits != null &amp;&amp; !obstetricVisits.isEmpty()) {</b>
+<b class="fc"><i>89</i>&nbsp;                    setObstetricVisitMap(obstetricVisits.stream()</b>
+<b class="fc"><i>90</i>&nbsp;                            .collect(Collectors.toMap(ObstetricOVBean::getObVisitID, Function.identity())));</b>
+<i>91</i>&nbsp;                }
+<b class="fc"><i>92</i>&nbsp;            } else {</b>
+<b class="fc"><i>93</i>&nbsp;                throw new FormValidationException(PATIENT_INCORRECT_MSG);</b>
+<i>94</i>&nbsp;            }
+<b class="fc"><i>95</i>&nbsp;        } else {</b>
+<b class="fc"><i>96</i>&nbsp;            throw new ITrustException(DAO_INCORRECT_MSG);</b>
+<i>97</i>&nbsp;        }
+<i>98</i>&nbsp;
+<b class="fc"><i>99</i>&nbsp;        return obstetricVisits;</b>
+<i>100</i>&nbsp;    }
+<i>101</i>&nbsp;
+<i>102</i>&nbsp;    public boolean validateOBOVPatientRecord(ObstetricOVBean ovRecord) throws FormValidationException, ITrustException {
+<b class="fc"><i>103</i>&nbsp;        ObstetricOfficeVisitDAO obovDAO = daoFactory.getObstetricOfficeVisitDAO();</b>
+<b class="fc"><i>104</i>&nbsp;        logObstetricOVTransaction(&quot;oov-validate&quot;,&quot;Office Visit ID : &quot;+ovRecord.getObVisitID());</b>
+<b class="fc"><i>105</i>&nbsp;        return obovDAO.validateOBPatient(ovRecord);</b>
+<i>106</i>&nbsp;    }
+<i>107</i>&nbsp;
+<i>108</i>&nbsp;    public ObstetricOVBean editOBOVPatientRecord(ObstetricOVBean ovRecord) throws FormValidationException, ITrustException {
+<b class="fc"><i>109</i>&nbsp;        ObstetricOfficeVisitDAO obovDAO = daoFactory.getObstetricOfficeVisitDAO();</b>
+<b class="fc"><i>110</i>&nbsp;        logObstetricOVTransaction(&quot;edit-success&quot;,&quot;Office Visit ID : &quot;+ovRecord.getObVisitID());</b>
+<b class="fc"><i>111</i>&nbsp;        return obovDAO.updateObstetricRecord(ovRecord);</b>
+<i>112</i>&nbsp;    }
+<i>113</i>&nbsp;
+<i>114</i>&nbsp;    public boolean removeOBOVPatientRecord(ObstetricOVBean ovRecord) throws FormValidationException, ITrustException {
+<b class="fc"><i>115</i>&nbsp;        ObstetricOfficeVisitDAO obovDAO = daoFactory.getObstetricOfficeVisitDAO();</b>
+<b class="fc"><i>116</i>&nbsp;        logObstetricOVTransaction(&quot;edit-remove&quot;,&quot;Office Visit ID : &quot;+ovRecord.getObVisitID());</b>
+<b class="fc"><i>117</i>&nbsp;        return obovDAO.deleteObstetricRecord(ovRecord);</b>
+<i>118</i>&nbsp;    }
+<i>119</i>&nbsp;
+<i>120</i>&nbsp;    public ObstetricOVBean addOBOVPatientRecord(ObstetricOVBean newOVRecord) throws FormValidationException, ITrustException {
+<i>121</i>&nbsp;
+<b class="fc"><i>122</i>&nbsp;        new AddObstetricOfficeVisitValidator().validate(newOVRecord);</b>
+<i>123</i>&nbsp;
+<b class="fc"><i>124</i>&nbsp;        List&lt;ObstetricOVBean&gt; patientOVRecords = getOBOVRecords();</b>
+<b class="fc"><i>125</i>&nbsp;        Timestamp currentTime = new Timestamp(System.currentTimeMillis());</b>
+<i>126</i>&nbsp;
+<b class="fc"><i>127</i>&nbsp;        if (newOVRecord.getVisitDate().compareTo(currentTime) &gt; 0) {</b>
+<b class="fc"><i>128</i>&nbsp;            logObstetricOVTransaction(&quot;error&quot;,&quot;Selected date is greater than the current time for&quot; +</b>
+<i>129</i>&nbsp;                    &quot; patient : &quot; + patientId);
+<b class="fc"><i>130</i>&nbsp;            throw new FormValidationException(&quot;Selected date is greater than the current time&quot; +</b>
+<i>131</i>&nbsp;                    &quot;. Please select the date again.&quot;);
+<i>132</i>&nbsp;        }
+<i>133</i>&nbsp;
+<b class="fc"><i>134</i>&nbsp;        if (patientOVRecords!=null &amp;&amp; !patientOVRecords.isEmpty()) {</b>
+<b class="fc"><i>135</i>&nbsp;            for (ObstetricOVBean ovBean : patientOVRecords) {</b>
+<b class="fc"><i>136</i>&nbsp;                if (ovBean.getVisitDate().compareTo(newOVRecord.getVisitDate()) == 0) {</b>
+<b class="fc"><i>137</i>&nbsp;                    logObstetricOVTransaction(&quot;error&quot;,&quot;Obstetric office visit has already been &quot; +</b>
+<b class="fc"><i>138</i>&nbsp;                            &quot;added. Already Visited on : &quot; + newOVRecord.getVisitDate());</b>
+<b class="fc"><i>139</i>&nbsp;                    throw new FormValidationException(&quot;Obstetric office visit has already been added.&quot;);</b>
+<i>140</i>&nbsp;                }
+<b class="fc"><i>141</i>&nbsp;            }</b>
+<i>142</i>&nbsp;        }
+<i>143</i>&nbsp;
+<b class="fc"><i>144</i>&nbsp;        PatientDAO patientDAO = daoFactory.getPatientDAO();</b>
+<b class="fc"><i>145</i>&nbsp;        TransactionLogger.getInstance().logTransaction(TransactionType.OBSTETRIC_RHSHOT_CHECK, hcpId, Long.parseLong(patientId) , &quot;Office Visit ID : &quot;+newOVRecord.getObVisitID());</b>
+<b class="fc"><i>146</i>&nbsp;        if (newOVRecord.getRhShotTaken()&gt;0) {</b>
+<b class="fc"><i>147</i>&nbsp;            patientDAO.updateRhShotIndicator(newOVRecord.getPatientMID(), newOVRecord.getRhShotTaken());</b>
+<i>148</i>&nbsp;        } else {
+<b class="fc"><i>149</i>&nbsp;            checkIfRhShotRequired(patientId,newOVRecord.getRhShotTaken()&gt;0? String.valueOf(newOVRecord.getRhShotTaken()):null);</b>
+<i>150</i>&nbsp;        }
+<i>151</i>&nbsp;
+<b class="fc"><i>152</i>&nbsp;        ObstetricOfficeVisitDAO obovDAO = daoFactory.getObstetricOfficeVisitDAO();</b>
+<b class="fc"><i>153</i>&nbsp;        newOVRecord.setObVisitID(obovDAO.addObstetricRecord(newOVRecord));</b>
+<i>154</i>&nbsp;
+<b class="fc"><i>155</i>&nbsp;        logObstetricOVTransaction(&quot;add-record&quot;,&quot;Office Visit ID : &quot;+newOVRecord.getObVisitID());</b>
+<i>156</i>&nbsp;
+<b class="fc"><i>157</i>&nbsp;        addAppointmentToGoogleCalendar(newOVRecord,patientDAO.getPatient(newOVRecord.getPatientMID()));</b>
+<i>158</i>&nbsp;
+<i>159</i>&nbsp;        //FIXME: Capture the next Visit Id&#39;s from Google Calendar schedule if possibile here.
+<b class="fc"><i>160</i>&nbsp;        String nextScheduledVisitId = &quot;, the next visit&#39;s id&quot;;</b>
+<b class="fc"><i>161</i>&nbsp;        logObstetricOVTransaction(&quot;nextOVScheduled&quot;,&quot;Office Visit ID : &quot;+newOVRecord.getObVisitID() + nextScheduledVisitId);</b>
+<i>162</i>&nbsp;
+<b class="fc"><i>163</i>&nbsp;        return newOVRecord;</b>
+<i>164</i>&nbsp;    }
+<i>165</i>&nbsp;
+<i>166</i>&nbsp;    public boolean addAppointmentToGoogleCalendar(ObstetricOVBean newOVRecord, PatientBean patientBean)
+<i>167</i>&nbsp;            throws FormValidationException, ITrustException {
+<b class="fc"><i>168</i>&nbsp;        if (newOVRecord!=null &amp;&amp; patientBean!=null) {</b>
+<i>169</i>&nbsp;            try {
+<b class="fc"><i>170</i>&nbsp;                GoogleCalendarUtil util = new GoogleCalendarUtil();</b>
+<i>171</i>&nbsp;
+<b class="fc"><i>172</i>&nbsp;                Map&lt;String, String&gt; inputMap = new HashMap&lt;&gt;();</b>
+<b class="fc"><i>173</i>&nbsp;                Timestamp currApptDt = newOVRecord.getVisitDate();</b>
+<b class="fc"><i>174</i>&nbsp;                String patientEmail = patientBean.getEmail();</b>
+<b class="fc"><i>175</i>&nbsp;                String patientFullName = patientBean.getFullName();</b>
+<i>176</i>&nbsp;
+<b class="fc"><i>177</i>&nbsp;                inputMap.put(&quot;summary&quot;,patientFullName + &quot;&#39;s Appointment&quot;);</b>
+<b class="fc"><i>178</i>&nbsp;                inputMap.put(&quot;description&quot;,patientFullName + &quot; has her obstetric office scheduled for today.&quot;);</b>
+<b class="fc"><i>179</i>&nbsp;                inputMap.put(&quot;patientAptStartTime&quot;, currApptDt.toString());</b>
+<i>180</i>&nbsp;
+<b class="fc"><i>181</i>&nbsp;                Calendar apptDtPlusHour = Calendar.getInstance();</b>
+<b class="fc"><i>182</i>&nbsp;                apptDtPlusHour.setTimeInMillis(currApptDt.getTime());</b>
+<b class="fc"><i>183</i>&nbsp;                apptDtPlusHour.add(Calendar.HOUR,1);</b>
+<b class="fc"><i>184</i>&nbsp;                Timestamp timeAfter1Hour = new Timestamp(apptDtPlusHour.getTimeInMillis());</b>
+<i>185</i>&nbsp;
+<b class="fc"><i>186</i>&nbsp;                inputMap.put(&quot;patientAptStartTime&quot;, currApptDt.getTime()+&quot;&quot;);</b>
+<b class="fc"><i>187</i>&nbsp;                inputMap.put(&quot;patientAptEndTime&quot;, timeAfter1Hour.getTime()+&quot;&quot;);</b>
+<b class="fc"><i>188</i>&nbsp;                inputMap.put(&quot;patient_email&quot;, patientEmail);</b>
+<i>189</i>&nbsp;
+<b class="fc"><i>190</i>&nbsp;                String recurrenceRule = &quot;RRULE:FREQ=MONTHLY;COUNT=9&quot;;</b>
+<b class="fc"><i>191</i>&nbsp;                String newReurrenceRule = calculateRecurrenceRule(patientBean.getMID()+&quot;&quot;,currApptDt);</b>
+<b class="fc"><i>192</i>&nbsp;                if (newReurrenceRule!=null) {</b>
+<b class="fc"><i>193</i>&nbsp;                    recurrenceRule = newReurrenceRule;</b>
+<i>194</i>&nbsp;                }
+<i>195</i>&nbsp;
+<b class="fc"><i>196</i>&nbsp;                inputMap.put(&quot;recurrence_rule&quot;, recurrenceRule);</b>
+<b class="fc"><i>197</i>&nbsp;                inputMap.put(&quot;patient_id&quot;,patientId);</b>
+<b class="fc"><i>198</i>&nbsp;                inputMap.put(&quot;visit_id&quot;,newOVRecord.getObVisitID()+&quot;&quot;);</b>
+<i>199</i>&nbsp;
+<b class="fc"><i>200</i>&nbsp;                util.createNewEvent(inputMap);</b>
+<i>201</i>&nbsp;
+<b class="fc"><i>202</i>&nbsp;                return true;</b>
+<i>203</i>&nbsp;
+<b class="nc"><i>204</i>&nbsp;            } catch (IOException ex) {</b>
+<b class="nc"><i>205</i>&nbsp;                throw new ITrustException(&quot;IOException: &quot; + ex.getMessage());</b>
+<b class="nc"><i>206</i>&nbsp;            } catch (GeneralSecurityException ex){</b>
+<b class="nc"><i>207</i>&nbsp;                throw new ITrustException(&quot;GeneralSecurityException: &quot; + ex.getMessage());</b>
+<b class="nc"><i>208</i>&nbsp;            } catch (SQLException ex){</b>
+<b class="nc"><i>209</i>&nbsp;                throw new ITrustException(&quot;SQLException: &quot; + ex.getMessage());</b>
+<i>210</i>&nbsp;            }
+<i>211</i>&nbsp;        }
+<b class="fc"><i>212</i>&nbsp;        return false;</b>
+<i>213</i>&nbsp;    }
+<i>214</i>&nbsp;
+<i>215</i>&nbsp;    public String calculateRecurrenceRule (String patientId, Timestamp currApptDt) throws FormValidationException, ITrustException, SQLException {
+<i>216</i>&nbsp;
+<b class="fc"><i>217</i>&nbsp;        if (NumberUtils.isNumber(patientId)) {</b>
+<i>218</i>&nbsp;
+<b class="fc"><i>219</i>&nbsp;            ObstetAction obstetAction = new ObstetAction(daoFactory, hcpId.longValue());</b>
+<b class="fc"><i>220</i>&nbsp;            List&lt;ObstetRecBean&gt; obstetricRecords = obstetAction.getObstetRecs(Long.parseLong(patientId));</b>
+<b class="fc"><i>221</i>&nbsp;            if (obstetricRecords != null &amp;&amp; !obstetricRecords.isEmpty()) {</b>
+<b class="fc"><i>222</i>&nbsp;                obstetricRecords = obstetricRecords.stream()</b>
+<b class="fc"><i>223</i>&nbsp;                        .sorted((e1, e2) -&gt; e1.getLmpDate().compareTo(e2.getLmpDate())).collect(Collectors.toList());</b>
+<b class="fc"><i>224</i>&nbsp;                ObstetRecBean obstetRecBean = obstetricRecords.get(0);</b>
+<i>225</i>&nbsp;
+<b class="fc"><i>226</i>&nbsp;                if (obstetRecBean != null) {</b>
+<b class="fc"><i>227</i>&nbsp;                    SimpleDateFormat simpleDateFormat = new SimpleDateFormat(&quot;yyyyMMdd&#39;T&#39;HHmmss&#39;Z&#39;&quot;);//isoDateTimeUTCTZFormat</b>
+<b class="fc"><i>228</i>&nbsp;                    String dt = simpleDateFormat.format(obstetRecBean.getEddDate());</b>
+<i>229</i>&nbsp;
+<b class="fc"><i>230</i>&nbsp;                    int weeksPreg = obstetRecBean.getPregWeeks();</b>
+<i>231</i>&nbsp;
+<b class="fc"><i>232</i>&nbsp;                    if (weeksPreg &gt;= 0 &amp;&amp; weeksPreg &lt;= 13) {</b>
+<b class="fc"><i>233</i>&nbsp;                        return &quot;RRULE:FREQ=MONTHLY;UNTIL=&quot; + dt;</b>
+<b class="fc"><i>234</i>&nbsp;                    } else if (weeksPreg &gt;= 14 &amp;&amp; weeksPreg &lt;= 28) {</b>
+<b class="fc"><i>235</i>&nbsp;                        return &quot;RRULE:FREQ=WEEKLY;INTERVAL=2;UNTIL=&quot; + dt;</b>
+<b class="fc"><i>236</i>&nbsp;                    } else if (weeksPreg &gt;= 29 &amp;&amp; weeksPreg &lt;= 40) {</b>
+<b class="fc"><i>237</i>&nbsp;                        return &quot;RRULE:FREQ=WEEKLY;UNTIL=&quot; + dt;</b>
+<b class="fc"><i>238</i>&nbsp;                    } else if (weeksPreg &gt;= 40 &amp;&amp; weeksPreg &lt;= 42) {</b>
+<b class="fc"><i>239</i>&nbsp;                        String byDay = &quot;MO&quot;; //default every monday</b>
+<b class="fc"><i>240</i>&nbsp;                        if (currApptDt != null) {</b>
+<b class="fc"><i>241</i>&nbsp;                            Calendar calendar = Calendar.getInstance();</b>
+<b class="fc"><i>242</i>&nbsp;                            calendar.setTimeInMillis(currApptDt.getTime());</b>
+<b class="fc"><i>243</i>&nbsp;                            int dayOfWeek = calendar.get(Calendar.DAY_OF_WEEK);</b>
+<b class="fc"><i>244</i>&nbsp;                            if (Calendar.MONDAY == dayOfWeek) {</b>
+<b class="fc"><i>245</i>&nbsp;                                byDay = &quot;MO&quot;;</b>
+<b class="fc"><i>246</i>&nbsp;                            } else if (Calendar.TUESDAY == dayOfWeek) {</b>
+<b class="fc"><i>247</i>&nbsp;                                byDay = &quot;TU&quot;;</b>
+<b class="fc"><i>248</i>&nbsp;                            } else if (Calendar.WEDNESDAY == dayOfWeek) {</b>
+<b class="fc"><i>249</i>&nbsp;                                byDay = &quot;WE&quot;;</b>
+<b class="fc"><i>250</i>&nbsp;                            } else if (Calendar.THURSDAY == dayOfWeek) {</b>
+<b class="fc"><i>251</i>&nbsp;                                byDay = &quot;TH&quot;;</b>
+<b class="fc"><i>252</i>&nbsp;                            } else if (Calendar.FRIDAY == dayOfWeek) {</b>
+<b class="fc"><i>253</i>&nbsp;                                byDay = &quot;FR&quot;;</b>
+<b class="fc"><i>254</i>&nbsp;                            } else if (Calendar.SATURDAY == dayOfWeek) {</b>
+<b class="nc"><i>255</i>&nbsp;                                byDay = &quot;SA&quot;;</b>
+<b class="fc"><i>256</i>&nbsp;                            } else if (Calendar.SUNDAY == dayOfWeek) {</b>
+<b class="fc"><i>257</i>&nbsp;                                byDay = &quot;SU&quot;;</b>
+<i>258</i>&nbsp;                            }
+<i>259</i>&nbsp;                        }
+<b class="fc"><i>260</i>&nbsp;                        return &quot;RRULE:FREQ=WEEKLY;BYDAY=&quot; + byDay + &quot;;INTERVAL=2;UNTIL=&quot; + dt;</b>
+<i>261</i>&nbsp;                    }
+<i>262</i>&nbsp;                }
+<i>263</i>&nbsp;            }
+<i>264</i>&nbsp;        }
+<i>265</i>&nbsp;
+<b class="fc"><i>266</i>&nbsp;        return &quot;RRULE:FREQ=MONTHLY;COUNT=1&quot;;</b>
+<i>267</i>&nbsp;    }
+<i>268</i>&nbsp;
+<i>269</i>&nbsp;    public void checkIfRhShotRequired(String pidString,String rhShotSelected) throws FormValidationException, ITrustException {
+<i>270</i>&nbsp;
+<b class="fc"><i>271</i>&nbsp;        logObstetricOVTransaction(&quot;rhshot-check&quot;,pidString);</b>
+<i>272</i>&nbsp;        //TransactionLogger.getInstance().logTransaction(TransactionType.OBSTETRIC_RHSHOT_CHECK,hcpId, 0L , pidString);
+<b class="fc"><i>273</i>&nbsp;        PatientDAO patientDAO = daoFactory.getPatientDAO();</b>
+<b class="fc"><i>274</i>&nbsp;        if (patientDAO!=null &amp;&amp; rhShotSelected == null) {</b>
+<b class="fc"><i>275</i>&nbsp;            if (NumberUtils.isNumber(pidString)) {</b>
+<b class="fc"><i>276</i>&nbsp;                PatientBean patientBean = patientDAO.getPatient(Long.parseLong(pidString));</b>
+<b class="fc"><i>277</i>&nbsp;                if (patientBean != null) {</b>
+<b class="fc"><i>278</i>&nbsp;                    BloodType bloodType = patientBean.getBloodType();</b>
+<b class="fc"><i>279</i>&nbsp;                    if (bloodType != null &amp;&amp; bloodType.getName().contains(&quot;-&quot;) &amp;&amp; patientBean.getRhShotIndicator() &lt;= 0) {</b>
+<b class="fc"><i>280</i>&nbsp;                        logObstetricOVTransaction(&quot;error&quot;,pidString+ &quot; : Patient needs RH &quot; +</b>
+<i>281</i>&nbsp;                                &quot;Shot before the form can be submitted.&quot;);
+<b class="fc"><i>282</i>&nbsp;                        throw new FormValidationException(&quot;Patient needs RH Shot before the form can be submitted.&quot;);</b>
+<i>283</i>&nbsp;                    }
+<i>284</i>&nbsp;                }
+<b class="fc"><i>285</i>&nbsp;            } else {</b>
+<b class="fc"><i>286</i>&nbsp;                logObstetricOVTransaction(&quot;error&quot;,pidString+ &quot; : Patient id needs to be numeric&quot;);</b>
+<b class="fc"><i>287</i>&nbsp;                throw new FormValidationException(&quot;Patient id needs to be numeric&quot;);</b>
+<i>288</i>&nbsp;            }
+<i>289</i>&nbsp;        }
+<b class="fc"><i>290</i>&nbsp;    }</b>
+<i>291</i>&nbsp;    /*
+<i>292</i>&nbsp;    public boolean eligibleForOfficeVisit() throws FormValidationException, ITrustException, SQLException {
+<i>293</i>&nbsp;        ObstetAction obstetAction = new ObstetAction(daoFactory, hcpId.longValue());
+<i>294</i>&nbsp;        if (obstetAction !=null) {
+<i>295</i>&nbsp;            List&lt;ObstetRecBean&gt; obstetricRecords = obstetAction.getObstetRecs(Long.parseLong(patientId));
+<i>296</i>&nbsp;            if (obstetricRecords == null ){
+<i>297</i>&nbsp;                return false;
+<i>298</i>&nbsp;            }
+<i>299</i>&nbsp;
+<i>300</i>&nbsp;            if (obstetricRecords!=null &amp;&amp; !obstetricRecords.isEmpty()) {
+<i>301</i>&nbsp;                obstetricRecords = obstetricRecords.stream()
+<i>302</i>&nbsp;                        .sorted((e1,e2) -&gt; e2.getInitDate().compareTo(e1.getInitDate())).collect(Collectors.toList());
+<i>303</i>&nbsp;
+<i>304</i>&nbsp;                if (obstetricRecords != null) {
+<i>305</i>&nbsp;                    Calendar date343DaysBefore = Calendar.getInstance();
+<i>306</i>&nbsp;                    date343DaysBefore.add(Calendar.DAY_OF_MONTH,-343);
+<i>307</i>&nbsp;
+<i>308</i>&nbsp;                    ObstetRecBean obRecBean = obstetricRecords.get(0);
+<i>309</i>&nbsp;                    if (obRecBean.getLmpDate().getTime() &lt; date343DaysBefore.getTimeInMillis()) {
+<i>310</i>&nbsp;                        return false;
+<i>311</i>&nbsp;                    }
+<i>312</i>&nbsp;                }
+<i>313</i>&nbsp;            }
+<i>314</i>&nbsp;        }
+<i>315</i>&nbsp;
+<i>316</i>&nbsp;        ViewPersonnelAction personnelAction = new ViewPersonnelAction(daoFactory,hcpId);
+<i>317</i>&nbsp;        PersonnelBean personnel = personnelAction.getPersonnel(hcpId.toString());
+<i>318</i>&nbsp;        if(!&quot;OB/GYN&quot;.equalsIgnoreCase(personnel.getSpecialty())) {
+<i>319</i>&nbsp;            return false;
+<i>320</i>&nbsp;        }
+<i>321</i>&nbsp;        return true;
+<i>322</i>&nbsp;    }
+<i>323</i>&nbsp;    */
+<i>324</i>&nbsp;    /*
+<i>325</i>&nbsp;    public void checkForFormValidity(Date date, String numDaysPreg, String bloodPress, String fhr,
+<i>326</i>&nbsp;                                       String multiple) throws FormValidationException, ITrustException {
+<i>327</i>&nbsp;        StringBuilder errMsgBuilder = new StringBuilder();
+<i>328</i>&nbsp;        if (date == null || StringUtils.isEmpty(numDaysPreg) || StringUtils.isEmpty(bloodPress)
+<i>329</i>&nbsp;            || StringUtils.isEmpty(fhr) || StringUtils.isEmpty(multiple))  {
+<i>330</i>&nbsp;            errMsgBuilder.append(&quot;Fields : &quot;);
+<i>331</i>&nbsp;        }
+<i>332</i>&nbsp;
+<i>333</i>&nbsp;        try {
+<i>334</i>&nbsp;            if (date == null) {
+<i>335</i>&nbsp;                errMsgBuilder.append(&quot;Date empty&quot;);
+<i>336</i>&nbsp;            } else {
+<i>337</i>&nbsp;                DateFormat format = new SimpleDateFormat(&quot;MM/dd/yyyy hh:mm a&quot;);
+<i>338</i>&nbsp;                format.format(date);
+<i>339</i>&nbsp;            }
+<i>340</i>&nbsp;        }catch (Exception ex) {
+<i>341</i>&nbsp;            errMsgBuilder.append(&quot;Invalid date. Use format (MM/dd/YYYY hh:mm a)&quot;);
+<i>342</i>&nbsp;            throw new FormValidationException(errMsgBuilder.toString());
+<i>343</i>&nbsp;        }
+<i>344</i>&nbsp;
+<i>345</i>&nbsp;        if (StringUtils.isEmpty(numDaysPreg)) {
+<i>346</i>&nbsp;            String customErrMsg = &quot;num days cannot be empty&quot;;
+<i>347</i>&nbsp;            createFinalErrMsg(errMsgBuilder,customErrMsg);
+<i>348</i>&nbsp;        }
+<i>349</i>&nbsp;
+<i>350</i>&nbsp;        if (StringUtils.isEmpty(bloodPress)) {
+<i>351</i>&nbsp;            String customErrMsg = &quot;blood pressure cannot be empty&quot;;
+<i>352</i>&nbsp;            createFinalErrMsg(errMsgBuilder,customErrMsg);
+<i>353</i>&nbsp;        }
+<i>354</i>&nbsp;
+<i>355</i>&nbsp;        if (StringUtils.isEmpty(fhr)) {
+<i>356</i>&nbsp;            String customErrMsg = &quot;fhr cannot be empty&quot;;
+<i>357</i>&nbsp;            createFinalErrMsg(errMsgBuilder,customErrMsg);
+<i>358</i>&nbsp;        }
+<i>359</i>&nbsp;
+<i>360</i>&nbsp;        if (StringUtils.isEmpty(multiple)) {
+<i>361</i>&nbsp;            String customErrMsg = &quot;multiple cannot be empty&quot;;
+<i>362</i>&nbsp;            createFinalErrMsg(errMsgBuilder,customErrMsg);
+<i>363</i>&nbsp;        }
+<i>364</i>&nbsp;
+<i>365</i>&nbsp;        if (errMsgBuilder!=null &amp;&amp; !errMsgBuilder.toString().isEmpty()) {
+<i>366</i>&nbsp;            throw new FormValidationException(errMsgBuilder.toString());
+<i>367</i>&nbsp;        }
+<i>368</i>&nbsp;    }
+<i>369</i>&nbsp;*/
+<i>370</i>&nbsp;    //helper methods
+<i>371</i>&nbsp;    public boolean logObstetricOVTransaction (String ... args) throws FormValidationException{
+<b class="fc"><i>372</i>&nbsp;        if (args!=null &amp;&amp; args.length&gt;0) {</b>
+<i>373</i>&nbsp;            try {
+<b class="fc"><i>374</i>&nbsp;                if (&quot;add-record&quot;.equalsIgnoreCase(args[0])) {</b>
+<b class="fc"><i>375</i>&nbsp;                    TransactionLogger.getInstance().logTransaction(TransactionType.OBSTETRIC_OFFICEVISIT_CREATE,</b>
+<b class="fc"><i>376</i>&nbsp;                            hcpId, patientIdLngVal, &quot;Office Visit ID : &quot; + args[1]);</b>
+<b class="fc"><i>377</i>&nbsp;                    return true;</b>
+<b class="fc"><i>378</i>&nbsp;                } else if (&quot;edit-view&quot;.equalsIgnoreCase(args[0])) {</b>
+<b class="nc"><i>379</i>&nbsp;                    TransactionLogger.getInstance().logTransaction(TransactionType.OBSTETRIC_OFFICEVISIT_VIEW,</b>
+<b class="nc"><i>380</i>&nbsp;                            hcpId, patientIdLngVal, &quot;Office Visit ID : &quot; + args[1]);</b>
+<b class="nc"><i>381</i>&nbsp;                    return true;</b>
+<b class="fc"><i>382</i>&nbsp;                } else if (&quot;edit-success&quot;.equalsIgnoreCase(args[0])) {</b>
+<b class="fc"><i>383</i>&nbsp;                    TransactionLogger.getInstance().logTransaction(TransactionType.OBSTETRIC_OFFICEVISIT_EDIT,</b>
+<b class="fc"><i>384</i>&nbsp;                            hcpId, patientIdLngVal, &quot;Office Visit ID : &quot; + args[1]);</b>
+<b class="fc"><i>385</i>&nbsp;                    return true;</b>
+<b class="fc"><i>386</i>&nbsp;                } else if (&quot;ultrasound&quot;.equalsIgnoreCase(args[0])) {</b>
+<b class="nc"><i>387</i>&nbsp;                    TransactionLogger.getInstance().logTransaction(TransactionType.ULTRASOUND_CREATE_ADD,</b>
+<b class="nc"><i>388</i>&nbsp;                            hcpId, patientIdLngVal, &quot;Office Visit ID : &quot; + args[1]);</b>
+<b class="nc"><i>389</i>&nbsp;                    return true;</b>
+<b class="fc"><i>390</i>&nbsp;                } else if (&quot;nextOVScheduled&quot;.equalsIgnoreCase(args[0])) {</b>
+<b class="fc"><i>391</i>&nbsp;                    if (args.length&gt;2) {</b>
+<b class="nc"><i>392</i>&nbsp;                        TransactionLogger.getInstance().logTransaction(TransactionType.OBSTETRIC_OFFICE_SCHEDULE_NEXT,</b>
+<b class="nc"><i>393</i>&nbsp;                                hcpId, patientIdLngVal, &quot;Current office visit ID : &quot; + args[1] + &quot;, next office visit ID : &quot; + args[2]);</b>
+<i>394</i>&nbsp;                    } else {
+<b class="fc"><i>395</i>&nbsp;                        TransactionLogger.getInstance().logTransaction(TransactionType.OBSTETRIC_OFFICE_SCHEDULE_NEXT,</b>
+<b class="fc"><i>396</i>&nbsp;                                hcpId, patientIdLngVal, &quot;Current office visit ID : &quot; + args[1]);</b>
+<i>397</i>&nbsp;                    }
+<b class="fc"><i>398</i>&nbsp;                    return true;</b>
+<b class="fc"><i>399</i>&nbsp;                } else if (&quot;chidBirthOVScheduled&quot;.equalsIgnoreCase(args[0])) {</b>
+<b class="nc"><i>400</i>&nbsp;                    TransactionLogger.getInstance().logTransaction(TransactionType.OBSTETRIC_OFFICE_SCHEDULE_CHILDBIRTH,</b>
+<b class="nc"><i>401</i>&nbsp;                            hcpId, patientIdLngVal,</b>
+<i>402</i>&nbsp;                            &quot;Current office visit ID : &quot; + args[1] + &quot;, Child birth office visit ID : &quot; + args[2]);
+<b class="nc"><i>403</i>&nbsp;                    return true;</b>
+<b class="fc"><i>404</i>&nbsp;                } else if (&quot;oov-validate&quot;.equalsIgnoreCase(args[0])) {</b>
+<b class="fc"><i>405</i>&nbsp;                    TransactionLogger.getInstance().logTransaction(TransactionType.OBSTETRIC_OFFICEVISIT_VALIDATE,</b>
+<b class="fc"><i>406</i>&nbsp;                            hcpId, patientIdLngVal, args[1]);</b>
+<b class="fc"><i>407</i>&nbsp;                    return true;</b>
+<b class="fc"><i>408</i>&nbsp;                } else if (&quot;edit-remove&quot;.equalsIgnoreCase(args[0])) {</b>
+<b class="fc"><i>409</i>&nbsp;                    TransactionLogger.getInstance().logTransaction(TransactionType.OBSTETRIC_OFFICEVISIT_REMOVE,</b>
+<b class="fc"><i>410</i>&nbsp;                            hcpId, patientIdLngVal, args[1]);</b>
+<b class="fc"><i>411</i>&nbsp;                    return true;</b>
+<b class="fc"><i>412</i>&nbsp;                } else if (&quot;rhshot-check&quot;.equalsIgnoreCase(args[0])) {</b>
+<b class="fc"><i>413</i>&nbsp;                    TransactionLogger.getInstance().logTransaction(TransactionType.OBSTETRIC_RHSHOT_CHECK,</b>
+<b class="fc"><i>414</i>&nbsp;                            hcpId, patientIdLngVal, args[1]);</b>
+<b class="fc"><i>415</i>&nbsp;                    return true;</b>
+<b class="fc"><i>416</i>&nbsp;                } else if (&quot;error&quot;.equalsIgnoreCase(args[0])) {</b>
+<b class="fc"><i>417</i>&nbsp;                    TransactionLogger.getInstance().logTransaction(TransactionType.OBSTETRIC_OFFICEVISIT_ERROR,</b>
+<b class="fc"><i>418</i>&nbsp;                            hcpId, patientIdLngVal, args[1]);</b>
+<b class="fc"><i>419</i>&nbsp;                    return true;</b>
+<i>420</i>&nbsp;                }
+<b class="nc"><i>421</i>&nbsp;            } catch (Exception ex) {</b>
+<b class="nc"><i>422</i>&nbsp;                throw new FormValidationException(&quot;Error executing transactiong logging : &quot; + args[0] + &quot;. Message : &quot; + ex.getMessage());</b>
+<b class="nc"><i>423</i>&nbsp;            }</b>
+<i>424</i>&nbsp;        }
+<b class="nc"><i>425</i>&nbsp;        return false;</b>
+<i>426</i>&nbsp;    }
+<i>427</i>&nbsp;
+<i>428</i>&nbsp;    /*
+<i>429</i>&nbsp;    private void createFinalErrMsg(StringBuilder sb, String errMsg) {
+<i>430</i>&nbsp;        if (!sb.toString().isEmpty()) {
+<i>431</i>&nbsp;            sb.append(&quot;, &quot;).append(errMsg);
+<i>432</i>&nbsp;        } else {
+<i>433</i>&nbsp;            sb.append(errMsg);
+<i>434</i>&nbsp;        }
+<i>435</i>&nbsp;    }
+<i>436</i>&nbsp;    */
+<i>437</i>&nbsp;
+<i>438</i>&nbsp;    //getter and setters
+<i>439</i>&nbsp;    public Map&lt;Long, ObstetricOVBean&gt; getObstetricVisitMap() {
+<b class="fc"><i>440</i>&nbsp;        return obstetricVisitMap;</b>
+<i>441</i>&nbsp;    }
+<i>442</i>&nbsp;
+<i>443</i>&nbsp;    public void setObstetricVisitMap(Map&lt;Long, ObstetricOVBean&gt; obstetricVisitMap) {
+<b class="fc"><i>444</i>&nbsp;        this.obstetricVisitMap = obstetricVisitMap;</b>
+<b class="fc"><i>445</i>&nbsp;    }</b>
+<i>446</i>&nbsp;}
+<i>447</i>&nbsp;
+<i>448</i>&nbsp;
+<i>449</i>&nbsp;
+<i>450</i>&nbsp;
+<i>451</i>&nbsp;
+<i>452</i>&nbsp;
+<i>453</i>&nbsp;
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-12-13 16:49</div>
+</div>
+</body>
+</html>

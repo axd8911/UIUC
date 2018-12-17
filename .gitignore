@@ -1,0 +1,9 @@
+*text.pdf
+*text.djvu
+.directory
+.git
+*/.git/*
+*/.git
+.idea/*
+.metadata/*
+.settings/*

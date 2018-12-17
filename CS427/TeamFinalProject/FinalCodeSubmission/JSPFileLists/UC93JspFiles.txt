@@ -1,0 +1,5 @@
+iTrust/WebRoot/auth/hcp-obstet/addObstetRec.jsp
+iTrust/WebRoot/auth/hcp-obstet/addPriorPreg.jsp
+iTrust/WebRoot/auth/hcp-obstet/editObstetRec.jsp
+iTrust/WebRoot/auth/hcp-obstet/editPriorPreg.jsp
+iTrust/WebRoot/auth/hcp-obstet/initObstetPatient.jsp

@@ -1,0 +1,351 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: CHVDeliveryDAO</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">edu.ncsu.csc.itrust.model.old.dao.mysql</a> ]
+</div>
+
+<h1>Coverage Summary for Class: CHVDeliveryDAO (edu.ncsu.csc.itrust.model.old.dao.mysql)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">CHVDeliveryDAO</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (10/ 10)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    92.1%
+  </span>
+  <span class="absValue">
+    (116/ 126)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package edu.ncsu.csc.itrust.model.old.dao.mysql;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import java.sql.Connection;
+<i>4</i>&nbsp;import java.sql.PreparedStatement;
+<i>5</i>&nbsp;import java.sql.ResultSet;
+<i>6</i>&nbsp;import java.sql.SQLException;
+<i>7</i>&nbsp;import java.util.ArrayList;
+<i>8</i>&nbsp;import java.util.List;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;import edu.ncsu.csc.itrust.DBUtil;
+<i>11</i>&nbsp;import edu.ncsu.csc.itrust.exception.DBException;
+<i>12</i>&nbsp;import edu.ncsu.csc.itrust.model.old.beans.CHVBabyBean;
+<i>13</i>&nbsp;import edu.ncsu.csc.itrust.model.old.beans.CHVDeliveryBean;
+<i>14</i>&nbsp;import edu.ncsu.csc.itrust.model.old.beans.loaders.CHVDeliveryBeanLoader;
+<i>15</i>&nbsp;import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;/**
+<i>18</i>&nbsp; * A class provides childbirth hospital delivery related database operations
+<i>19</i>&nbsp; * @author brycelin
+<i>20</i>&nbsp; *
+<i>21</i>&nbsp; */
+<i>22</i>&nbsp;public class CHVDeliveryDAO {
+<i>23</i>&nbsp;
+<i>24</i>&nbsp;	private transient final DAOFactory factory;
+<i>25</i>&nbsp;	private transient final CHVDeliveryBeanLoader delvLoader;
+<i>26</i>&nbsp;
+<i>27</i>&nbsp;	private static final int MIN_MID = 999999999;
+<i>28</i>&nbsp;
+<i>29</i>&nbsp;	/**
+<i>30</i>&nbsp;	 * Constructor for initializing default class variables
+<i>31</i>&nbsp;	 * @param factory
+<i>32</i>&nbsp;	 */
+<b class="fc"><i>33</i>&nbsp;	public CHVDeliveryDAO(final DAOFactory factory) {</b>
+<b class="fc"><i>34</i>&nbsp;		this.factory = factory;</b>
+<b class="fc"><i>35</i>&nbsp;		this.delvLoader = new CHVDeliveryBeanLoader();</b>
+<b class="fc"><i>36</i>&nbsp;	}</b>
+<i>37</i>&nbsp;
+<i>38</i>&nbsp;	/**
+<i>39</i>&nbsp;	 * Retrieve a childbirth hospital delivery record from database based on delivery ID
+<i>40</i>&nbsp;	 * @param delvID
+<i>41</i>&nbsp;	 * @return
+<i>42</i>&nbsp;	 * @throws SQLException
+<i>43</i>&nbsp;	 * @throws DBException
+<i>44</i>&nbsp;	 */
+<i>45</i>&nbsp;	public List&lt;CHVDeliveryBean&gt; getDelivery(final int delvID) throws SQLException, DBException {
+<b class="fc"><i>46</i>&nbsp;		ResultSet results = null;</b>
+<b class="fc"><i>47</i>&nbsp;		try (Connection conn = factory.getConnection();</b>
+<b class="fc"><i>48</i>&nbsp;				PreparedStatement stmt = conn.prepareStatement(&quot;SELECT * FROM chvdelivery WHERE delivery_id=?&quot;)) {</b>
+<b class="fc"><i>49</i>&nbsp;			stmt.setInt(1, delvID);</b>
+<b class="fc"><i>50</i>&nbsp;			results = stmt.executeQuery();</b>
+<b class="fc"><i>51</i>&nbsp;			final List&lt;CHVDeliveryBean&gt; abList = this.delvLoader.loadList(results);</b>
+<b class="fc"><i>52</i>&nbsp;			conn.close();</b>
+<b class="fc"><i>53</i>&nbsp;			return abList;</b>
+<b class="fc"><i>54</i>&nbsp;		} catch (SQLException e) {</b>
+<b class="fc"><i>55</i>&nbsp;			throw new DBException(e);</b>
+<i>56</i>&nbsp;		}
+<i>57</i>&nbsp;	}
+<i>58</i>&nbsp;
+<i>59</i>&nbsp;	/**
+<i>60</i>&nbsp;	 * Retrieve all childbirth hospital delivery records from database based on user&#39;s medical ID
+<i>61</i>&nbsp;	 * @param mid
+<i>62</i>&nbsp;	 * @return
+<i>63</i>&nbsp;	 * @throws SQLException
+<i>64</i>&nbsp;	 * @throws DBException
+<i>65</i>&nbsp;	 */
+<i>66</i>&nbsp;	public List&lt;CHVDeliveryBean&gt; getAllDelvsFor(long mid) throws SQLException, DBException {
+<b class="fc"><i>67</i>&nbsp;		try (Connection conn = factory.getConnection();</b>
+<b class="fc"><i>68</i>&nbsp;				PreparedStatement stmt = (mid &gt;= MIN_MID)</b>
+<b class="fc"><i>69</i>&nbsp;						? conn.prepareStatement(&quot;SELECT * FROM chvdelivery WHERE doctor_id=? ORDER BY delivery_date desc;&quot;)</b>
+<b class="nc"><i>70</i>&nbsp;						: conn.prepareStatement(&quot;SELECT * FROM chvdelivery WHERE patient_id=? ORDER BY delivery_date desc;&quot;)) {</b>
+<b class="fc"><i>71</i>&nbsp;			stmt.setLong(1, mid);</b>
+<i>72</i>&nbsp;
+<b class="fc"><i>73</i>&nbsp;			final ResultSet results = stmt.executeQuery();</b>
+<b class="fc"><i>74</i>&nbsp;			final List&lt;CHVDeliveryBean&gt; delvList = this.delvLoader.loadList(results);</b>
+<b class="fc"><i>75</i>&nbsp;			results.close();</b>
+<b class="fc"><i>76</i>&nbsp;			conn.close();</b>
+<b class="fc"><i>77</i>&nbsp;			return delvList;</b>
+<b class="fc"><i>78</i>&nbsp;		} catch (SQLException e) {</b>
+<b class="fc"><i>79</i>&nbsp;			e.printStackTrace();</b>
+<b class="fc"><i>80</i>&nbsp;			throw new DBException(e);</b>
+<i>81</i>&nbsp;		}
+<i>82</i>&nbsp;
+<i>83</i>&nbsp;	}
+<i>84</i>&nbsp;
+<i>85</i>&nbsp;	/**
+<i>86</i>&nbsp;	 * Add a new childbirth hospital delivery record to database
+<i>87</i>&nbsp;	 * @param appt
+<i>88</i>&nbsp;	 * @throws SQLException
+<i>89</i>&nbsp;	 * @throws DBException
+<i>90</i>&nbsp;	 */
+<i>91</i>&nbsp;	public void addDelivery(final CHVDeliveryBean appt) throws SQLException, DBException {
+<b class="fc"><i>92</i>&nbsp;		try (Connection conn = factory.getConnection();</b>
+<b class="fc"><i>93</i>&nbsp;				PreparedStatement stmt = this.delvLoader.loadParameters(conn.prepareStatement(</b>
+<i>94</i>&nbsp;						&quot;INSERT INTO chvdelivery (patient_id, doctor_id, delivery_date, delivery_method, dosPitocin, dosNitrous, dosPethidine, dosEpidural, dosMagnesium, dosRHimmune) &quot;
+<i>95</i>&nbsp;								+ &quot;VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)&quot;),
+<i>96</i>&nbsp;						appt)) {
+<b class="fc"><i>97</i>&nbsp;			stmt.executeUpdate();</b>
+<b class="fc"><i>98</i>&nbsp;			conn.close();</b>
+<b class="fc"><i>99</i>&nbsp;		} catch (SQLException e) {</b>
+<b class="fc"><i>100</i>&nbsp;			e.printStackTrace();</b>
+<b class="fc"><i>101</i>&nbsp;			throw new DBException(e);</b>
+<b class="fc"><i>102</i>&nbsp;		}</b>
+<b class="fc"><i>103</i>&nbsp;	}</b>
+<i>104</i>&nbsp;
+<i>105</i>&nbsp;	/**
+<i>106</i>&nbsp;	 * Update an existing childbirth hospital delivery record
+<i>107</i>&nbsp;	 * @param delv
+<i>108</i>&nbsp;	 * @throws SQLException
+<i>109</i>&nbsp;	 * @throws DBException
+<i>110</i>&nbsp;	 */
+<i>111</i>&nbsp;	public void editDelivery(final CHVDeliveryBean delv) throws SQLException, DBException {
+<b class="fc"><i>112</i>&nbsp;		try (Connection conn = factory.getConnection();</b>
+<b class="fc"><i>113</i>&nbsp;				PreparedStatement stmt = conn</b>
+<b class="fc"><i>114</i>&nbsp;						.prepareStatement(&quot;UPDATE chvdelivery SET doctor_id=?, patient_id=?, delivery_date=?, delivery_method=?, dosPitocin=?, dosNitrous=?, dosPethidine=?, dosEpidural=?, dosMagnesium=?, dosRHimmune=? WHERE delivery_id=?&quot;)) {</b>
+<b class="fc"><i>115</i>&nbsp;			stmt.setLong(1,  delv.getHcp());</b>
+<b class="fc"><i>116</i>&nbsp;			stmt.setLong(2, delv.getPatient());</b>
+<b class="fc"><i>117</i>&nbsp;			stmt.setTimestamp(3, delv.getDate());</b>
+<b class="fc"><i>118</i>&nbsp;			stmt.setString(4, delv.getDeliveryMethod());</b>
+<b class="fc"><i>119</i>&nbsp;			stmt.setInt(5,  delv.getDosPitocin());</b>
+<b class="fc"><i>120</i>&nbsp;			stmt.setInt(6,  delv.getDosNitrous());</b>
+<b class="fc"><i>121</i>&nbsp;			stmt.setInt(7,  delv.getDosPethidine());</b>
+<b class="fc"><i>122</i>&nbsp;			stmt.setInt(8,  delv.getDosEpidural());</b>
+<b class="fc"><i>123</i>&nbsp;			stmt.setInt(9,  delv.getDosMagnesium());</b>
+<b class="fc"><i>124</i>&nbsp;			stmt.setInt(10,  delv.getDosRHimmune());</b>
+<b class="fc"><i>125</i>&nbsp;			stmt.setLong(11, delv.getDeliveryID());</b>
+<i>126</i>&nbsp;
+<b class="fc"><i>127</i>&nbsp;			stmt.executeUpdate();</b>
+<b class="fc"><i>128</i>&nbsp;			conn.close();</b>
+<b class="fc"><i>129</i>&nbsp;		} catch (SQLException e) {</b>
+<b class="fc"><i>130</i>&nbsp;			throw new DBException(e);</b>
+<b class="fc"><i>131</i>&nbsp;		}</b>
+<b class="fc"><i>132</i>&nbsp;	}</b>
+<i>133</i>&nbsp;
+<i>134</i>&nbsp;	/**
+<i>135</i>&nbsp;	 * Delete an existing childbirth hospital delivery record
+<i>136</i>&nbsp;	 * @param delv
+<i>137</i>&nbsp;	 * @throws SQLException
+<i>138</i>&nbsp;	 * @throws DBException
+<i>139</i>&nbsp;	 */
+<i>140</i>&nbsp;	public void removeDelivery(final CHVDeliveryBean delv) throws SQLException, DBException {
+<b class="fc"><i>141</i>&nbsp;		try (Connection conn = factory.getConnection();</b>
+<b class="fc"><i>142</i>&nbsp;				PreparedStatement stmt = conn.prepareStatement(&quot;DELETE FROM chvdelivery WHERE delivery_id=?&quot;)) {</b>
+<b class="fc"><i>143</i>&nbsp;			stmt.setLong(1, delv.getDeliveryID());</b>
+<i>144</i>&nbsp;
+<b class="fc"><i>145</i>&nbsp;			stmt.executeUpdate();</b>
+<b class="fc"><i>146</i>&nbsp;			stmt.close();</b>
+<b class="fc"><i>147</i>&nbsp;		} catch (SQLException e) {</b>
+<b class="fc"><i>148</i>&nbsp;			throw new DBException(e);</b>
+<b class="fc"><i>149</i>&nbsp;		}</b>
+<b class="fc"><i>150</i>&nbsp;	}</b>
+<i>151</i>&nbsp;	
+<i>152</i>&nbsp;	/**
+<i>153</i>&nbsp;	 * Add a new childbirth hospital delivery record and get delivery ID
+<i>154</i>&nbsp;	 * @return
+<i>155</i>&nbsp;	 * @throws DBException
+<i>156</i>&nbsp;	 */
+<i>157</i>&nbsp;	public long addEmptyDelivery() throws DBException {
+<b class="fc"><i>158</i>&nbsp;		try (Connection conn = factory.getConnection();</b>
+<b class="fc"><i>159</i>&nbsp;				PreparedStatement ps = conn.prepareStatement(&quot;INSERT INTO chvdelivery(delivery_id) VALUES(NULL)&quot;)) {</b>
+<b class="fc"><i>160</i>&nbsp;			ps.executeUpdate();</b>
+<b class="fc"><i>161</i>&nbsp;			long result = DBUtil.getLastInsert(conn);</b>
+<b class="fc"><i>162</i>&nbsp;			conn.close();</b>
+<b class="fc"><i>163</i>&nbsp;			return result;</b>
+<b class="fc"><i>164</i>&nbsp;		} catch (SQLException e) {</b>
+<b class="fc"><i>165</i>&nbsp;			throw new DBException(e);</b>
+<i>166</i>&nbsp;		}
+<i>167</i>&nbsp;	}
+<i>168</i>&nbsp;	
+<i>169</i>&nbsp;	/**
+<i>170</i>&nbsp;	 * Add a new baby record to database
+<i>171</i>&nbsp;	 * @param baby
+<i>172</i>&nbsp;	 * @throws SQLException
+<i>173</i>&nbsp;	 * @throws DBException
+<i>174</i>&nbsp;	 */
+<i>175</i>&nbsp;	public void addBaby(CHVBabyBean baby) throws SQLException, DBException {
+<i>176</i>&nbsp;		try {
+<b class="fc"><i>177</i>&nbsp;			Connection conn = factory.getConnection();</b>
+<b class="fc"><i>178</i>&nbsp;			PreparedStatement ps = conn.prepareStatement(</b>
+<i>179</i>&nbsp;						&quot;INSERT INTO chvbaby (delivery_id, mid, first_name, last_name, gender) &quot;
+<i>180</i>&nbsp;								+ &quot;VALUES (?, ?, ?, ?, ?)&quot;);
+<b class="fc"><i>181</i>&nbsp;			ps.setLong(1, baby.getDeliveryID());</b>
+<b class="fc"><i>182</i>&nbsp;			ps.setLong(2, baby.getMid());</b>
+<b class="fc"><i>183</i>&nbsp;			ps.setString(3, baby.getFirstName());</b>
+<b class="fc"><i>184</i>&nbsp;			ps.setString(4, baby.getLastName());</b>
+<b class="fc"><i>185</i>&nbsp;			ps.setString(5,  baby.getGender());</b>
+<i>186</i>&nbsp;			
+<b class="fc"><i>187</i>&nbsp;			ps.executeUpdate();</b>
+<b class="fc"><i>188</i>&nbsp;			conn.close();</b>
+<b class="nc"><i>189</i>&nbsp;		} catch (SQLException e) {</b>
+<b class="nc"><i>190</i>&nbsp;			e.printStackTrace();</b>
+<b class="nc"><i>191</i>&nbsp;			throw new DBException(e);</b>
+<b class="fc"><i>192</i>&nbsp;		}</b>
+<b class="fc"><i>193</i>&nbsp;	}</b>
+<i>194</i>&nbsp;	
+<i>195</i>&nbsp;	/**
+<i>196</i>&nbsp;	 * Retrieve all baby records associated with a delivery from database
+<i>197</i>&nbsp;	 * @param delivery_id
+<i>198</i>&nbsp;	 * @return
+<i>199</i>&nbsp;	 * @throws SQLException
+<i>200</i>&nbsp;	 * @throws DBException
+<i>201</i>&nbsp;	 */
+<i>202</i>&nbsp;	public List&lt;CHVBabyBean&gt; getBabiesFor(long delivery_id) throws SQLException, DBException {
+<i>203</i>&nbsp;		try {
+<b class="fc"><i>204</i>&nbsp;			Connection conn = factory.getConnection();</b>
+<i>205</i>&nbsp;		
+<b class="fc"><i>206</i>&nbsp;			PreparedStatement stmt = conn.prepareStatement(&quot;SELECT * FROM chvbaby WHERE delivery_id=? order by baby_id desc;&quot;);</b>
+<b class="fc"><i>207</i>&nbsp;			stmt.setLong(1, delivery_id);</b>
+<i>208</i>&nbsp;
+<b class="fc"><i>209</i>&nbsp;			ResultSet rs = stmt.executeQuery();</b>
+<b class="fc"><i>210</i>&nbsp;			List&lt;CHVBabyBean&gt; list = new ArrayList&lt;CHVBabyBean&gt;();</b>
+<b class="fc"><i>211</i>&nbsp;			while (rs.next()) {</b>
+<b class="fc"><i>212</i>&nbsp;				CHVBabyBean bean = new CHVBabyBean();</b>
+<b class="fc"><i>213</i>&nbsp;				bean.setBabyID(rs.getLong(&quot;baby_id&quot;));</b>
+<b class="fc"><i>214</i>&nbsp;				bean.setDeliveryID(rs.getLong(&quot;delivery_id&quot;));</b>
+<b class="fc"><i>215</i>&nbsp;				bean.setMid(rs.getLong(&quot;mid&quot;));</b>
+<b class="fc"><i>216</i>&nbsp;				bean.setFirstName(rs.getString(&quot;first_name&quot;));</b>
+<b class="fc"><i>217</i>&nbsp;				bean.setLastName(rs.getString(&quot;last_name&quot;));</b>
+<b class="fc"><i>218</i>&nbsp;				bean.setGender(rs.getString(&quot;gender&quot;));</b>
+<i>219</i>&nbsp;				
+<b class="fc"><i>220</i>&nbsp;				list.add(bean);</b>
+<b class="fc"><i>221</i>&nbsp;			}</b>
+<b class="fc"><i>222</i>&nbsp;			conn.close();</b>
+<b class="fc"><i>223</i>&nbsp;			rs.close();</b>
+<b class="fc"><i>224</i>&nbsp;			return list;</b>
+<i>225</i>&nbsp;			
+<b class="nc"><i>226</i>&nbsp;		} catch (SQLException e) {</b>
+<b class="nc"><i>227</i>&nbsp;			e.printStackTrace();</b>
+<b class="nc"><i>228</i>&nbsp;			throw new DBException(e);</b>
+<i>229</i>&nbsp;		}
+<i>230</i>&nbsp;
+<i>231</i>&nbsp;	}
+<i>232</i>&nbsp;	
+<i>233</i>&nbsp;	/**
+<i>234</i>&nbsp;	 * Retrive a baby record based on baby ID
+<i>235</i>&nbsp;	 * @param baby_id
+<i>236</i>&nbsp;	 * @return
+<i>237</i>&nbsp;	 * @throws SQLException
+<i>238</i>&nbsp;	 * @throws DBException
+<i>239</i>&nbsp;	 */
+<i>240</i>&nbsp;	public CHVBabyBean getBaby(long baby_id) throws SQLException, DBException {
+<i>241</i>&nbsp;		try {
+<b class="fc"><i>242</i>&nbsp;			Connection conn = factory.getConnection();</b>
+<i>243</i>&nbsp;		
+<b class="fc"><i>244</i>&nbsp;			PreparedStatement stmt = conn.prepareStatement(&quot;SELECT * FROM chvbaby WHERE baby_id=?;&quot;);</b>
+<b class="fc"><i>245</i>&nbsp;			stmt.setLong(1, baby_id);</b>
+<i>246</i>&nbsp;
+<b class="fc"><i>247</i>&nbsp;			ResultSet rs = stmt.executeQuery();</b>
+<b class="fc"><i>248</i>&nbsp;			CHVBabyBean bean = new CHVBabyBean();</b>
+<b class="fc"><i>249</i>&nbsp;			if (rs.next()) {</b>
+<b class="fc"><i>250</i>&nbsp;				bean.setBabyID(rs.getLong(&quot;baby_id&quot;));</b>
+<b class="fc"><i>251</i>&nbsp;				bean.setDeliveryID(rs.getLong(&quot;delivery_id&quot;));</b>
+<b class="fc"><i>252</i>&nbsp;				bean.setMid(rs.getLong(&quot;mid&quot;));</b>
+<b class="fc"><i>253</i>&nbsp;				bean.setFirstName(rs.getString(&quot;first_name&quot;));</b>
+<b class="fc"><i>254</i>&nbsp;				bean.setLastName(rs.getString(&quot;last_name&quot;));</b>
+<b class="fc"><i>255</i>&nbsp;				bean.setGender(rs.getString(&quot;gender&quot;));</b>
+<i>256</i>&nbsp;			}
+<i>257</i>&nbsp;
+<b class="fc"><i>258</i>&nbsp;			conn.close();</b>
+<b class="fc"><i>259</i>&nbsp;			rs.close();</b>
+<b class="fc"><i>260</i>&nbsp;			return bean;</b>
+<i>261</i>&nbsp;			
+<b class="nc"><i>262</i>&nbsp;		} catch (SQLException e) {</b>
+<b class="nc"><i>263</i>&nbsp;			e.printStackTrace();</b>
+<b class="nc"><i>264</i>&nbsp;			throw new DBException(e);</b>
+<i>265</i>&nbsp;		}
+<i>266</i>&nbsp;
+<i>267</i>&nbsp;	}
+<i>268</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-12-13 16:36</div>
+</div>
+</body>
+</html>

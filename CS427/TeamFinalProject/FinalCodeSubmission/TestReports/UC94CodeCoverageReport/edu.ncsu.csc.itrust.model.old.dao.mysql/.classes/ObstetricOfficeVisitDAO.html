@@ -1,0 +1,432 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: ObstetricOfficeVisitDAO</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">edu.ncsu.csc.itrust.model.old.dao.mysql</a> ]
+</div>
+
+<h1>Coverage Summary for Class: ObstetricOfficeVisitDAO (edu.ncsu.csc.itrust.model.old.dao.mysql)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">ObstetricOfficeVisitDAO</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (11/ 11)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    73.7%
+  </span>
+  <span class="absValue">
+    (146/ 198)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package edu.ncsu.csc.itrust.model.old.dao.mysql;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import edu.ncsu.csc.itrust.exception.DBException;
+<i>4</i>&nbsp;import edu.ncsu.csc.itrust.model.old.beans.ObstetricOVBean;
+<i>5</i>&nbsp;import edu.ncsu.csc.itrust.model.old.beans.UltraSoundBean;
+<i>6</i>&nbsp;import edu.ncsu.csc.itrust.model.old.beans.loaders.ObstetricOVBeanLoader;
+<i>7</i>&nbsp;import edu.ncsu.csc.itrust.model.old.beans.loaders.UltraSoundBeanLoader;
+<i>8</i>&nbsp;import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
+<i>9</i>&nbsp;
+<i>10</i>&nbsp;import java.sql.*;
+<i>11</i>&nbsp;import java.util.List;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;public class ObstetricOfficeVisitDAO {
+<i>14</i>&nbsp;
+<i>15</i>&nbsp;    private transient final DAOFactory factory;
+<i>16</i>&nbsp;    private transient final ObstetricOVBeanLoader oovbLoader;
+<i>17</i>&nbsp;    private transient final UltraSoundBeanLoader ultraSoundBeanLoader;
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;    /*office visit queries*/
+<i>20</i>&nbsp;    private static final String OOV_BY_PATIENT_ID_ONLY = &quot;SELECT * FROM obstetricofficevisit WHERE patientMID=?&quot;;
+<i>21</i>&nbsp;    private static final String OOV_BY_PATIENT_AND_HCP_ID = &quot;SELECT * FROM obstetricofficevisit WHERE patientMID=? AND obhcpmid=?&quot;;
+<i>22</i>&nbsp;    private static final String UPDATE_OOV_RECORD = &quot;UPDATE obstetricofficevisit set visitDate = ?, numberDaysPregnant=?, &quot; +
+<i>23</i>&nbsp;            &quot;blood_pressure=?, fhr=?, multiplet=?, llp=?, ultrasound=?, weight=? WHERE OBVisitID=?&quot;;
+<i>24</i>&nbsp;    private static final String DELETE_OOV_RECORD = &quot;delete from obstetricofficevisit where obvisitid=?&quot;;
+<i>25</i>&nbsp;
+<i>26</i>&nbsp;    private static final String INSERT_OOV_RECORD = &quot;INSERT INTO obstetricOfficeVisit (OBhcpMID, patientMID, visitDate, &quot; +
+<i>27</i>&nbsp;            &quot;numberDaysPregnant, blood_pressure, fhr, multiplet, llp, ultrasound, weight) &quot; +
+<i>28</i>&nbsp;            &quot;VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)&quot;;
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;    /*ultrasound queries */
+<i>31</i>&nbsp;    private static final String INSERT_ULTRASOUND_RECORD = &quot;insert into ultrasound_records (patient_mid, create_date,&quot; +
+<i>32</i>&nbsp;            &quot;obstetric_office_visit_id, image_location, crown_rump_length, biparietal_diameter, head_circumference,&quot; +
+<i>33</i>&nbsp;            &quot;femur_length, occipitofrontal_diameter, abdominal_circumference, humerus_length, estimated_fetal_weight) &quot; +
+<i>34</i>&nbsp;            &quot;VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)&quot;;
+<i>35</i>&nbsp;
+<i>36</i>&nbsp;    private static final String UPDATE_ULTRASOUND_RECORD = &quot;update ultrasound_records set create_date=?,&quot; +
+<i>37</i>&nbsp;            &quot;crown_rump_length=?, biparietal_diameter=?, head_circumference=?,&quot; +
+<i>38</i>&nbsp;            &quot;femur_length=?, occipitofrontal_diameter=?, abdominal_circumference=?, humerus_length=?, estimated_fetal_weight=? &quot; +
+<i>39</i>&nbsp;            &quot;where ultrasound_record_id = ? and patient_mid = ? and obstetric_office_visit_id = ?&quot;;
+<i>40</i>&nbsp;
+<i>41</i>&nbsp;    private static final String INSERT_ULTRASOUND_IMAGE = &quot;insert into ultrasound_records (image_location,patient_mid,obstetric_office_visit_id) &quot; +
+<i>42</i>&nbsp;            &quot;VALUES (?,?,?)&quot;;
+<i>43</i>&nbsp;    private static final String UPDATE_ULTRASOUND_IMAGE = &quot;update ultrasound_records set image_location=? &quot; +
+<i>44</i>&nbsp;            &quot;where ultrasound_record_id = ? and patient_mid = ? and obstetric_office_visit_id = ?&quot;;
+<i>45</i>&nbsp;
+<i>46</i>&nbsp;    private static final String ULTRASOUND_RECORDS = &quot;select * from ultrasound_records where patient_mid = ? &quot; +
+<i>47</i>&nbsp;            &quot;and obstetric_office_visit_id = ?&quot;;
+<i>48</i>&nbsp;
+<b class="fc"><i>49</i>&nbsp;    public ObstetricOfficeVisitDAO(DAOFactory factory) {</b>
+<b class="fc"><i>50</i>&nbsp;        this.factory = factory;</b>
+<b class="fc"><i>51</i>&nbsp;        this.oovbLoader = new ObstetricOVBeanLoader();</b>
+<b class="fc"><i>52</i>&nbsp;        this.ultraSoundBeanLoader = new UltraSoundBeanLoader();</b>
+<b class="fc"><i>53</i>&nbsp;    }</b>
+<i>54</i>&nbsp;
+<i>55</i>&nbsp;    /*UC-94 User story 1: for retrieving Obstetric office visit patient mid only */
+<i>56</i>&nbsp;    public List&lt;ObstetricOVBean&gt; getPatientOfficeVisitsByPatientId(long patientMid) throws DBException {
+<i>57</i>&nbsp;
+<b class="fc"><i>58</i>&nbsp;        List&lt;ObstetricOVBean&gt; ovList = null;</b>
+<b class="fc"><i>59</i>&nbsp;        Connection conn = null;</b>
+<b class="fc"><i>60</i>&nbsp;        PreparedStatement stmt = null;</b>
+<i>61</i>&nbsp;
+<i>62</i>&nbsp;        try {
+<b class="fc"><i>63</i>&nbsp;            conn = factory.getConnection();</b>
+<b class="fc"><i>64</i>&nbsp;            stmt = conn.prepareStatement(OOV_BY_PATIENT_ID_ONLY);</b>
+<b class="fc"><i>65</i>&nbsp;            stmt.setLong(1, patientMid);</b>
+<i>66</i>&nbsp;
+<b class="fc"><i>67</i>&nbsp;            final ResultSet results = stmt.executeQuery();</b>
+<b class="fc"><i>68</i>&nbsp;            ovList = this.oovbLoader.loadList(results);</b>
+<i>69</i>&nbsp;
+<b class="fc"><i>70</i>&nbsp;            results.close();</b>
+<b class="fc"><i>71</i>&nbsp;            stmt.close();</b>
+<i>72</i>&nbsp;
+<b class="nc"><i>73</i>&nbsp;        } catch (SQLException sqe) {</b>
+<b class="nc"><i>74</i>&nbsp;            throw new DBException(sqe);</b>
+<i>75</i>&nbsp;        } finally {
+<b class="fc"><i>76</i>&nbsp;           handleConnectionHelper(conn,stmt);</b>
+<b class="fc"><i>77</i>&nbsp;        }</b>
+<i>78</i>&nbsp;
+<b class="fc"><i>79</i>&nbsp;        return ovList;</b>
+<i>80</i>&nbsp;    }
+<i>81</i>&nbsp;
+<i>82</i>&nbsp;    /*UC-94 User story 1: for retrieving Obstetric office visit patient mid + hcp mid */
+<i>83</i>&nbsp;    public List&lt;ObstetricOVBean&gt; getPatientOfficeVisitsByPatientHCPId(long patientMid, long hcpMid) throws DBException {
+<i>84</i>&nbsp;
+<b class="fc"><i>85</i>&nbsp;        List&lt;ObstetricOVBean&gt; ovList = null;</b>
+<b class="fc"><i>86</i>&nbsp;        Connection conn = null;</b>
+<b class="fc"><i>87</i>&nbsp;        PreparedStatement stmt = null;</b>
+<i>88</i>&nbsp;
+<i>89</i>&nbsp;        try {
+<b class="fc"><i>90</i>&nbsp;            conn = factory.getConnection();</b>
+<b class="fc"><i>91</i>&nbsp;            stmt = conn.prepareStatement(OOV_BY_PATIENT_AND_HCP_ID);</b>
+<b class="fc"><i>92</i>&nbsp;            stmt.setLong(1, patientMid);</b>
+<b class="fc"><i>93</i>&nbsp;            stmt.setLong(2, hcpMid);</b>
+<i>94</i>&nbsp;
+<b class="fc"><i>95</i>&nbsp;            final ResultSet results = stmt.executeQuery();</b>
+<b class="fc"><i>96</i>&nbsp;            ovList = this.oovbLoader.loadList(results);</b>
+<i>97</i>&nbsp;
+<b class="fc"><i>98</i>&nbsp;            results.close();</b>
+<b class="fc"><i>99</i>&nbsp;            stmt.close();</b>
+<i>100</i>&nbsp;
+<b class="nc"><i>101</i>&nbsp;        } catch (SQLException sqe) {</b>
+<b class="nc"><i>102</i>&nbsp;            throw new DBException(sqe);</b>
+<i>103</i>&nbsp;        } finally {
+<b class="fc"><i>104</i>&nbsp;            handleConnectionHelper(conn,stmt);</b>
+<b class="fc"><i>105</i>&nbsp;        }</b>
+<i>106</i>&nbsp;
+<b class="fc"><i>107</i>&nbsp;        return ovList;</b>
+<i>108</i>&nbsp;    }
+<i>109</i>&nbsp;
+<i>110</i>&nbsp;    public boolean validateOBPatient (ObstetricOVBean obstetricOVBean) throws DBException{
+<b class="fc"><i>111</i>&nbsp;        List&lt;ObstetricOVBean&gt; obstetricOVBeans =</b>
+<b class="fc"><i>112</i>&nbsp;                getPatientOfficeVisitsByPatientId(obstetricOVBean.getPatientMID());</b>
+<b class="fc"><i>113</i>&nbsp;        return obstetricOVBeans!=null &amp;&amp; !obstetricOVBeans.isEmpty()?Boolean.TRUE:Boolean.FALSE;</b>
+<i>114</i>&nbsp;    }
+<i>115</i>&nbsp;
+<i>116</i>&nbsp;    /* update obstetrics record*/
+<i>117</i>&nbsp;    public ObstetricOVBean updateObstetricRecord (ObstetricOVBean obstetricOVBean) throws DBException{
+<i>118</i>&nbsp;
+<b class="fc"><i>119</i>&nbsp;        Connection conn = null;</b>
+<b class="fc"><i>120</i>&nbsp;        PreparedStatement stmt = null;</b>
+<b class="fc"><i>121</i>&nbsp;        boolean isUpdated = false;</b>
+<i>122</i>&nbsp;        try {
+<b class="fc"><i>123</i>&nbsp;            conn = factory.getConnection();</b>
+<b class="fc"><i>124</i>&nbsp;            stmt = conn.prepareStatement(UPDATE_OOV_RECORD);</b>
+<b class="fc"><i>125</i>&nbsp;            stmt.setTimestamp(1, obstetricOVBean.getVisitDate());</b>
+<b class="fc"><i>126</i>&nbsp;            stmt.setLong(2, obstetricOVBean.getNumberDaysPregnant());</b>
+<b class="fc"><i>127</i>&nbsp;            stmt.setString(3, obstetricOVBean.getBloodPressure());</b>
+<b class="fc"><i>128</i>&nbsp;            stmt.setShort(4, obstetricOVBean.getFhr());</b>
+<b class="fc"><i>129</i>&nbsp;            stmt.setByte(5, obstetricOVBean.getMultiplet());</b>
+<b class="fc"><i>130</i>&nbsp;            stmt.setByte(6, obstetricOVBean.getLlp());</b>
+<b class="fc"><i>131</i>&nbsp;            stmt.setByte(7, obstetricOVBean.getUltraSound());</b>
+<b class="fc"><i>132</i>&nbsp;            stmt.setShort(8, obstetricOVBean.getWeight());</b>
+<b class="fc"><i>133</i>&nbsp;            stmt.setLong(9, obstetricOVBean.getObVisitID());</b>
+<i>134</i>&nbsp;
+<i>135</i>&nbsp;
+<b class="fc"><i>136</i>&nbsp;            final int isExecuted = stmt.executeUpdate();</b>
+<b class="fc"><i>137</i>&nbsp;            if (isExecuted &gt; 0) {</b>
+<b class="fc"><i>138</i>&nbsp;                isUpdated = true;</b>
+<i>139</i>&nbsp;            }
+<b class="fc"><i>140</i>&nbsp;            stmt.close();</b>
+<i>141</i>&nbsp;
+<b class="nc"><i>142</i>&nbsp;        } catch (SQLException sqe) {</b>
+<b class="nc"><i>143</i>&nbsp;            throw new DBException(sqe);</b>
+<i>144</i>&nbsp;        } finally {
+<b class="fc"><i>145</i>&nbsp;            handleConnectionHelper(conn,stmt);</b>
+<b class="fc"><i>146</i>&nbsp;        }</b>
+<b class="fc"><i>147</i>&nbsp;        return obstetricOVBean;</b>
+<i>148</i>&nbsp;    }
+<i>149</i>&nbsp;
+<i>150</i>&nbsp;
+<i>151</i>&nbsp;    /* delete obstetrics record*/
+<i>152</i>&nbsp;    public boolean deleteObstetricRecord (ObstetricOVBean obstetricOVBean) throws DBException{
+<b class="fc"><i>153</i>&nbsp;        Connection conn = null;</b>
+<b class="fc"><i>154</i>&nbsp;        PreparedStatement stmt = null;</b>
+<i>155</i>&nbsp;        try {
+<b class="fc"><i>156</i>&nbsp;            conn = factory.getConnection();</b>
+<b class="fc"><i>157</i>&nbsp;            stmt = conn.prepareStatement(DELETE_OOV_RECORD);</b>
+<b class="fc"><i>158</i>&nbsp;            stmt.setLong(1, obstetricOVBean.getObVisitID());</b>
+<b class="fc"><i>159</i>&nbsp;            return stmt.executeUpdate()&gt;0?true:false;</b>
+<b class="nc"><i>160</i>&nbsp;        } catch (SQLException sqe) {</b>
+<b class="nc"><i>161</i>&nbsp;            throw new DBException(sqe);</b>
+<i>162</i>&nbsp;        } finally {
+<b class="fc"><i>163</i>&nbsp;            handleConnectionHelper(conn,stmt);</b>
+<b class="nc"><i>164</i>&nbsp;        }</b>
+<i>165</i>&nbsp;    }
+<i>166</i>&nbsp;
+<i>167</i>&nbsp;    public Long addObstetricRecord (ObstetricOVBean obstetricOVBean) throws DBException{
+<i>168</i>&nbsp;
+<b class="fc"><i>169</i>&nbsp;        Connection conn = null;</b>
+<b class="fc"><i>170</i>&nbsp;        PreparedStatement stmt = null;</b>
+<i>171</i>&nbsp;        try {
+<b class="fc"><i>172</i>&nbsp;            conn = factory.getConnection();</b>
+<b class="fc"><i>173</i>&nbsp;            stmt = conn.prepareStatement(INSERT_OOV_RECORD,Statement.RETURN_GENERATED_KEYS);</b>
+<i>174</i>&nbsp;
+<b class="fc"><i>175</i>&nbsp;            stmt.setLong(1, obstetricOVBean.getoBhcpMID());</b>
+<b class="fc"><i>176</i>&nbsp;            stmt.setLong(2, obstetricOVBean.getPatientMID());</b>
+<b class="fc"><i>177</i>&nbsp;            stmt.setTimestamp(3, obstetricOVBean.getVisitDate()!=null?</b>
+<b class="fc"><i>178</i>&nbsp;                    obstetricOVBean.getVisitDate(): new Timestamp(System.currentTimeMillis()));</b>
+<b class="fc"><i>179</i>&nbsp;            stmt.setLong(4, obstetricOVBean.getNumberDaysPregnant());</b>
+<b class="fc"><i>180</i>&nbsp;            stmt.setString(5, obstetricOVBean.getBloodPressure()!=null?</b>
+<b class="fc"><i>181</i>&nbsp;                    obstetricOVBean.getBloodPressure():&quot;0/0&quot;);</b>
+<b class="fc"><i>182</i>&nbsp;            stmt.setShort(6, obstetricOVBean.getFhr());</b>
+<b class="fc"><i>183</i>&nbsp;            stmt.setByte(7, obstetricOVBean.getMultiplet());</b>
+<b class="fc"><i>184</i>&nbsp;            stmt.setByte(8, obstetricOVBean.getLlp());</b>
+<b class="fc"><i>185</i>&nbsp;            stmt.setByte(9, obstetricOVBean.getUltraSound());</b>
+<b class="fc"><i>186</i>&nbsp;            stmt.setShort(10, obstetricOVBean.getWeight());</b>
+<i>187</i>&nbsp;
+<b class="fc"><i>188</i>&nbsp;            stmt.execute();</b>
+<i>189</i>&nbsp;
+<b class="fc"><i>190</i>&nbsp;            Long officeVisitId = null;</b>
+<b class="fc"><i>191</i>&nbsp;            ResultSet rs = stmt.getGeneratedKeys();</b>
+<b class="fc"><i>192</i>&nbsp;            if (rs.next()){</b>
+<b class="fc"><i>193</i>&nbsp;                officeVisitId=rs.getLong(1);</b>
+<i>194</i>&nbsp;            }
+<b class="fc"><i>195</i>&nbsp;            return officeVisitId;</b>
+<i>196</i>&nbsp;
+<b class="nc"><i>197</i>&nbsp;        } catch (SQLException sqe) {</b>
+<b class="nc"><i>198</i>&nbsp;            throw new DBException(sqe);</b>
+<i>199</i>&nbsp;        } finally {
+<b class="fc"><i>200</i>&nbsp;            handleConnectionHelper(conn,stmt);</b>
+<b class="nc"><i>201</i>&nbsp;        }</b>
+<i>202</i>&nbsp;    }
+<i>203</i>&nbsp;
+<i>204</i>&nbsp;    /**OBSTETRIC ULTRASOUND CHECK STARTS FROM HERE**/
+<i>205</i>&nbsp;    public List&lt;UltraSoundBean&gt; getPatientUltraSoundRecords (Long patientId, Long obstetricOfficeVisitId) throws DBException{
+<b class="fc"><i>206</i>&nbsp;        Connection conn = null;</b>
+<b class="fc"><i>207</i>&nbsp;        PreparedStatement stmt = null;</b>
+<i>208</i>&nbsp;        try {
+<b class="fc"><i>209</i>&nbsp;            if (patientId !=null &amp;&amp; obstetricOfficeVisitId != null) {</b>
+<b class="fc"><i>210</i>&nbsp;                conn = factory.getConnection();</b>
+<b class="fc"><i>211</i>&nbsp;                stmt = conn.prepareStatement(ULTRASOUND_RECORDS);</b>
+<b class="fc"><i>212</i>&nbsp;                stmt.setLong(1, patientId);</b>
+<b class="fc"><i>213</i>&nbsp;                stmt.setLong(2, obstetricOfficeVisitId);</b>
+<b class="fc"><i>214</i>&nbsp;                final ResultSet results = stmt.executeQuery();</b>
+<i>215</i>&nbsp;
+<b class="fc"><i>216</i>&nbsp;                List&lt;UltraSoundBean&gt; ultraSoundBeanList = this.ultraSoundBeanLoader.loadList(results);</b>
+<b class="fc"><i>217</i>&nbsp;                return  ultraSoundBeanList;</b>
+<i>218</i>&nbsp;            }
+<b class="nc"><i>219</i>&nbsp;        } catch (SQLException sqe) {</b>
+<b class="nc"><i>220</i>&nbsp;            throw new DBException(sqe);</b>
+<i>221</i>&nbsp;        } finally {
+<b class="fc"><i>222</i>&nbsp;            handleConnectionHelper(conn,stmt);</b>
+<b class="nc"><i>223</i>&nbsp;        }</b>
+<b class="nc"><i>224</i>&nbsp;        return null;</b>
+<i>225</i>&nbsp;    }
+<i>226</i>&nbsp;
+<i>227</i>&nbsp;    public Long addOrUpdatePatientUltraSoundImage (UltraSoundBean ultraSoundBean) throws DBException{
+<b class="fc"><i>228</i>&nbsp;        Connection conn = null;</b>
+<b class="fc"><i>229</i>&nbsp;        PreparedStatement stmt = null;</b>
+<i>230</i>&nbsp;        try {
+<b class="fc"><i>231</i>&nbsp;            if (ultraSoundBean!=null) {</b>
+<b class="fc"><i>232</i>&nbsp;                conn = factory.getConnection();</b>
+<i>233</i>&nbsp;
+<b class="fc"><i>234</i>&nbsp;                List&lt;UltraSoundBean&gt; existingUltraSoundRecord = getPatientUltraSoundRecords(ultraSoundBean.getPatientMid()</b>
+<b class="fc"><i>235</i>&nbsp;                        ,ultraSoundBean.getObstetricOfficeVisitId());</b>
+<i>236</i>&nbsp;
+<b class="fc"><i>237</i>&nbsp;                if (existingUltraSoundRecord!=null &amp;&amp; !existingUltraSoundRecord.isEmpty()) {</b>
+<i>238</i>&nbsp;                    //update
+<b class="fc"><i>239</i>&nbsp;                    UltraSoundBean existingUltraSoundBean = existingUltraSoundRecord.get(0);</b>
+<b class="fc"><i>240</i>&nbsp;                    stmt = conn.prepareStatement(UPDATE_ULTRASOUND_IMAGE);</b>
+<b class="fc"><i>241</i>&nbsp;                    stmt.setString(1, ultraSoundBean.getImageLocation());</b>
+<b class="fc"><i>242</i>&nbsp;                    stmt.setLong(2, existingUltraSoundBean.getUltraSoundRecordId());</b>
+<b class="fc"><i>243</i>&nbsp;                    stmt.setLong(3, existingUltraSoundBean.getPatientMid());</b>
+<b class="fc"><i>244</i>&nbsp;                    stmt.setLong(4, existingUltraSoundBean.getObstetricOfficeVisitId());</b>
+<b class="fc"><i>245</i>&nbsp;                    stmt.execute();</b>
+<i>246</i>&nbsp;
+<b class="fc"><i>247</i>&nbsp;                    return existingUltraSoundBean.getUltraSoundRecordId();</b>
+<i>248</i>&nbsp;                } else {
+<i>249</i>&nbsp;                    //insert
+<b class="nc"><i>250</i>&nbsp;                    stmt = conn.prepareStatement(INSERT_ULTRASOUND_IMAGE, Statement.RETURN_GENERATED_KEYS);</b>
+<b class="nc"><i>251</i>&nbsp;                    stmt.setString(1, ultraSoundBean.getImageLocation());</b>
+<b class="nc"><i>252</i>&nbsp;                    stmt.setLong(2, ultraSoundBean.getPatientMid());</b>
+<b class="nc"><i>253</i>&nbsp;                    stmt.setLong(3, ultraSoundBean.getObstetricOfficeVisitId());</b>
+<b class="nc"><i>254</i>&nbsp;                    stmt.execute();</b>
+<i>255</i>&nbsp;
+<b class="nc"><i>256</i>&nbsp;                    Long ultraSoundRecordId = null;</b>
+<b class="nc"><i>257</i>&nbsp;                    ResultSet rs = stmt.getGeneratedKeys();</b>
+<b class="nc"><i>258</i>&nbsp;                    if (rs.next()) {</b>
+<b class="nc"><i>259</i>&nbsp;                        ultraSoundRecordId = rs.getLong(1);</b>
+<i>260</i>&nbsp;                    }
+<b class="nc"><i>261</i>&nbsp;                    return ultraSoundRecordId;</b>
+<i>262</i>&nbsp;                }
+<i>263</i>&nbsp;            }
+<b class="nc"><i>264</i>&nbsp;        } catch (SQLException sqe) {</b>
+<b class="nc"><i>265</i>&nbsp;            throw new DBException(sqe);</b>
+<i>266</i>&nbsp;        } finally {
+<b class="fc"><i>267</i>&nbsp;            handleConnectionHelper(conn,stmt);</b>
+<b class="nc"><i>268</i>&nbsp;        }</b>
+<b class="nc"><i>269</i>&nbsp;        return null;</b>
+<i>270</i>&nbsp;    }
+<i>271</i>&nbsp;
+<i>272</i>&nbsp;    public Long addOrUpdatePatientUltraSoundReport(UltraSoundBean ultraSoundBean) throws DBException{
+<b class="fc"><i>273</i>&nbsp;        Connection conn = null;</b>
+<b class="fc"><i>274</i>&nbsp;        PreparedStatement stmt = null;</b>
+<i>275</i>&nbsp;        try {
+<b class="fc"><i>276</i>&nbsp;            if (ultraSoundBean!=null) {</b>
+<b class="fc"><i>277</i>&nbsp;                conn = factory.getConnection();</b>
+<b class="fc"><i>278</i>&nbsp;                List&lt;UltraSoundBean&gt; existingUltraSoundRecord = getPatientUltraSoundRecords(ultraSoundBean.getPatientMid()</b>
+<b class="fc"><i>279</i>&nbsp;                        ,ultraSoundBean.getObstetricOfficeVisitId());</b>
+<i>280</i>&nbsp;
+<b class="fc"><i>281</i>&nbsp;                if (existingUltraSoundRecord!=null &amp;&amp; !existingUltraSoundRecord.isEmpty()) {</b>
+<b class="nc"><i>282</i>&nbsp;                    stmt = conn.prepareStatement(UPDATE_ULTRASOUND_RECORD);</b>
+<b class="nc"><i>283</i>&nbsp;                    UltraSoundBean existingBean = existingUltraSoundRecord.get(0);</b>
+<i>284</i>&nbsp;
+<b class="nc"><i>285</i>&nbsp;                    stmt.setTimestamp(1, ultraSoundBean.getCreateDate());</b>
+<b class="nc"><i>286</i>&nbsp;                    stmt.setDouble(2, ultraSoundBean.getCrownRumpLength());</b>
+<b class="nc"><i>287</i>&nbsp;                    stmt.setDouble(3, ultraSoundBean.getBiparietalDiameter());</b>
+<b class="nc"><i>288</i>&nbsp;                    stmt.setDouble(4, ultraSoundBean.getHeadCircumference());</b>
+<b class="nc"><i>289</i>&nbsp;                    stmt.setDouble(5, ultraSoundBean.getFemurLength());</b>
+<b class="nc"><i>290</i>&nbsp;                    stmt.setDouble(6, ultraSoundBean.getOccipitofrontalDiameter());</b>
+<b class="nc"><i>291</i>&nbsp;                    stmt.setDouble(7, ultraSoundBean.getAbdominalCircumference());</b>
+<b class="nc"><i>292</i>&nbsp;                    stmt.setDouble(8, ultraSoundBean.getHumerusLength());</b>
+<b class="nc"><i>293</i>&nbsp;                    stmt.setDouble(9, ultraSoundBean.getEstimatedFetalWeight());</b>
+<i>294</i>&nbsp;
+<b class="nc"><i>295</i>&nbsp;                    stmt.setLong(10, existingBean.getUltraSoundRecordId());</b>
+<b class="nc"><i>296</i>&nbsp;                    stmt.setLong(11, existingBean.getPatientMid());</b>
+<b class="nc"><i>297</i>&nbsp;                    stmt.setLong(12, existingBean.getObstetricOfficeVisitId());</b>
+<b class="nc"><i>298</i>&nbsp;                    stmt.execute();</b>
+<i>299</i>&nbsp;
+<b class="nc"><i>300</i>&nbsp;                    return existingBean.getUltraSoundRecordId();</b>
+<i>301</i>&nbsp;                } else {
+<b class="fc"><i>302</i>&nbsp;                    stmt = conn.prepareStatement(INSERT_ULTRASOUND_RECORD, Statement.RETURN_GENERATED_KEYS);</b>
+<b class="fc"><i>303</i>&nbsp;                    stmt.setLong(1, ultraSoundBean.getPatientMid());</b>
+<b class="fc"><i>304</i>&nbsp;                    stmt.setTimestamp(2, ultraSoundBean.getCreateDate());</b>
+<b class="fc"><i>305</i>&nbsp;                    stmt.setLong(3, ultraSoundBean.getObstetricOfficeVisitId());</b>
+<b class="fc"><i>306</i>&nbsp;                    stmt.setString(4, ultraSoundBean.getImageLocation());</b>
+<b class="fc"><i>307</i>&nbsp;                    stmt.setDouble(5, ultraSoundBean.getCrownRumpLength());</b>
+<b class="fc"><i>308</i>&nbsp;                    stmt.setDouble(6, ultraSoundBean.getBiparietalDiameter());</b>
+<b class="fc"><i>309</i>&nbsp;                    stmt.setDouble(7, ultraSoundBean.getHeadCircumference());</b>
+<b class="fc"><i>310</i>&nbsp;                    stmt.setDouble(8, ultraSoundBean.getFemurLength());</b>
+<b class="fc"><i>311</i>&nbsp;                    stmt.setDouble(9, ultraSoundBean.getOccipitofrontalDiameter());</b>
+<b class="fc"><i>312</i>&nbsp;                    stmt.setDouble(10, ultraSoundBean.getAbdominalCircumference());</b>
+<b class="fc"><i>313</i>&nbsp;                    stmt.setDouble(11, ultraSoundBean.getHumerusLength());</b>
+<b class="fc"><i>314</i>&nbsp;                    stmt.setDouble(12, ultraSoundBean.getEstimatedFetalWeight());</b>
+<b class="fc"><i>315</i>&nbsp;                    stmt.execute();</b>
+<i>316</i>&nbsp;
+<b class="fc"><i>317</i>&nbsp;                    Long ultraSoundRecordId = null;</b>
+<b class="fc"><i>318</i>&nbsp;                    ResultSet rs = stmt.getGeneratedKeys();</b>
+<b class="fc"><i>319</i>&nbsp;                    if (rs.next()) {</b>
+<b class="fc"><i>320</i>&nbsp;                        ultraSoundRecordId = rs.getLong(1);</b>
+<i>321</i>&nbsp;                    }
+<b class="fc"><i>322</i>&nbsp;                    return ultraSoundRecordId;</b>
+<i>323</i>&nbsp;                }
+<i>324</i>&nbsp;
+<i>325</i>&nbsp;            }
+<b class="nc"><i>326</i>&nbsp;        } catch (SQLException sqe) {</b>
+<b class="nc"><i>327</i>&nbsp;            throw new DBException(sqe);</b>
+<i>328</i>&nbsp;        } finally {
+<b class="fc"><i>329</i>&nbsp;            handleConnectionHelper(conn,stmt);</b>
+<b class="nc"><i>330</i>&nbsp;        }</b>
+<b class="nc"><i>331</i>&nbsp;        return null;</b>
+<i>332</i>&nbsp;    }
+<i>333</i>&nbsp;
+<i>334</i>&nbsp;
+<i>335</i>&nbsp;    private void handleConnectionHelper(Connection connection, Statement statement) {
+<i>336</i>&nbsp;        try {
+<b class="fc"><i>337</i>&nbsp;            if (statement != null) {</b>
+<b class="fc"><i>338</i>&nbsp;                statement.close();</b>
+<i>339</i>&nbsp;            }
+<b class="fc"><i>340</i>&nbsp;            if(connection != null) {</b>
+<b class="fc"><i>341</i>&nbsp;                connection.close();</b>
+<i>342</i>&nbsp;            }
+<b class="nc"><i>343</i>&nbsp;        } catch (Exception ex) {</b>
+<b class="nc"><i>344</i>&nbsp;            ex.printStackTrace();</b>
+<b class="fc"><i>345</i>&nbsp;        }</b>
+<b class="fc"><i>346</i>&nbsp;    }</b>
+<i>347</i>&nbsp;
+<i>348</i>&nbsp;}
+<i>349</i>&nbsp;
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-12-13 16:49</div>
+</div>
+</body>
+</html>

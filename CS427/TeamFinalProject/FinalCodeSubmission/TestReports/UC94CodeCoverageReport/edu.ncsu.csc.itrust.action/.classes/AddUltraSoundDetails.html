@@ -1,0 +1,153 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: AddUltraSoundDetails</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">edu.ncsu.csc.itrust.action</a> ]
+</div>
+
+<h1>Coverage Summary for Class: AddUltraSoundDetails (edu.ncsu.csc.itrust.action)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AddUltraSoundDetails</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    96.8%
+  </span>
+  <span class="absValue">
+    (30/ 31)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package edu.ncsu.csc.itrust.action;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import edu.ncsu.csc.itrust.exception.FormValidationException;
+<i>4</i>&nbsp;import edu.ncsu.csc.itrust.exception.ITrustException;
+<i>5</i>&nbsp;import edu.ncsu.csc.itrust.logger.TransactionLogger;
+<i>6</i>&nbsp;import edu.ncsu.csc.itrust.model.old.beans.UltraSoundBean;
+<i>7</i>&nbsp;import edu.ncsu.csc.itrust.model.old.dao.DAOFactory;
+<i>8</i>&nbsp;import edu.ncsu.csc.itrust.model.old.dao.mysql.ObstetricOfficeVisitDAO;
+<i>9</i>&nbsp;import edu.ncsu.csc.itrust.model.old.enums.TransactionType;
+<i>10</i>&nbsp;import edu.ncsu.csc.itrust.model.old.validate.AddUltraSoundValidator;
+<i>11</i>&nbsp;import org.apache.commons.lang3.StringUtils;
+<i>12</i>&nbsp;
+<i>13</i>&nbsp;import java.text.DateFormat;
+<i>14</i>&nbsp;import java.text.SimpleDateFormat;
+<i>15</i>&nbsp;import java.util.List;
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;public class AddUltraSoundDetails {
+<i>18</i>&nbsp;
+<i>19</i>&nbsp;    public DAOFactory daoFactory;
+<i>20</i>&nbsp;    public String patientId;
+<i>21</i>&nbsp;    public Long hcpId;
+<b class="fc"><i>22</i>&nbsp;    DateFormat format = new SimpleDateFormat(&quot;MM/dd/yyyy hh:mm a&quot;);</b>
+<i>23</i>&nbsp;
+<b class="fc"><i>24</i>&nbsp;    public AddUltraSoundDetails(DAOFactory daoFactory, String patientId, Long hcpId) {</b>
+<b class="fc"><i>25</i>&nbsp;        this.daoFactory = daoFactory;</b>
+<b class="fc"><i>26</i>&nbsp;        this.patientId = patientId;</b>
+<b class="fc"><i>27</i>&nbsp;        this.hcpId = hcpId;</b>
+<b class="fc"><i>28</i>&nbsp;    }</b>
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;    public UltraSoundBean getPatientExistingUltraSoundRecord(Long patientId, Long officeVisitId) throws FormValidationException, ITrustException {
+<b class="fc"><i>31</i>&nbsp;        ObstetricOfficeVisitDAO obstetricOfficeVisitDAO = daoFactory.getObstetricOfficeVisitDAO();</b>
+<b class="fc"><i>32</i>&nbsp;        if (obstetricOfficeVisitDAO !=null) {</b>
+<b class="fc"><i>33</i>&nbsp;            if (patientId!=null &amp;&amp; officeVisitId != null) {</b>
+<b class="fc"><i>34</i>&nbsp;                List&lt;UltraSoundBean&gt; beanStalk = obstetricOfficeVisitDAO.getPatientUltraSoundRecords(patientId, officeVisitId);</b>
+<b class="fc"><i>35</i>&nbsp;                UltraSoundBean magicBean = null;</b>
+<b class="fc"><i>36</i>&nbsp;                if (beanStalk!=null &amp;&amp; !beanStalk.isEmpty()) {</b>
+<b class="fc"><i>37</i>&nbsp;                    magicBean = beanStalk.get(0);</b>
+<i>38</i>&nbsp;                }
+<b class="fc"><i>39</i>&nbsp;                return magicBean;</b>
+<i>40</i>&nbsp;            } else {
+<b class="fc"><i>41</i>&nbsp;                throw new FormValidationException(&quot;patient id or hcp id cannot be empty/null&quot;);</b>
+<i>42</i>&nbsp;            }
+<i>43</i>&nbsp;        }
+<b class="nc"><i>44</i>&nbsp;        return null;</b>
+<i>45</i>&nbsp;    }
+<i>46</i>&nbsp;
+<i>47</i>&nbsp;    public UltraSoundBean addOrUpdateUltraSoundRecord(UltraSoundBean ultraSoundBean)throws FormValidationException, ITrustException {
+<i>48</i>&nbsp;
+<b class="fc"><i>49</i>&nbsp;        ObstetricOfficeVisitDAO obstetricOfficeVisitDAO = daoFactory.getObstetricOfficeVisitDAO();</b>
+<b class="fc"><i>50</i>&nbsp;        if (obstetricOfficeVisitDAO != null) {</b>
+<b class="fc"><i>51</i>&nbsp;            if (!StringUtils.isEmpty(ultraSoundBean.getImageLocation())</b>
+<b class="fc"><i>52</i>&nbsp;                &amp;&amp; ultraSoundBean.getImage() !=null) {</b>
+<b class="fc"><i>53</i>&nbsp;                Long ultraSoundBeanId = obstetricOfficeVisitDAO.addOrUpdatePatientUltraSoundImage(ultraSoundBean);		// Wrong bean id is return than expected</b>
+<b class="fc"><i>54</i>&nbsp;                if (ultraSoundBeanId != null &amp;&amp; ultraSoundBeanId &gt; 0) {</b>
+<b class="fc"><i>55</i>&nbsp;                    ultraSoundBean.setUltraSoundRecordId(ultraSoundBeanId);		// Information is added to the database here</b>
+<i>56</i>&nbsp;                }
+<b class="fc"><i>57</i>&nbsp;            }else {</b>
+<b class="fc"><i>58</i>&nbsp;                new AddUltraSoundValidator().validate(ultraSoundBean);</b>
+<b class="fc"><i>59</i>&nbsp;                if (obstetricOfficeVisitDAO != null) {</b>
+<b class="fc"><i>60</i>&nbsp;                    Long ultraSoundBeanId = obstetricOfficeVisitDAO.addOrUpdatePatientUltraSoundReport(ultraSoundBean);</b>
+<b class="fc"><i>61</i>&nbsp;                    if (ultraSoundBeanId != null &amp;&amp; ultraSoundBeanId &gt; 0) {</b>
+<b class="fc"><i>62</i>&nbsp;                        ultraSoundBean.setUltraSoundRecordId(ultraSoundBeanId);</b>
+<i>63</i>&nbsp;                    }
+<i>64</i>&nbsp;                }
+<i>65</i>&nbsp;            }
+<i>66</i>&nbsp;        }
+<b class="fc"><i>67</i>&nbsp;        TransactionLogger.getInstance().logTransaction(TransactionType.ULTRASOUND_CREATE_ADD, hcpId,Long.parseLong(patientId),&quot;Office Visit ID : &quot;+ultraSoundBean.getObstetricOfficeVisitId());</b>
+<b class="fc"><i>68</i>&nbsp;        return ultraSoundBean;</b>
+<i>69</i>&nbsp;    }
+<i>70</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-12-13 16:49</div>
+</div>
+</body>
+</html>

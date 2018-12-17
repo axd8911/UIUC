@@ -1,0 +1,3 @@
+[submodule "CS410/MPs/MP1"]
+	path = CS410/MPs/MP1
+	url = git@gitlab.textdata.org:nnard2/MP1.git

@@ -1,0 +1,104 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: AddUltraSoundValidator</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">edu.ncsu.csc.itrust.model.old.validate</a> ]
+</div>
+
+<h1>Coverage Summary for Class: AddUltraSoundValidator (edu.ncsu.csc.itrust.model.old.validate)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">AddUltraSoundValidator</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (2/ 2)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (11/ 11)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package edu.ncsu.csc.itrust.model.old.validate;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import edu.ncsu.csc.itrust.exception.ErrorList;
+<i>4</i>&nbsp;import edu.ncsu.csc.itrust.exception.FormValidationException;
+<i>5</i>&nbsp;import edu.ncsu.csc.itrust.model.old.beans.UltraSoundBean;
+<i>6</i>&nbsp;
+<b class="fc"><i>7</i>&nbsp;public class AddUltraSoundValidator extends BeanValidator&lt;UltraSoundBean&gt; {</b>
+<i>8</i>&nbsp;
+<i>9</i>&nbsp;    @Override
+<i>10</i>&nbsp;    public void validate(UltraSoundBean bean) throws FormValidationException {
+<b class="fc"><i>11</i>&nbsp;        ErrorList errorList = new ErrorList();</b>
+<b class="fc"><i>12</i>&nbsp;        errorList.addIfNotNull(checkFormat(&quot;Abdominal Circumference&quot;, bean.getAbdominalCircumference(), ValidationFormat.HeadCircumference, true));</b>
+<b class="fc"><i>13</i>&nbsp;        errorList.addIfNotNull(checkFormat(&quot;Biparietal Diameter&quot;, bean.getBiparietalDiameter(), ValidationFormat.HeadCircumference, true));</b>
+<b class="fc"><i>14</i>&nbsp;        errorList.addIfNotNull(checkFormat(&quot;Crown Rump Length&quot;, bean.getCrownRumpLength(), ValidationFormat.HeadCircumference, true));</b>
+<b class="fc"><i>15</i>&nbsp;        errorList.addIfNotNull(checkFormat(&quot;Estimated Fetal Weight&quot;, bean.getEstimatedFetalWeight(), ValidationFormat.HeadCircumference, true));</b>
+<b class="fc"><i>16</i>&nbsp;        errorList.addIfNotNull(checkFormat(&quot;Femur Length&quot;, bean.getFemurLength(), ValidationFormat.HeadCircumference, true));</b>
+<b class="fc"><i>17</i>&nbsp;        errorList.addIfNotNull(checkFormat(&quot;Head Circumference&quot;, bean.getHeadCircumference(), ValidationFormat.HeadCircumference, true));</b>
+<b class="fc"><i>18</i>&nbsp;        errorList.addIfNotNull(checkFormat(&quot;Humerus Circumference&quot;, bean.getHumerusLength(), ValidationFormat.HeadCircumference, true));</b>
+<b class="fc"><i>19</i>&nbsp;        errorList.addIfNotNull(checkFormat(&quot;Abdominal Circumference&quot;, bean.getOccipitofrontalDiameter(), ValidationFormat.HeadCircumference, true));</b>
+<b class="fc"><i>20</i>&nbsp;    }</b>
+<i>21</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2018-12-13 16:49</div>
+</div>
+</body>
+</html>

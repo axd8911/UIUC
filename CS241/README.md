@@ -1,0 +1,1 @@
+Here I shall aggregate notes and projects that I complete from the [public course website of CS 241](http://cs241.cs.illinois.edu/).  The goal is to prepare myself for CS 425 for which CS 241 is a prerequisite.

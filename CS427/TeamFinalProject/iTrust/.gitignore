@@ -1,0 +1,9 @@
+/build/classes/
+/build/
+/target/
+/WebRoot/WEB-INF/lib/*
+/.idea/*
+.idea
+.directory
+!/WebRoot/WEB-INF/lib/cewolf-1.1.jar
+!/WebRoot/WEB-INF/lib/jstl-1.2.jar

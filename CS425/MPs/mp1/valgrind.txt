@@ -1,0 +1,128 @@
+==17787== Memcheck, a memory error detector
+==17787== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==17787== Using Valgrind-3.13.0 and LibVEX; rerun with -h for copyright info
+==17787== Command: ./Application ./testcases/singlefailure.conf
+==17787==
+==17787== Invalid write of size 2
+==17787==    at 0x4C36753: memmove (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17787==    by 0x10AF7B: MP1Node::recvCallBack(void*, char*, int) (MP1Node.cpp:274)
+==17787==    by 0x10ADAC: MP1Node::checkMessages() (MP1Node.cpp:219)
+==17787==    by 0x10ACF9: MP1Node::nodeLoop() (MP1Node.cpp:192)
+==17787==    by 0x10FB0E: Application::mp1Run() (Application.cpp:155)
+==17787==    by 0x10F80E: Application::run() (Application.cpp:101)
+==17787==    by 0x10F36D: main (Application.cpp:37)
+==17787==  Address 0x5b849e8 is 0 bytes after a block of size 8 alloc'd
+==17787==    at 0x4C2FB0F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17787==    by 0x10AF46: MP1Node::recvCallBack(void*, char*, int) (MP1Node.cpp:270)
+==17787==    by 0x10ADAC: MP1Node::checkMessages() (MP1Node.cpp:219)
+==17787==    by 0x10ACF9: MP1Node::nodeLoop() (MP1Node.cpp:192)
+==17787==    by 0x10FB0E: Application::mp1Run() (Application.cpp:155)
+==17787==    by 0x10F80E: Application::run() (Application.cpp:101)
+==17787==    by 0x10F36D: main (Application.cpp:37)
+==17787==
+==17787== Invalid write of size 8
+==17787==    at 0x10AF96: MP1Node::recvCallBack(void*, char*, int) (MP1Node.cpp:277)
+==17787==    by 0x10ADAC: MP1Node::checkMessages() (MP1Node.cpp:219)
+==17787==    by 0x10ACF9: MP1Node::nodeLoop() (MP1Node.cpp:192)
+==17787==    by 0x10FB0E: Application::mp1Run() (Application.cpp:155)
+==17787==    by 0x10F80E: Application::run() (Application.cpp:101)
+==17787==    by 0x10F36D: main (Application.cpp:37)
+==17787==  Address 0x5b849ea is 2 bytes after a block of size 8 alloc'd
+==17787==    at 0x4C2FB0F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17787==    by 0x10AF46: MP1Node::recvCallBack(void*, char*, int) (MP1Node.cpp:270)
+==17787==    by 0x10ADAC: MP1Node::checkMessages() (MP1Node.cpp:219)
+==17787==    by 0x10ACF9: MP1Node::nodeLoop() (MP1Node.cpp:192)
+==17787==    by 0x10FB0E: Application::mp1Run() (Application.cpp:155)
+==17787==    by 0x10F80E: Application::run() (Application.cpp:101)
+==17787==    by 0x10F36D: main (Application.cpp:37)
+==17787==
+==17787== Invalid read of size 8
+==17787==    at 0x4C367E0: memmove (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17787==    by 0x10EA5D: EmulNet::ENsend(Address*, Address*, char*, int) (EmulNet.cpp:101)
+==17787==    by 0x10AFCB: MP1Node::recvCallBack(void*, char*, int) (MP1Node.cpp:279)
+==17787==    by 0x10ADAC: MP1Node::checkMessages() (MP1Node.cpp:219)
+==17787==    by 0x10ACF9: MP1Node::nodeLoop() (MP1Node.cpp:192)
+==17787==    by 0x10FB0E: Application::mp1Run() (Application.cpp:155)
+==17787==    by 0x10F80E: Application::run() (Application.cpp:101)
+==17787==    by 0x10F36D: main (Application.cpp:37)
+==17787==  Address 0x5b849e8 is 0 bytes after a block of size 8 alloc'd
+==17787==    at 0x4C2FB0F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17787==    by 0x10AF46: MP1Node::recvCallBack(void*, char*, int) (MP1Node.cpp:270)
+==17787==    by 0x10ADAC: MP1Node::checkMessages() (MP1Node.cpp:219)
+==17787==    by 0x10ACF9: MP1Node::nodeLoop() (MP1Node.cpp:192)
+==17787==    by 0x10FB0E: Application::mp1Run() (Application.cpp:155)
+==17787==    by 0x10F80E: Application::run() (Application.cpp:101)
+==17787==    by 0x10F36D: main (Application.cpp:37)
+==17787==
+==17787== Invalid read of size 2
+==17787==    at 0x4C36750: memmove (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17787==    by 0x10EA5D: EmulNet::ENsend(Address*, Address*, char*, int) (EmulNet.cpp:101)
+==17787==    by 0x10AFCB: MP1Node::recvCallBack(void*, char*, int) (MP1Node.cpp:279)
+==17787==    by 0x10ADAC: MP1Node::checkMessages() (MP1Node.cpp:219)
+==17787==    by 0x10ACF9: MP1Node::nodeLoop() (MP1Node.cpp:192)
+==17787==    by 0x10FB0E: Application::mp1Run() (Application.cpp:155)
+==17787==    by 0x10F80E: Application::run() (Application.cpp:101)
+==17787==    by 0x10F36D: main (Application.cpp:37)
+==17787==  Address 0x5b849f0 is 8 bytes after a block of size 8 alloc'd
+==17787==    at 0x4C2FB0F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17787==    by 0x10AF46: MP1Node::recvCallBack(void*, char*, int) (MP1Node.cpp:270)
+==17787==    by 0x10ADAC: MP1Node::checkMessages() (MP1Node.cpp:219)
+==17787==    by 0x10ACF9: MP1Node::nodeLoop() (MP1Node.cpp:192)
+==17787==    by 0x10FB0E: Application::mp1Run() (Application.cpp:155)
+==17787==    by 0x10F80E: Application::run() (Application.cpp:101)
+==17787==    by 0x10F36D: main (Application.cpp:37)
+==17787==
+==17787== Invalid write of size 4
+==17787==    at 0x10B941: MP1Node::nodeLoopOps() (MP1Node.cpp:465)
+==17787==    by 0x10AD18: MP1Node::nodeLoop() (MP1Node.cpp:200)
+==17787==    by 0x10FB0E: Application::mp1Run() (Application.cpp:155)
+==17787==    by 0x10F80E: Application::run() (Application.cpp:101)
+==17787==    by 0x10F36D: main (Application.cpp:37)
+==17787==  Address 0x5c15b1e is 0 bytes after a block of size 126 alloc'd
+==17787==    at 0x4C2FB0F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17787==    by 0x10B822: MP1Node::nodeLoopOps() (MP1Node.cpp:450)
+==17787==    by 0x10AD18: MP1Node::nodeLoop() (MP1Node.cpp:200)
+==17787==    by 0x10FB0E: Application::mp1Run() (Application.cpp:155)
+==17787==    by 0x10F80E: Application::run() (Application.cpp:101)
+==17787==    by 0x10F36D: main (Application.cpp:37)
+==17787==
+==17787== Invalid write of size 2
+==17787==    at 0x10B979: MP1Node::nodeLoopOps() (MP1Node.cpp:470)
+==17787==    by 0x10AD18: MP1Node::nodeLoop() (MP1Node.cpp:200)
+==17787==    by 0x10FB0E: Application::mp1Run() (Application.cpp:155)
+==17787==    by 0x10F80E: Application::run() (Application.cpp:101)
+==17787==    by 0x10F36D: main (Application.cpp:37)
+==17787==  Address 0x5c15b22 is 4 bytes after a block of size 126 alloc'd
+==17787==    at 0x4C2FB0F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17787==    by 0x10B822: MP1Node::nodeLoopOps() (MP1Node.cpp:450)
+==17787==    by 0x10AD18: MP1Node::nodeLoop() (MP1Node.cpp:200)
+==17787==    by 0x10FB0E: Application::mp1Run() (Application.cpp:155)
+==17787==    by 0x10F80E: Application::run() (Application.cpp:101)
+==17787==    by 0x10F36D: main (Application.cpp:37)
+==17787==
+==17787== Invalid write of size 8
+==17787==    at 0x10B9B2: MP1Node::nodeLoopOps() (MP1Node.cpp:475)
+==17787==    by 0x10AD18: MP1Node::nodeLoop() (MP1Node.cpp:200)
+==17787==    by 0x10FB0E: Application::mp1Run() (Application.cpp:155)
+==17787==    by 0x10F80E: Application::run() (Application.cpp:101)
+==17787==    by 0x10F36D: main (Application.cpp:37)
+==17787==  Address 0x5c15b24 is 6 bytes after a block of size 126 alloc'd
+==17787==    at 0x4C2FB0F: malloc (in /usr/lib/valgrind/vgpreload_memcheck-amd64-linux.so)
+==17787==    by 0x10B822: MP1Node::nodeLoopOps() (MP1Node.cpp:450)
+==17787==    by 0x10AD18: MP1Node::nodeLoop() (MP1Node.cpp:200)
+==17787==    by 0x10FB0E: Application::mp1Run() (Application.cpp:155)
+==17787==    by 0x10F80E: Application::run() (Application.cpp:101)
+==17787==    by 0x10F36D: main (Application.cpp:37)
+==17787==
+Application: MP1Node.cpp:484: void MP1Node::nodeLoopOps(): Assertion `eCount == numberAlive' failed.
+==17787==
+==17787== Process terminating with default action of signal 6 (SIGABRT)
+==17787==    at 0x541BE97: raise (raise.c:51)
+==17787==    by 0x541D800: abort (abort.c:79)
+==17787==    by 0x540D399: __assert_fail_base (assert.c:92)
+==17787==    by 0x540D411: __assert_fail (assert.c:101)
+==17787==    by 0x10B9FC: MP1Node::nodeLoopOps() (MP1Node.cpp:484)
+==17787==    by 0x10AD18: MP1Node::nodeLoop() (MP1Node.cpp:200)
+==17787==    by 0x10FB0E: Application::mp1Run() (Application.cpp:155)
+==17787==    by 0x10F80E: Application::run() (Application.cpp:101)
+
