@@ -1,0 +1,9 @@
+Time taken for test1 = 0.0019593238830566
+time taken for test2 version1 = 0.0028539419174194
+Time taken for test2 version2 = 0.0022427797317505
+Time taken for test3 version1 = 0.0236785411834717
+Time taken for test3 version2 = 0.0032806873321533
+time taken for test4 = 0.0232986450195313
+time taken for test5 (dimensions 1023) = 6.0628969669342041
+time taken for test5 (dimensions 1024) = 8.0769040584564209
+time taken for test5 (dimensions 1025) = 6.0959568023681641

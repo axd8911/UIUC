@@ -1,0 +1,172 @@
+{
+  "context": {
+    "date": "2019-02-13 11:51:09",
+    "host_name": "golub162",
+    "executable": "./bin/run_benchmarks",
+    "num_cpus": 20,
+    "mhz_per_cpu": 3300,
+    "cpu_scaling_enabled": true,
+    "caches": [
+      {
+        "type": "Data",
+        "level": 1,
+        "size": 32000000,
+        "num_sharing": 1
+      },
+      {
+        "type": "Instruction",
+        "level": 1,
+        "size": 32000000,
+        "num_sharing": 1
+      },
+      {
+        "type": "Unified",
+        "level": 2,
+        "size": 256000000,
+        "num_sharing": 1
+      },
+      {
+        "type": "Unified",
+        "level": 3,
+        "size": 25600000000,
+        "num_sharing": 10
+      }
+    ],
+    "load_avg": [1.13,0.83,0.8],
+    "library_build_type": "release"
+  },
+  "benchmarks": [
+    {
+      "name": "BM_Transpose_Naive/matrix_size:2048/manual_time",
+      "run_name": "BM_Transpose_Naive/matrix_size:2048/manual_time",
+      "run_type": "iteration",
+      "iterations": 11,
+      "real_time": 6.2299011545454547e+07,
+      "cpu_time": 6.2302861181818195e+07,
+      "time_unit": "ns",
+      "items_per_second": 6.7325369952936664e+07,
+      "matrix_size": 2.0480000000000000e+03,
+      "tile_size": 2.0480000000000000e+03
+    },
+    {
+      "name": "BM_Transpose_Tiled/matrix_size:2048/tile_size:16/manual_time",
+      "run_name": "BM_Transpose_Tiled/matrix_size:2048/tile_size:16/manual_time",
+      "run_type": "iteration",
+      "iterations": 53,
+      "real_time": 1.3147588320754716e+07,
+      "cpu_time": 1.3149019905660380e+07,
+      "time_unit": "ns",
+      "items_per_second": 3.1901698605659050e+08,
+      "matrix_size": 2.0480000000000000e+03,
+      "tile_size": 1.6000000000000000e+01
+    },
+    {
+      "name": "BM_Multiply_Naive/matrix_size:2048/manual_time",
+      "run_name": "BM_Multiply_Naive/matrix_size:2048/manual_time",
+      "run_type": "iteration",
+      "iterations": 1,
+      "real_time": 1.0392244572200000e+11,
+      "cpu_time": 1.0392683353300003e+11,
+      "time_unit": "ns",
+      "items_per_second": 4.0359943137020309e+04,
+      "matrix_size": 2.0480000000000000e+03,
+      "tile_size": 2.0480000000000000e+03
+    },
+    {
+      "name": "BM_Multiply_Tiled/matrix_size:2048/tile_size:16/manual_time",
+      "run_name": "BM_Multiply_Tiled/matrix_size:2048/tile_size:16/manual_time",
+      "run_type": "iteration",
+      "iterations": 1,
+      "real_time": 1.8010867532000000e+10,
+      "cpu_time": 1.8011604932000011e+10,
+      "time_unit": "ns",
+      "items_per_second": 2.3287628941515222e+05,
+      "matrix_size": 2.0480000000000000e+03,
+      "tile_size": 1.6000000000000000e+01
+    },
+    {
+      "name": "BM_Multiply_Transposed/matrix_size:2048/manual_time",
+      "run_name": "BM_Multiply_Transposed/matrix_size:2048/manual_time",
+      "run_type": "iteration",
+      "iterations": 1,
+      "real_time": 8.5235242049999990e+09,
+      "cpu_time": 8.5238920559999084e+09,
+      "time_unit": "ns",
+      "items_per_second": 4.9208565601768013e+05,
+      "matrix_size": 2.0480000000000000e+03,
+      "tile_size": 2.0480000000000000e+03
+    },
+    {
+      "name": "BM_OpenMP_squares_serial/N:1048576/num_threads:1/manual_time",
+      "run_name": "BM_OpenMP_squares_serial/N:1048576/num_threads:1/manual_time",
+      "run_type": "iteration",
+      "iterations": 1440,
+      "real_time": 4.8669173333333398e+05,
+      "cpu_time": 4.8714210208334267e+05,
+      "time_unit": "ns",
+      "N": 1.0485760000000000e+06,
+      "items_per_second": 2.1544972478129864e+09,
+      "num_threads": 1.0000000000000000e+00
+    },
+    {
+      "name": "BM_OpenMP_squares_parallel/N:1048576/num_threads:2/manual_time",
+      "run_name": "BM_OpenMP_squares_parallel/N:1048576/num_threads:2/manual_time",
+      "run_type": "iteration",
+      "iterations": 2752,
+      "real_time": 2.5474529251453513e+05,
+      "cpu_time": 5.1020346620638983e+05,
+      "time_unit": "ns",
+      "N": 1.0485760000000000e+06,
+      "items_per_second": 4.1161741975670495e+09,
+      "num_threads": 2.0000000000000000e+00
+    },
+    {
+      "name": "BM_OpenMP_squares_parallel/N:1048576/num_threads:4/manual_time",
+      "run_name": "BM_OpenMP_squares_parallel/N:1048576/num_threads:4/manual_time",
+      "run_type": "iteration",
+      "iterations": 5087,
+      "real_time": 1.3757298859838778e+05,
+      "cpu_time": 5.5175882425790618e+05,
+      "time_unit": "ns",
+      "N": 1.0485760000000000e+06,
+      "items_per_second": 7.6219613361825895e+09,
+      "num_threads": 4.0000000000000000e+00
+    },
+    {
+      "name": "BM_OpenMP_primes_serial/N:1048576/num_threads:1/manual_time",
+      "run_name": "BM_OpenMP_primes_serial/N:1048576/num_threads:1/manual_time",
+      "run_type": "iteration",
+      "iterations": 1,
+      "real_time": 5.6629859410000000e+10,
+      "cpu_time": 5.6632333538000015e+10,
+      "time_unit": "ns",
+      "N": 1.0485760000000000e+06,
+      "items_per_second": 1.8516309433302900e+04,
+      "num_threads": 1.0000000000000000e+00
+    },
+    {
+      "name": "BM_OpenMP_primes_parallel/N:1048576/num_threads:2/manual_time",
+      "run_name": "BM_OpenMP_primes_parallel/N:1048576/num_threads:2/manual_time",
+      "run_type": "iteration",
+      "iterations": 1,
+      "real_time": 4.2515481531000000e+10,
+      "cpu_time": 5.8334046173000046e+10,
+      "time_unit": "ns",
+      "N": 1.0485760000000000e+06,
+      "items_per_second": 2.4663392304175948e+04,
+      "num_threads": 2.0000000000000000e+00
+    },
+    {
+      "name": "BM_OpenMP_primes_parallel/N:1048576/num_threads:4/manual_time",
+      "run_name": "BM_OpenMP_primes_parallel/N:1048576/num_threads:4/manual_time",
+      "run_type": "iteration",
+      "iterations": 1,
+      "real_time": 2.5654499651000000e+10,
+      "cpu_time": 6.1064220796999962e+10,
+      "time_unit": "ns",
+      "N": 1.0485760000000000e+06,
+      "items_per_second": 4.0872985802283110e+04,
+      "num_threads": 4.0000000000000000e+00
+    }
+  ]
+}

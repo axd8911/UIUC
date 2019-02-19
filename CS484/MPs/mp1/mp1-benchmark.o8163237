@@ -1,0 +1,103 @@
+----------------------------------------
+Begin Torque Prologue (Wed Feb 13 08:39:51 2019)
+Job ID:           8163237.cc-mgmt1.campuscluster.illinois.edu
+Username:         nnard2
+Group:            CS484_SP19
+Job Name:         mp1-benchmark
+Limits:           walltime=00:20:00,nodes=1:ppn=4,neednodes=1:ppn=4
+Job Queue:        cs
+Account:          cs-courses
+Nodes:            golub162
+End Torque Prologue
+----------------------------------------
+Singularity: Invoking an interactive shell within container...
+
+[0mWe seem to be in the right place.
+~/mp1/build ~/mp1
+Compiling
+Found OpenMP, building parallel part.
+Found MPI
+Charm found: /opt/charm-6.9.0/bin/charmc
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/nnard2/mp1/build
+[  8%] Built target naivelinalg
+[ 20%] Built target common
+[ 28%] Built target transpose_solution
+[ 36%] Built target transpose_runner
+[ 44%] Built target multiply_solution
+[ 52%] Built target multiply_runner
+[ 60%] Built target openmp_solution
+[ 68%] Built target openmp_runner
+[ 72%] Linking CXX executable ../bin/run_tests
+[ 76%] Built target run_tests
+[ 80%] Linking CXX executable ../bin/run_benchmarks
+[ 84%] Built target run_benchmarks
+[ 88%] Linking CXX executable ../bin/find_tile_size
+[ 92%] Built target find_tile_size
+[ 96%] Linking CXX executable ../bin/student_benchmarks
+[100%] Built target student_benchmarks
+Testing
+Running tests...
+Test project /home/nnard2/mp1/build
+    Start 1: Transpose.TiledCorrect
+1/6 Test #1: Transpose.TiledCorrect ...........   Passed    0.01 sec
+    Start 2: Cache.BestTileSize
+2/6 Test #2: Cache.BestTileSize ...............   Passed    0.00 sec
+    Start 3: Multiply.TiledCorrect
+3/6 Test #3: Multiply.TiledCorrect ............   Passed    0.00 sec
+    Start 4: Multiply.TransposedCorrect
+4/6 Test #4: Multiply.TransposedCorrect .......   Passed    0.00 sec
+    Start 5: OpenMP.SquaresCorrect
+5/6 Test #5: OpenMP.SquaresCorrect ............   Passed    0.00 sec
+    Start 6: OpenMP.PrimesCorrect
+6/6 Test #6: OpenMP.PrimesCorrect .............   Passed    0.00 sec
+
+100% tests passed, 0 tests failed out of 6
+
+Total Test time (real) =   0.03 sec
+Getting system information
+Benchmarking
+Matrix Multiplication
+Matrix Transposition
+OpenMP
+Running Google Benchmark benchmarks
+Finding best tile size
+2019-02-13 08:39:54
+Running ./bin/find_tile_size
+Run on (20 X 3300 MHz CPU s)
+CPU Caches:
+  L1 Data 32K (x20)
+  L1 Instruction 32K (x20)
+  L2 Unified 256K (x20)
+  L3 Unified 25600K (x2)
+Load Average: 0.71, 0.71, 0.76
+***WARNING*** CPU scaling is enabled, the benchmark real time measurements may be noisy and will incur extra overhead.
+/var/spool/torque/mom_priv/jobs/8163237.cc-mgmt1.campuscluster.illinois.edu.SC: line 74: 50543 Segmentation fault      ./bin/find_tile_size --benchmark_color=false --benchmark_out_format=json --benchmark_out=${PBS_O_WORKDIR}/writeup/tile_results.json > ${PBS_O_WORKDIR}/writeup/tile_results.txt
+Full benchmarks
+2019-02-13 08:39:55
+Running ./bin/run_benchmarks
+Run on (20 X 3300 MHz CPU s)
+CPU Caches:
+  L1 Data 32K (x20)
+  L1 Instruction 32K (x20)
+  L2 Unified 256K (x20)
+  L3 Unified 25600K (x2)
+Load Average: 0.71, 0.71, 0.76
+***WARNING*** CPU scaling is enabled, the benchmark real time measurements may be noisy and will incur extra overhead.
+/var/spool/torque/mom_priv/jobs/8163237.cc-mgmt1.campuscluster.illinois.edu.SC: line 78: 50544 Segmentation fault      ./bin/run_benchmarks --benchmark_color=false --benchmark_out_format=json --benchmark_out=${PBS_O_WORKDIR}/writeup/gbench_results.json > ${PBS_O_WORKDIR}/writeup/gbench_results.txt
+~/mp1
+----------------------------------------
+Begin Torque Epilogue (Wed Feb 13 08:39:55 2019)
+Job ID:           8163237.cc-mgmt1.campuscluster.illinois.edu
+Username:         nnard2
+Group:            CS484_SP19
+Job Name:         mp1-benchmark
+Session:          50311
+Limits:           walltime=00:20:00,nodes=1:ppn=4,neednodes=1:ppn=4
+Resources:        cput=00:00:02,vmem=0kb,walltime=00:00:33,mem=0kb,energy_used=0
+Job Queue:        cs
+Account:          cs-courses
+Nodes:            golub162
+End Torque Epilogue
+----------------------------------------

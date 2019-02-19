@@ -1,0 +1,148 @@
+----------------------------------------
+Begin Torque Prologue (Wed Feb 13 09:09:57 2019)
+Job ID:           8163452.cc-mgmt1.campuscluster.illinois.edu
+Username:         nnard2
+Group:            CS484_SP19
+Job Name:         mp1-benchmark
+Limits:           walltime=00:20:00,nodes=1:ppn=4,neednodes=1:ppn=4
+Job Queue:        cs
+Account:          cs-courses
+Nodes:            golub162
+End Torque Prologue
+----------------------------------------
+Singularity: Invoking an interactive shell within container...
+
+[0mWe seem to be in the right place.
+~/mp1/build ~/mp1
+Compiling
+-- The CXX compiler identification is GNU 7.3.1
+-- Check for working CXX compiler: /opt/rh/devtoolset-7/root/bin/c++
+-- Check for working CXX compiler: /opt/rh/devtoolset-7/root/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found OpenMP_CXX: -fopenmp (found version "4.5") 
+-- Found OpenMP: TRUE (found version "4.5")  
+Found OpenMP, building parallel part.
+-- Found MPI_CXX: /usr/lib64/mpich-3.2/lib/libmpicxx.so (found version "3.1") 
+-- Found MPI: TRUE (found version "3.1")  
+Found MPI
+-- Found Charm: /opt/charm-6.9.0/bin/charmc (found version "60900") 
+-- Found AMPI: /opt/charm-6.9.0/bin/ampicc (found version "60900") 
+Charm found: /opt/charm-6.9.0/bin/charmc
+-- Found GTest: /usr/lib64/libgtest.a  
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/nnard2/mp1/build
+Scanning dependencies of target naivelinalg
+[  4%] Building CXX object CMakeFiles/naivelinalg.dir/common/naivelinalg.cpp.o
+[  8%] Linking CXX static library lib/libnaivelinalg.a
+[  8%] Built target naivelinalg
+Scanning dependencies of target common
+[ 12%] Building CXX object CMakeFiles/common.dir/common/util.cpp.o
+[ 16%] Building CXX object CMakeFiles/common.dir/common/basic.cpp.o
+[ 20%] Linking CXX static library lib/libcommon.a
+[ 20%] Built target common
+Scanning dependencies of target transpose_solution
+[ 24%] Building CXX object transpose/CMakeFiles/transpose_solution.dir/transpose.cpp.o
+[ 28%] Linking CXX static library ../lib/libtranspose_solution.a
+[ 28%] Built target transpose_solution
+Scanning dependencies of target transpose_runner
+[ 32%] Building CXX object transpose/CMakeFiles/transpose_runner.dir/main.cpp.o
+[ 36%] Linking CXX executable ../bin/transpose_runner
+[ 36%] Built target transpose_runner
+Scanning dependencies of target multiply_solution
+[ 40%] Building CXX object multiply/CMakeFiles/multiply_solution.dir/multiply.cpp.o
+[ 44%] Linking CXX static library ../lib/libmultiply_solution.a
+[ 44%] Built target multiply_solution
+Scanning dependencies of target multiply_runner
+[ 48%] Building CXX object multiply/CMakeFiles/multiply_runner.dir/main.cpp.o
+[ 52%] Linking CXX executable ../bin/multiply_runner
+[ 52%] Built target multiply_runner
+Scanning dependencies of target openmp_solution
+[ 56%] Building CXX object openmp/CMakeFiles/openmp_solution.dir/openmp.cpp.o
+[ 60%] Linking CXX static library ../lib/libopenmp_solution.a
+[ 60%] Built target openmp_solution
+Scanning dependencies of target openmp_runner
+[ 64%] Building CXX object openmp/CMakeFiles/openmp_runner.dir/main.cpp.o
+[ 68%] Linking CXX executable ../bin/openmp_runner
+[ 68%] Built target openmp_runner
+Scanning dependencies of target run_tests
+[ 72%] Building CXX object tests/CMakeFiles/run_tests.dir/alltests.cpp.o
+[ 76%] Linking CXX executable ../bin/run_tests
+[ 76%] Built target run_tests
+Scanning dependencies of target run_benchmarks
+[ 80%] Building CXX object tests/CMakeFiles/run_benchmarks.dir/allbench.cpp.o
+[ 84%] Linking CXX executable ../bin/run_benchmarks
+[ 84%] Built target run_benchmarks
+Scanning dependencies of target find_tile_size
+[ 88%] Building CXX object tests/CMakeFiles/find_tile_size.dir/find_tile_size.cpp.o
+[ 92%] Linking CXX executable ../bin/find_tile_size
+[ 92%] Built target find_tile_size
+Scanning dependencies of target student_benchmarks
+[ 96%] Building CXX object tests/CMakeFiles/student_benchmarks.dir/student_benchmarks.cpp.o
+[100%] Linking CXX executable ../bin/student_benchmarks
+[100%] Built target student_benchmarks
+Testing
+Running tests...
+Test project /home/nnard2/mp1/build
+    Start 1: Transpose.TiledCorrect
+1/6 Test #1: Transpose.TiledCorrect ...........   Passed    0.01 sec
+    Start 2: Cache.BestTileSize
+2/6 Test #2: Cache.BestTileSize ...............   Passed    0.00 sec
+    Start 3: Multiply.TiledCorrect
+3/6 Test #3: Multiply.TiledCorrect ............   Passed    0.00 sec
+    Start 4: Multiply.TransposedCorrect
+4/6 Test #4: Multiply.TransposedCorrect .......   Passed    0.00 sec
+    Start 5: OpenMP.SquaresCorrect
+5/6 Test #5: OpenMP.SquaresCorrect ............   Passed    0.00 sec
+    Start 6: OpenMP.PrimesCorrect
+6/6 Test #6: OpenMP.PrimesCorrect .............   Passed    0.00 sec
+
+100% tests passed, 0 tests failed out of 6
+
+Total Test time (real) =   0.03 sec
+Getting system information
+Benchmarking
+Matrix Multiplication
+Matrix Transposition
+OpenMP
+Running Google Benchmark benchmarks
+Finding best tile size
+2019-02-13 09:10:07
+Running ./bin/find_tile_size
+Run on (20 X 3300 MHz CPU s)
+CPU Caches:
+  L1 Data 32K (x20)
+  L1 Instruction 32K (x20)
+  L2 Unified 256K (x20)
+  L3 Unified 25600K (x2)
+Load Average: 0.82, 0.75, 0.77
+***WARNING*** CPU scaling is enabled, the benchmark real time measurements may be noisy and will incur extra overhead.
+Full benchmarks
+2019-02-13 09:10:29
+Running ./bin/run_benchmarks
+Run on (20 X 3300 MHz CPU s)
+CPU Caches:
+  L1 Data 32K (x20)
+  L1 Instruction 32K (x20)
+  L2 Unified 256K (x20)
+  L3 Unified 25600K (x2)
+Load Average: 1.22, 0.85, 0.80
+***WARNING*** CPU scaling is enabled, the benchmark real time measurements may be noisy and will incur extra overhead.
+~/mp1
+----------------------------------------
+Begin Torque Epilogue (Wed Feb 13 09:21:52 2019)
+Job ID:           8163452.cc-mgmt1.campuscluster.illinois.edu
+Username:         nnard2
+Group:            CS484_SP19
+Job Name:         mp1-benchmark
+Session:          55770
+Limits:           walltime=00:20:00,nodes=1:ppn=4,neednodes=1:ppn=4
+Resources:        cput=00:12:48,vmem=137444kb,walltime=00:12:16,mem=98928kb,energy_used=0
+Job Queue:        cs
+Account:          cs-courses
+Nodes:            golub162
+End Torque Epilogue
+----------------------------------------

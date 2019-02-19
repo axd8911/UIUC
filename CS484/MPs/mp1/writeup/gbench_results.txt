@@ -1,0 +1,14 @@
+-------------------------------------------------------------------------------------------------------------------------
+Benchmark                                                               Time             CPU   Iterations UserCounters...
+-------------------------------------------------------------------------------------------------------------------------
+BM_Transpose_Naive/matrix_size:2048/manual_time                  62299012 ns     62302861 ns           11 items_per_second=67.3254M/s matrix_size=2.048k tile_size=2.048k
+BM_Transpose_Tiled/matrix_size:2048/tile_size:16/manual_time     13147588 ns     13149020 ns           53 items_per_second=319.017M/s matrix_size=2.048k tile_size=16
+BM_Multiply_Naive/matrix_size:2048/manual_time                 103922445722 ns   103926833533 ns            1 items_per_second=40.3599k/s matrix_size=2.048k tile_size=2.048k
+BM_Multiply_Tiled/matrix_size:2048/tile_size:16/manual_time    18010867532 ns   18011604932 ns            1 items_per_second=232.876k/s matrix_size=2.048k tile_size=16
+BM_Multiply_Transposed/matrix_size:2048/manual_time            8523524205 ns   8523892056 ns            1 items_per_second=492.086k/s matrix_size=2.048k tile_size=2.048k
+BM_OpenMP_squares_serial/N:1048576/num_threads:1/manual_time       486692 ns       487142 ns         1440 N=1048.58k items_per_second=2.1545G/s num_threads=1
+BM_OpenMP_squares_parallel/N:1048576/num_threads:2/manual_time     254745 ns       510203 ns         2752 N=1048.58k items_per_second=4.11617G/s num_threads=2
+BM_OpenMP_squares_parallel/N:1048576/num_threads:4/manual_time     137573 ns       551759 ns         5087 N=1048.58k items_per_second=7.62196G/s num_threads=4
+BM_OpenMP_primes_serial/N:1048576/num_threads:1/manual_time    56629859410 ns   56632333538 ns            1 N=1048.58k items_per_second=18.5163k/s num_threads=1
+BM_OpenMP_primes_parallel/N:1048576/num_threads:2/manual_time  42515481531 ns   58334046173 ns            1 N=1048.58k items_per_second=24.6634k/s num_threads=2
+BM_OpenMP_primes_parallel/N:1048576/num_threads:4/manual_time  25654499651 ns   61064220797 ns            1 N=1048.58k items_per_second=40.873k/s num_threads=4

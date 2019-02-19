@@ -1,0 +1,232 @@
+{
+  "context": {
+    "date": "2019-02-13 10:18:37",
+    "host_name": "golub162",
+    "executable": "./bin/find_tile_size",
+    "num_cpus": 20,
+    "mhz_per_cpu": 3300,
+    "cpu_scaling_enabled": true,
+    "caches": [
+      {
+        "type": "Data",
+        "level": 1,
+        "size": 32000000,
+        "num_sharing": 1
+      },
+      {
+        "type": "Instruction",
+        "level": 1,
+        "size": 32000000,
+        "num_sharing": 1
+      },
+      {
+        "type": "Unified",
+        "level": 2,
+        "size": 256000000,
+        "num_sharing": 1
+      },
+      {
+        "type": "Unified",
+        "level": 3,
+        "size": 25600000000,
+        "num_sharing": 10
+      }
+    ],
+    "load_avg": [1.1,1.49,1.26],
+    "library_build_type": "release"
+  },
+  "benchmarks": [
+    {
+      "name": "BM_Transpose_Tiled_vary_tile/matrix_size:2048/tile_size:2/manual_time",
+      "run_name": "BM_Transpose_Tiled_vary_tile/matrix_size:2048/tile_size:2/manual_time",
+      "run_type": "iteration",
+      "iterations": 25,
+      "real_time": 2.8872959640000001e+07,
+      "cpu_time": 2.8874835880000006e+07,
+      "time_unit": "ns",
+      "items_per_second": 1.4526754625422251e+08,
+      "matrix_size": 2.0480000000000000e+03,
+      "tile_size": 2.0000000000000000e+00
+    },
+    {
+      "name": "BM_Transpose_Tiled_vary_tile/matrix_size:2048/tile_size:4/manual_time",
+      "run_name": "BM_Transpose_Tiled_vary_tile/matrix_size:2048/tile_size:4/manual_time",
+      "run_type": "iteration",
+      "iterations": 36,
+      "real_time": 1.9221857333333332e+07,
+      "cpu_time": 1.9223506277777776e+07,
+      "time_unit": "ns",
+      "items_per_second": 2.1820492823690364e+08,
+      "matrix_size": 2.0480000000000000e+03,
+      "tile_size": 4.0000000000000000e+00
+    },
+    {
+      "name": "BM_Transpose_Tiled_vary_tile/matrix_size:2048/tile_size:8/manual_time",
+      "run_name": "BM_Transpose_Tiled_vary_tile/matrix_size:2048/tile_size:8/manual_time",
+      "run_type": "iteration",
+      "iterations": 48,
+      "real_time": 1.4358062291666666e+07,
+      "cpu_time": 1.4359662625000000e+07,
+      "time_unit": "ns",
+      "items_per_second": 2.9212186956692266e+08,
+      "matrix_size": 2.0480000000000000e+03,
+      "tile_size": 8.0000000000000000e+00
+    },
+    {
+      "name": "BM_Transpose_Tiled_vary_tile/matrix_size:2048/tile_size:16/manual_time",
+      "run_name": "BM_Transpose_Tiled_vary_tile/matrix_size:2048/tile_size:16/manual_time",
+      "run_type": "iteration",
+      "iterations": 51,
+      "real_time": 1.3798605039215686e+07,
+      "cpu_time": 1.3799811196078436e+07,
+      "time_unit": "ns",
+      "items_per_second": 3.0396579857744843e+08,
+      "matrix_size": 2.0480000000000000e+03,
+      "tile_size": 1.6000000000000000e+01
+    },
+    {
+      "name": "BM_Transpose_Tiled_vary_tile/matrix_size:2048/tile_size:32/manual_time",
+      "run_name": "BM_Transpose_Tiled_vary_tile/matrix_size:2048/tile_size:32/manual_time",
+      "run_type": "iteration",
+      "iterations": 38,
+      "real_time": 1.8295656052631572e+07,
+      "cpu_time": 1.8297183499999996e+07,
+      "time_unit": "ns",
+      "items_per_second": 2.2925135824231392e+08,
+      "matrix_size": 2.0480000000000000e+03,
+      "tile_size": 3.2000000000000000e+01
+    },
+    {
+      "name": "BM_Transpose_Tiled_vary_tile/matrix_size:2048/tile_size:64/manual_time",
+      "run_name": "BM_Transpose_Tiled_vary_tile/matrix_size:2048/tile_size:64/manual_time",
+      "run_type": "iteration",
+      "iterations": 35,
+      "real_time": 1.9567589028571431e+07,
+      "cpu_time": 1.9569206971428573e+07,
+      "time_unit": "ns",
+      "items_per_second": 2.1434955496437126e+08,
+      "matrix_size": 2.0480000000000000e+03,
+      "tile_size": 6.4000000000000000e+01
+    },
+    {
+      "name": "BM_Transpose_Tiled_vary_tile/matrix_size:2048/tile_size:128/manual_time",
+      "run_name": "BM_Transpose_Tiled_vary_tile/matrix_size:2048/tile_size:128/manual_time",
+      "run_type": "iteration",
+      "iterations": 35,
+      "real_time": 1.9599807628571436e+07,
+      "cpu_time": 1.9601708171428580e+07,
+      "time_unit": "ns",
+      "items_per_second": 2.1399720239528230e+08,
+      "matrix_size": 2.0480000000000000e+03,
+      "tile_size": 1.2800000000000000e+02
+    },
+    {
+      "name": "BM_Transpose_Tiled_vary_tile/matrix_size:2048/tile_size:256/manual_time",
+      "run_name": "BM_Transpose_Tiled_vary_tile/matrix_size:2048/tile_size:256/manual_time",
+      "run_type": "iteration",
+      "iterations": 35,
+      "real_time": 1.9550578771428570e+07,
+      "cpu_time": 1.9552479942857154e+07,
+      "time_unit": "ns",
+      "items_per_second": 2.1453605282159737e+08,
+      "matrix_size": 2.0480000000000000e+03,
+      "tile_size": 2.5600000000000000e+02
+    },
+    {
+      "name": "BM_Transpose_Tiled_vary_tile/matrix_size:2048/tile_size:512/manual_time",
+      "run_name": "BM_Transpose_Tiled_vary_tile/matrix_size:2048/tile_size:512/manual_time",
+      "run_type": "iteration",
+      "iterations": 36,
+      "real_time": 1.9569614166666672e+07,
+      "cpu_time": 1.9571130111111123e+07,
+      "time_unit": "ns",
+      "items_per_second": 2.1432737325727376e+08,
+      "matrix_size": 2.0480000000000000e+03,
+      "tile_size": 5.1200000000000000e+02
+    },
+    {
+      "name": "BM_Transpose_Tiled_vary_size/matrix_size:128/tile_size:8/manual_time",
+      "run_name": "BM_Transpose_Tiled_vary_size/matrix_size:128/tile_size:8/manual_time",
+      "run_type": "iteration",
+      "iterations": 44915,
+      "real_time": 1.5585804118892143e+04,
+      "cpu_time": 1.5896117599910938e+04,
+      "time_unit": "ns",
+      "items_per_second": 1.0512130060803429e+09,
+      "matrix_size": 1.2800000000000000e+02,
+      "tile_size": 8.0000000000000000e+00
+    },
+    {
+      "name": "BM_Transpose_Tiled_vary_size/matrix_size:256/tile_size:8/manual_time",
+      "run_name": "BM_Transpose_Tiled_vary_size/matrix_size:256/tile_size:8/manual_time",
+      "run_type": "iteration",
+      "iterations": 11494,
+      "real_time": 6.1104488863754836e+04,
+      "cpu_time": 6.1426645728205935e+04,
+      "time_unit": "ns",
+      "items_per_second": 1.0725234957144661e+09,
+      "matrix_size": 2.5600000000000000e+02,
+      "tile_size": 8.0000000000000000e+00
+    },
+    {
+      "name": "BM_Transpose_Tiled_vary_size/matrix_size:512/tile_size:8/manual_time",
+      "run_name": "BM_Transpose_Tiled_vary_size/matrix_size:512/tile_size:8/manual_time",
+      "run_type": "iteration",
+      "iterations": 2703,
+      "real_time": 2.5902715575286766e+05,
+      "cpu_time": 2.5945695449500537e+05,
+      "time_unit": "ns",
+      "items_per_second": 1.0120328860426744e+09,
+      "matrix_size": 5.1200000000000000e+02,
+      "tile_size": 8.0000000000000000e+00
+    },
+    {
+      "name": "BM_Transpose_Tiled_vary_size/matrix_size:1024/tile_size:8/manual_time",
+      "run_name": "BM_Transpose_Tiled_vary_size/matrix_size:1024/tile_size:8/manual_time",
+      "run_type": "iteration",
+      "iterations": 706,
+      "real_time": 9.9517921813031100e+05,
+      "cpu_time": 9.9566925212464586e+05,
+      "time_unit": "ns",
+      "items_per_second": 1.0536554430567874e+09,
+      "matrix_size": 1.0240000000000000e+03,
+      "tile_size": 8.0000000000000000e+00
+    },
+    {
+      "name": "BM_Transpose_Tiled_vary_size/matrix_size:2048/tile_size:8/manual_time",
+      "run_name": "BM_Transpose_Tiled_vary_size/matrix_size:2048/tile_size:8/manual_time",
+      "run_type": "iteration",
+      "iterations": 49,
+      "real_time": 1.4607236857142860e+07,
+      "cpu_time": 1.4608798265306128e+07,
+      "time_unit": "ns",
+      "items_per_second": 2.8713876833927071e+08,
+      "matrix_size": 2.0480000000000000e+03,
+      "tile_size": 8.0000000000000000e+00
+    },
+    {
+      "name": "BM_Transpose_Tiled_vary_size/matrix_size:4096/tile_size:8/manual_time",
+      "run_name": "BM_Transpose_Tiled_vary_size/matrix_size:4096/tile_size:8/manual_time",
+      "run_type": "iteration",
+      "iterations": 10,
+      "real_time": 7.3090796599999994e+07,
+      "cpu_time": 7.3095462099999875e+07,
+      "time_unit": "ns",
+      "items_per_second": 2.2953937814928672e+08,
+      "matrix_size": 4.0960000000000000e+03,
+      "tile_size": 8.0000000000000000e+00
+    },
+    {
+      "name": "BM_Transpose_Tiled_vary_size/matrix_size:8192/tile_size:8/manual_time",
+      "run_name": "BM_Transpose_Tiled_vary_size/matrix_size:8192/tile_size:8/manual_time",
+      "run_type": "iteration",
+      "iterations": 2,
+      "real_time": 4.7208097550000000e+08,
+      "cpu_time": 4.7210026449999988e+08,
+      "time_unit": "ns",
+      "items_per_second": 1.4215540867522207e+08,
+      "matrix_size": 8.1920000000000000e+03,
+      "tile_size": 8.0000000000000000e+00
+    }
+  ]
+}

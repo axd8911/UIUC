@@ -1,0 +1,3 @@
+Average execution time of multiply_basic(): 0.340444
+Average execution time of multiply_tiled(): 0.195122
+Average execution time of multiply_transposed(): 0.124248

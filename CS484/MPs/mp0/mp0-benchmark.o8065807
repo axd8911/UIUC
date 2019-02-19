@@ -1,0 +1,145 @@
+----------------------------------------
+Begin Torque Prologue (Thu Jan 17 19:40:53 2019)
+Job ID:           8065807.cc-mgmt1.campuscluster.illinois.edu
+Username:         nnard2
+Group:            CS484_SP19
+Job Name:         mp0-benchmark
+Limits:           walltime=00:20:00,nodes=1:ppn=1:E2680V3,neednodes=1:ppn=1:E2680V3
+Job Queue:        cs
+Account:          cs-courses
+Nodes:            golub295
+End Torque Prologue
+----------------------------------------
+[33mWARNING: Non existent 'bind path' source: '/etc/localtime'
+[0mSingularity: Invoking an interactive shell within container...
+
+[0mWe seem to be in the right place.
+~/mp0/build ~/mp0
+-- The C compiler identification is GNU 7.3.1
+-- The CXX compiler identification is GNU 7.3.1
+-- Check for working C compiler: /opt/rh/devtoolset-7/root/bin/cc
+-- Check for working C compiler: /opt/rh/devtoolset-7/root/bin/cc -- works
+-- Detecting C compiler ABI info
+-- Detecting C compiler ABI info - done
+-- Detecting C compile features
+-- Detecting C compile features - done
+-- Check for working CXX compiler: /opt/rh/devtoolset-7/root/bin/c++
+-- Check for working CXX compiler: /opt/rh/devtoolset-7/root/bin/c++ -- works
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Found OpenMP_C: -fopenmp (found version "4.5") 
+-- Found OpenMP_CXX: -fopenmp (found version "4.5") 
+-- Found OpenMP: TRUE (found version "4.5")  
+Found OpenMP, building parallel part.
+-- Found MPI_C: /usr/lib64/mpich-3.2/lib/libmpi.so (found version "3.1") 
+-- Found MPI_CXX: /usr/lib64/mpich-3.2/lib/libmpicxx.so (found version "3.1") 
+-- Found MPI: TRUE (found version "3.1")  
+Found MPI
+-- Found Charm: /opt/charm-6.9.0/bin/charmc (found version "60900") 
+-- Found AMPI: /opt/charm-6.9.0/bin/ampicc (found version "60900") 
+Charm found: /opt/charm-6.9.0/bin/charmc
+-- Found GTest: /usr/lib64/libgtest.a  
+Found MPI
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/nnard2/mp0/build
+Scanning dependencies of target part1
+[  1%] Building CXX object part1/CMakeFiles/part1.dir/part1.cpp.o
+[  3%] Linking CXX executable ../bin/part1
+[  3%] Built target part1
+Scanning dependencies of target part2_1
+[  5%] Building CXX object part2/CMakeFiles/part2_1.dir/part2.cpp.o
+[  7%] Building CXX object part2/CMakeFiles/part2_1.dir/test1.cpp.o
+[  9%] Building CXX object part2/CMakeFiles/part2_1.dir/test2.cpp.o
+[ 10%] Building CXX object part2/CMakeFiles/part2_1.dir/test3.cpp.o
+[ 12%] Building CXX object part2/CMakeFiles/part2_1.dir/test4.cpp.o
+[ 14%] Building CXX object part2/CMakeFiles/part2_1.dir/test5.cpp.o
+[ 16%] Building CXX object part2/CMakeFiles/part2_1.dir/timers.cpp.o
+[ 18%] Building CXX object part2/CMakeFiles/part2_1.dir/util.cpp.o
+[ 20%] Linking CXX executable ../bin/part2_1
+[ 20%] Built target part2_1
+Scanning dependencies of target part2_0
+[ 21%] Building CXX object part2/CMakeFiles/part2_0.dir/part2.cpp.o
+[ 23%] Building CXX object part2/CMakeFiles/part2_0.dir/test1.cpp.o
+[ 25%] Building CXX object part2/CMakeFiles/part2_0.dir/test2.cpp.o
+[ 27%] Building CXX object part2/CMakeFiles/part2_0.dir/test3.cpp.o
+[ 29%] Building CXX object part2/CMakeFiles/part2_0.dir/test4.cpp.o
+[ 30%] Building CXX object part2/CMakeFiles/part2_0.dir/test5.cpp.o
+[ 32%] Building CXX object part2/CMakeFiles/part2_0.dir/timers.cpp.o
+[ 34%] Building CXX object part2/CMakeFiles/part2_0.dir/util.cpp.o
+[ 36%] Linking CXX executable ../bin/part2_0
+[ 36%] Built target part2_0
+Scanning dependencies of target part2_2
+[ 38%] Building CXX object part2/CMakeFiles/part2_2.dir/part2.cpp.o
+[ 40%] Building CXX object part2/CMakeFiles/part2_2.dir/test1.cpp.o
+[ 41%] Building CXX object part2/CMakeFiles/part2_2.dir/test2.cpp.o
+[ 43%] Building CXX object part2/CMakeFiles/part2_2.dir/test3.cpp.o
+[ 45%] Building CXX object part2/CMakeFiles/part2_2.dir/test4.cpp.o
+[ 47%] Building CXX object part2/CMakeFiles/part2_2.dir/test5.cpp.o
+[ 49%] Building CXX object part2/CMakeFiles/part2_2.dir/timers.cpp.o
+[ 50%] Building CXX object part2/CMakeFiles/part2_2.dir/util.cpp.o
+[ 52%] Linking CXX executable ../bin/part2_2
+[ 52%] Built target part2_2
+Scanning dependencies of target part2_3
+[ 54%] Building CXX object part2/CMakeFiles/part2_3.dir/part2.cpp.o
+[ 56%] Building CXX object part2/CMakeFiles/part2_3.dir/test1.cpp.o
+[ 58%] Building CXX object part2/CMakeFiles/part2_3.dir/test2.cpp.o
+[ 60%] Building CXX object part2/CMakeFiles/part2_3.dir/test3.cpp.o
+[ 61%] Building CXX object part2/CMakeFiles/part2_3.dir/test4.cpp.o
+[ 63%] Building CXX object part2/CMakeFiles/part2_3.dir/test5.cpp.o
+[ 65%] Building CXX object part2/CMakeFiles/part2_3.dir/timers.cpp.o
+[ 67%] Building CXX object part2/CMakeFiles/part2_3.dir/util.cpp.o
+[ 69%] Linking CXX executable ../bin/part2_3
+[ 69%] Built target part2_3
+Scanning dependencies of target test_example
+[ 70%] Building CXX object tests/CMakeFiles/test_example.dir/test_example.cpp.o
+[ 72%] Linking CXX executable ../bin/test_example
+[ 72%] Built target test_example
+Scanning dependencies of target test_mpi_example
+[ 74%] Building CXX object tests/CMakeFiles/test_mpi_example.dir/test_mpi_example.cpp.o
+[ 76%] Linking CXX executable ../bin/test_mpi_example
+[ 76%] Built target test_mpi_example
+Scanning dependencies of target bench_mpi_example
+[ 78%] Building CXX object tests/CMakeFiles/bench_mpi_example.dir/bench_mpi_example.cpp.o
+[ 80%] Linking CXX executable ../bin/bench_mpi_example
+[ 80%] Built target bench_mpi_example
+Scanning dependencies of target bench_example
+[ 81%] Building CXX object tests/CMakeFiles/bench_example.dir/bench_example.cpp.o
+[ 83%] Linking CXX executable ../bin/bench_example
+[ 83%] Built target bench_example
+Scanning dependencies of target mpi_hello
+[ 85%] Building CXX object syscheck/mpi/CMakeFiles/mpi_hello.dir/main.cpp.o
+[ 87%] Linking CXX executable ../../bin/mpi_hello
+[ 87%] Built target mpi_hello
+[ 89%] Generating main_modinit.C
+[ 90%] Generating main.decl.h, main.def.h
+Scanning dependencies of target charm_hello
+[ 92%] Building CXX object syscheck/charm/CMakeFiles/charm_hello.dir/main.cpp.o
+[ 94%] Building CXX object syscheck/charm/CMakeFiles/charm_hello.dir/main_modinit.C.o
+[ 96%] Linking CXX executable ../../bin/charm_hello
+[ 96%] Built target charm_hello
+Scanning dependencies of target ampi_hello
+[ 98%] Building CXX object syscheck/ampi/CMakeFiles/ampi_hello.dir/main.cpp.o
+[100%] Linking CXX executable ../../bin/ampi_hello
+[100%] Built target ampi_hello
+Benchmarking
+part1
+part2_0
+part2_3
+~/mp0
+----------------------------------------
+Begin Torque Epilogue (Thu Jan 17 19:42:20 2019)
+Job ID:           8065807.cc-mgmt1.campuscluster.illinois.edu
+Username:         nnard2
+Group:            CS484_SP19
+Job Name:         mp0-benchmark
+Session:          149177
+Limits:           walltime=00:20:00,nodes=1:ppn=1:E2680V3,neednodes=1:ppn=1:E2680V3
+Resources:        cput=00:01:19,vmem=578548kb,walltime=00:01:27,mem=547436kb,energy_used=0
+Job Queue:        cs
+Account:          cs-courses
+Nodes:            golub295
+End Torque Epilogue
+----------------------------------------

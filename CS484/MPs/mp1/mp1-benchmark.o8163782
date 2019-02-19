@@ -1,0 +1,114 @@
+----------------------------------------
+Begin Torque Prologue (Wed Feb 13 10:06:00 2019)
+Job ID:           8163782.cc-mgmt1.campuscluster.illinois.edu
+Username:         nnard2
+Group:            CS484_SP19
+Job Name:         mp1-benchmark
+Limits:           walltime=00:20:00,nodes=1:ppn=4,neednodes=1:ppn=4
+Job Queue:        cs
+Account:          cs-courses
+Nodes:            golub162
+End Torque Prologue
+----------------------------------------
+Singularity: Invoking an interactive shell within container...
+
+[0mWe seem to be in the right place.
+~/mp1/build ~/mp1
+Compiling
+-- Found OpenMP_CXX: -fopenmp  
+-- Found OpenMP: TRUE   
+Found OpenMP, building parallel part.
+Found MPI
+Charm found: /opt/charm-6.9.0/bin/charmc
+-- Configuring done
+-- Generating done
+-- Build files have been written to: /home/nnard2/mp1/build
+[  8%] Built target naivelinalg
+[ 20%] Built target common
+[ 28%] Built target transpose_solution
+[ 36%] Built target transpose_runner
+[ 44%] Built target multiply_solution
+[ 52%] Built target multiply_runner
+[ 60%] Built target openmp_solution
+[ 68%] Built target openmp_runner
+Scanning dependencies of target run_tests
+make[2]: Warning: File '../transpose/best_tile_size.h' has modification time 17515 s in the future
+[ 72%] Building CXX object tests/CMakeFiles/run_tests.dir/alltests.cpp.o
+[ 76%] Linking CXX executable ../bin/run_tests
+make[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[ 76%] Built target run_tests
+Scanning dependencies of target run_benchmarks
+make[2]: Warning: File '../transpose/best_tile_size.h' has modification time 17513 s in the future
+[ 80%] Building CXX object tests/CMakeFiles/run_benchmarks.dir/allbench.cpp.o
+[ 84%] Linking CXX executable ../bin/run_benchmarks
+make[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[ 84%] Built target run_benchmarks
+Scanning dependencies of target find_tile_size
+make[2]: Warning: File '../transpose/best_tile_size.h' has modification time 17512 s in the future
+[ 88%] Building CXX object tests/CMakeFiles/find_tile_size.dir/find_tile_size.cpp.o
+[ 92%] Linking CXX executable ../bin/find_tile_size
+make[2]: warning:  Clock skew detected.  Your build may be incomplete.
+[ 92%] Built target find_tile_size
+[100%] Built target student_benchmarks
+Testing
+Running tests...
+Test project /home/nnard2/mp1/build
+    Start 1: Transpose.TiledCorrect
+1/6 Test #1: Transpose.TiledCorrect ...........   Passed    0.01 sec
+    Start 2: Cache.BestTileSize
+2/6 Test #2: Cache.BestTileSize ...............   Passed    0.00 sec
+    Start 3: Multiply.TiledCorrect
+3/6 Test #3: Multiply.TiledCorrect ............   Passed    0.00 sec
+    Start 4: Multiply.TransposedCorrect
+4/6 Test #4: Multiply.TransposedCorrect .......   Passed    0.00 sec
+    Start 5: OpenMP.SquaresCorrect
+5/6 Test #5: OpenMP.SquaresCorrect ............   Passed    0.00 sec
+    Start 6: OpenMP.PrimesCorrect
+6/6 Test #6: OpenMP.PrimesCorrect .............   Passed    0.00 sec
+
+100% tests passed, 0 tests failed out of 6
+
+Total Test time (real) =   0.03 sec
+Getting system information
+Benchmarking
+Matrix Multiplication
+Matrix Transposition
+OpenMP
+Running Google Benchmark benchmarks
+Finding best tile size
+2019-02-13 10:06:06
+Running ./bin/find_tile_size
+Run on (20 X 3300 MHz CPU s)
+CPU Caches:
+  L1 Data 32K (x20)
+  L1 Instruction 32K (x20)
+  L2 Unified 256K (x20)
+  L3 Unified 25600K (x2)
+Load Average: 0.75, 0.72, 0.78
+***WARNING*** CPU scaling is enabled, the benchmark real time measurements may be noisy and will incur extra overhead.
+Full benchmarks
+2019-02-13 10:06:28
+Running ./bin/run_benchmarks
+Run on (20 X 3300 MHz CPU s)
+CPU Caches:
+  L1 Data 32K (x20)
+  L1 Instruction 32K (x20)
+  L2 Unified 256K (x20)
+  L3 Unified 25600K (x2)
+Load Average: 0.98, 0.77, 0.79
+***WARNING*** CPU scaling is enabled, the benchmark real time measurements may be noisy and will incur extra overhead.
+~/mp1
+----------------------------------------
+Begin Torque Epilogue (Wed Feb 13 10:17:03 2019)
+Job ID:           8163782.cc-mgmt1.campuscluster.illinois.edu
+Username:         nnard2
+Group:            CS484_SP19
+Job Name:         mp1-benchmark
+Session:          68955
+Limits:           walltime=00:20:00,nodes=1:ppn=4,neednodes=1:ppn=4
+Resources:        cput=00:11:56,vmem=134824kb,walltime=00:11:17,mem=98936kb,energy_used=0
+Job Queue:        cs
+Account:          cs-courses
+Nodes:            golub162
+End Torque Epilogue
+----------------------------------------

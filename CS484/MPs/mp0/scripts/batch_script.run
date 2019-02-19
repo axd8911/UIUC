@@ -1,0 +1,38 @@
+#!/bin/bash
+#PBS -l walltime=00:20:00
+#PBS -l nodes=1:ppn=1:E2680V3
+#PBS -N mp0-benchmark
+#PBS -j oe
+#PBS -q cs
+#PBS -l "naccesspolicy=shared"
+#PBS -S /projects/cs/cs484/sing_shell.sh
+
+#moves to the directory the user was in when they ran qsub
+cd ${PBS_O_WORKDIR} #assumed to be the source tree
+
+#check that the script was submit from the right place.
+if [ -d "./cmake" ] && [ -d "./part1" ] && [ -d "./part2" ] && [ -d "./syscheck" ] && [ -d "./writeup" ]
+then
+	echo "We seem to be in the right place."
+else
+	echo "Not submit from the right place! Submit from the root of your repository."
+	exit 1
+fi
+
+#creates an out-of-tree build directory for CMake and moves to it
+mkdir -p ${PBS_O_WORKDIR}/build
+pushd ${PBS_O_WORKDIR}/build
+
+#get cpuinfo
+cat /proc/cpuinfo > ${PBS_O_WORKDIR}/writeup/cpuinfo.txt
+
+#build the programs (into the build directory, IE, the current directory)
+#then benchmark them. Quit early on failure.
+cmake ${PBS_O_WORKDIR} && make \
+&& echo "Benchmarking" \
+&& echo "part1" && ./bin/part1 > ${PBS_O_WORKDIR}/writeup/part1_out.txt \
+&& echo "part2_0" && ./bin/part2_0 > ${PBS_O_WORKDIR}/writeup/part2_0_out.txt \
+&& echo "part2_3" && ./bin/part2_3 > ${PBS_O_WORKDIR}/writeup/part2_3_out.txt
+
+#return to the original directory
+popd

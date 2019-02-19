@@ -1,0 +1,18 @@
+#!/bin/bash
+#PBS -l walltime=00:20:00
+#PBS nodes=1:ppn=1
+#PBS -N mp0-compile
+#PBS -j oe
+#PBS -q cs
+#PBS -l "naccesspolicy=shared"
+#PBS -S /projects/cs/cs484/sing_shell.sh
+
+#moves to the directory the user was in when they ran qsub
+cd ${PBS_O_WORKDIR} #assumed to be the source tree
+
+mkdir -p ${PBS_O_WORKDIR}/build
+pushd ${PBS_O_WORKDIR}/build
+
+cmake ${PBS_O_WORKDIR} && make
+
+popd

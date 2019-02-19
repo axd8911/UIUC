@@ -1,0 +1,31 @@
+time at 0: 0.000000
+time at 1: 0.000000
+time at 2: 0.000000
+time at 3: 0.000000
+time at 4: 0.000000
+time at 5: 0.000000
+time at 6: 0.000000
+time at 7: 0.000000
+time at 8: 0.000000
+time at 9: 0.000000
+time for size = 64 was: 0.099428. per access: 0.740796 nanoseconds
+time for size = 128 was: 0.093001. per access: 0.692911 nanoseconds
+time for size = 256 was: 0.090835. per access: 0.676774 nanoseconds
+time for size = 512 was: 0.089566. per access: 0.667319 nanoseconds
+time for size = 1024 was: 0.088868. per access: 0.662117 nanoseconds
+time for size = 2048 was: 0.088564. per access: 0.659853 nanoseconds
+time for size = 4096 was: 0.088737. per access: 0.661142 nanoseconds
+time for size = 8192 was: 0.090351. per access: 0.673166 nanoseconds
+time for size = 16384 was: 0.094270. per access: 0.702366 nanoseconds
+time for size = 32768 was: 0.130823. per access: 0.974707 nanoseconds
+time for size = 65536 was: 0.190369. per access: 1.418359 nanoseconds
+time for size = 131072 was: 0.230973. per access: 1.720883 nanoseconds
+time for size = 262144 was: 0.234515. per access: 1.747273 nanoseconds
+time for size = 524288 was: 0.313492. per access: 2.335696 nanoseconds
+time for size = 1048576 was: 0.316351. per access: 2.356998 nanoseconds
+time for size = 2097152 was: 0.319032. per access: 2.376973 nanoseconds
+time for size = 4194304 was: 0.433280. per access: 3.228187 nanoseconds
+time for size = 8388608 was: 0.829945. per access: 6.183571 nanoseconds
+time for size = 16777216 was: 1.372966. per access: 10.229392 nanoseconds
+time for size = 33554432 was: 1.459388. per access: 10.873286 nanoseconds
+time for size = 67108864 was: 1.506915. per access: 11.227392 nanoseconds

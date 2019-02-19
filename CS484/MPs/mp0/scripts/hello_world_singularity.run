@@ -1,0 +1,16 @@
+#!/bin/bash
+#PBS -l walltime=00:20:00
+#PBS nodes=1:ppn=1
+#PBS -N mp0-hello
+#PBS -j oe
+#PBS -q cs
+#PBS -l "naccesspolicy=shared"
+#PBS -S /projects/cs/cs484/sing_shell.sh
+
+#moves to the directory the user was in when they ran qsub
+cd ${PBS_O_WORKDIR}
+
+echo "Hello World from $(hostname)"
+
+#contents should be different on singularity
+ls /opt

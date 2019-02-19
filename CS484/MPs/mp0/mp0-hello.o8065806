@@ -1,0 +1,33 @@
+----------------------------------------
+Begin Torque Prologue (Sun Jan 20 21:40:56 2019)
+Job ID:           8065806.cc-mgmt1.campuscluster.illinois.edu
+Username:         nnard2
+Group:            CS484_SP19
+Job Name:         mp0-hello
+Limits:           walltime=00:20:00
+Job Queue:        cs
+Account:          cs-courses
+Nodes:            golub295
+End Torque Prologue
+----------------------------------------
+[33mWARNING: Non existent 'bind path' source: '/etc/localtime'
+[0mSingularity: Invoking an interactive shell within container...
+
+[0mHello World from golub295
+charm-6.9.0
+hpctoolkit
+rh
+----------------------------------------
+Begin Torque Epilogue (Sun Jan 20 21:40:57 2019)
+Job ID:           8065806.cc-mgmt1.campuscluster.illinois.edu
+Username:         nnard2
+Group:            CS484_SP19
+Job Name:         mp0-hello
+Session:          168544
+Limits:           walltime=00:20:00
+Resources:        cput=00:00:00,vmem=0kb,walltime=00:00:01,mem=0kb,energy_used=0
+Job Queue:        cs
+Account:          cs-courses
+Nodes:            golub295
+End Torque Epilogue
+----------------------------------------

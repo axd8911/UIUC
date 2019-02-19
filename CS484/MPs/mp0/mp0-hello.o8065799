@@ -1,0 +1,33 @@
+----------------------------------------
+Begin Torque Prologue (Mon Jan 21 00:36:17 2019)
+Job ID:           8065799.cc-mgmt1.campuscluster.illinois.edu
+Username:         nnard2
+Group:            CS484_SP19
+Job Name:         mp0-hello
+Limits:           walltime=00:20:00
+Job Queue:        cs
+Account:          cs-courses
+Nodes:            golub295
+End Torque Prologue
+----------------------------------------
+Hello World from golub295
+ibutils
+intel
+knem-1.1.3.90mlnx1
+mellanox
+mpss
+xcat
+----------------------------------------
+Begin Torque Epilogue (Mon Jan 21 00:36:18 2019)
+Job ID:           8065799.cc-mgmt1.campuscluster.illinois.edu
+Username:         nnard2
+Group:            CS484_SP19
+Job Name:         mp0-hello
+Session:          183151
+Limits:           walltime=00:20:00
+Resources:        cput=00:00:00,vmem=0kb,walltime=00:00:01,mem=0kb,energy_used=0
+Job Queue:        cs
+Account:          cs-courses
+Nodes:            golub295
+End Torque Epilogue
+----------------------------------------
