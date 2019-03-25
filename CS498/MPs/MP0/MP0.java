@@ -48,7 +48,7 @@ public class MP0 {
 
         // Create array of lines from reader
         Object[] lines = reader.lines().toArray();
-
+        lines.
 //        final long start = System.currentTimeMillis();
 
         Arrays.stream(indexes)
